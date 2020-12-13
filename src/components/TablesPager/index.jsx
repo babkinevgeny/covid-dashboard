@@ -13,8 +13,11 @@ class TablesPager extends Component {
   }
 
   updatePageIndex = (buttonId) => {
-    const { onPageChangeHandler } = this.props;
-    const { dataFields, tablePage } = this.props;
+    const {
+      onPageChangeHandler,
+      dataFields,
+      tablePage,
+    } = this.props;
     const pageSize = dataFields.length;
     const incOrDec = buttonId === pagerConstants.arrowBackId ? -1 : 1;
     const nextPage = (tablePage + incOrDec + pageSize) % pageSize;
@@ -23,7 +26,10 @@ class TablesPager extends Component {
 
   render() {
     const {
-      tablesData, global, dataFields, tablePage,
+      tablesData,
+      global,
+      dataFields,
+      tablePage,
     } = this.props;
     const currentField = dataFields[tablePage];
     return (

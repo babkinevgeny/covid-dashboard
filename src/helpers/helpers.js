@@ -13,19 +13,26 @@ export const apiConstants = {
 };
 
 export const DataHelper = {
-  fetchRequestData: (url, onSuccessHandler, needReFetchPredicate,
+  fetchRequestData: (url,
+    onSuccessHandler,
+    needReFetchPredicate,
     preLoadingHandler = () => { },
-    onErrorHandler = (error) => console.log(error),
-    onParseErrorHandler = (error) => console.log(error)) => {
+    onErrorHandler = () => { },
+    onParseErrorHandler = () => { }) => {
     preLoadingHandler();
     fetch(url)
       .then((response) => response.json(), onErrorHandler)
       .then((responseJson) => {
         let timerId;
         if (needReFetchPredicate(responseJson)) {
-          timerId = setTimeout(() => this.fetchRequestData(url, onSuccessHandler,
+          timerId = setTimeout(() => this.fetchRequestData(
+            url,
+            onSuccessHandler,
             needReFetchPredicate,
-            preLoadingHandler, onErrorHandler, onParseErrorHandler), 500);
+            preLoadingHandler,
+            onErrorHandler,
+            onParseErrorHandler,
+          ), 500);
         } else {
           clearTimeout(timerId);
           onSuccessHandler(responseJson);

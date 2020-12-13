@@ -14,14 +14,21 @@ class App extends React.Component {
       covidPerCountryData: [],
       globalData: {},
       tablePage: 0,
+      error: false,
+      errorMessage: '',
     };
   }
 
   componentDidMount() {
     const getData = () => {
-      DataHelper.fetchRequestData('https://api.covid19api.com/summary', this.onCovidDataSuccess,
+      DataHelper.fetchRequestData(
+        'https://api.covid19api.com/summary',
+        this.onCovidDataSuccess,
         (responseJson) => responseJson.Message.length > 0,
-        () => { console.log('getData'); this.setState({ loading: true }); });
+        () => { this.setState({ loading: true }); },
+        (error) => { this.setState({ error: true, errorMessage: error.message }); },
+        (error) => { this.setState({ error: true, errorMessage: error.message }); },
+      );
     };
 
     getData();
@@ -38,7 +45,9 @@ class App extends React.Component {
     DataHelper.fetchRequestData('https://restcountries.eu/rest/v2/?fields=name;population;flag',
       (respJson) => this.onCountriesSuccess([...Countries], respJson),
       () => false,
-      () => { });
+      () => { },
+      (error) => { this.setState({ error: true, errorMessage: error.message }); },
+      (error) => { this.setState({ error: true, errorMessage: error.message }); });
   }
 
   onCountriesSuccess = (covidData, responseJson) => {
@@ -60,7 +69,24 @@ class App extends React.Component {
       globalData,
       tablePage,
       loading,
+      error,
+      errorMessage,
     } = this.state;
+    const resultGot = error ? (
+      <div>
+        Error happened:
+        {errorMessage}
+      </div>
+    )
+      : (
+        <TablesPager
+          tablesData={covidPerCountryData}
+          global={globalData}
+          dataFields={apiConstants.dataFields}
+          tablePage={tablePage}
+          onPageChangeHandler={this.onPageChangeHandler}
+        />
+      );
     return (
       <Container maxWidth="lg" className="App">
         <Paper>
@@ -71,15 +97,7 @@ class App extends React.Component {
         {loading ? (
           <CircularProgress />
         )
-          : (
-            <TablesPager
-              tablesData={covidPerCountryData}
-              global={globalData}
-              dataFields={apiConstants.dataFields}
-              tablePage={tablePage}
-              onPageChangeHandler={this.onPageChangeHandler}
-            />
-          )}
+          : resultGot}
       </Container>
     );
   }
