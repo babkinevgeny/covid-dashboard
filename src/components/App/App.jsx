@@ -1,73 +1,88 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { Paper, CircularProgress } from '@material-ui/core';
 import TablesPager from '../TablesPager';
-import { apiConstants } from '../../helpers/helpers';
+import { apiConstants, DataHelper } from '../../helpers/helpers';
 import '../../css/App.scss';
 
-function App() {
-  const [loading, setLoading] = useState(true);
-  const [countriesData, setCountriesData] = useState([]);
-  const [globalData, setGlobalData] = useState([]);
-  const [tablePage, setTablePage] = useState(0);
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      covidPerCountryData: [],
+      globalData: {},
+      tablePage: 0,
+    };
+  }
 
-  useEffect(() => {
+  componentDidMount() {
     const getData = () => {
-      console.log('getData');
-      setLoading(true);
-      fetch('https://api.covid19api.com/summary')
-        .then((response) => response.json(),
-          (error) => console.log(error))
-        .then((responseJson) => {
-          let timerId;
-          if (responseJson.Message.length > 0) {
-            timerId = setTimeout(() => getData(), 500);
-          } else {
-            clearTimeout(timerId);
-            const { Global, Countries } = responseJson;
-            setGlobalData({ ...Global });
-            setCountriesData([...Countries]);
-            setLoading(false);
-          }
-        },
-        (error) => {
-          setLoading(true);
-          console.log(error);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      DataHelper.fetchRequestData('https://api.covid19api.com/summary', this.onCovidDataSuccess,
+        (responseJson) => responseJson.Message.length > 0,
+        () => { console.log('getData'); this.setState({ loading: true }); });
     };
 
     getData();
-  }, []);
+  }
 
-  const onPageChangeHandler = (newPage) => {
-    setTablePage(newPage);
-  };
+  onCovidDataSuccess = (responseJson) => {
+    const { Global, Countries } = responseJson;
+    this.setState({
+      covidPerCountryData: [...Countries],
+      globalData: { ...Global },
+      loading: false,
+    });
 
-  return (
-    <Container maxWidth="lg" className="App">
-      <Paper>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Here will be our awesome COVID-19 dashboard!
-        </Typography>
-      </Paper>
-      {loading ? (
-        <CircularProgress />
-      )
-        : (
-          <TablesPager
-            tablesData={countriesData}
-            global={globalData}
-            dataFields={apiConstants.dataFields}
-            tablePage={tablePage}
-            onPageChangeHandler={onPageChangeHandler}
-          />
-        )}
-    </Container>
-  );
+    DataHelper.fetchRequestData('https://restcountries.eu/rest/v2/?fields=name;population;flag',
+      (respJson) => this.onCountriesSuccess([...Countries], respJson),
+      () => false,
+      () => { });
+  }
+
+  onCountriesSuccess = (covidData, responseJson) => {
+    const processedData = DataHelper.postProcessData(covidData, responseJson);
+    this.setState({
+      covidPerCountryData: processedData,
+    });
+  }
+
+  onPageChangeHandler = (newPage) => {
+    this.setState({
+      tablePage: newPage,
+    });
+  }
+
+  render() {
+    const {
+      covidPerCountryData,
+      globalData,
+      tablePage,
+      loading,
+    } = this.state;
+    return (
+      <Container maxWidth="lg" className="App">
+        <Paper>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Here will be our awesome COVID-19 dashboard!
+          </Typography>
+        </Paper>
+        {loading ? (
+          <CircularProgress />
+        )
+          : (
+            <TablesPager
+              tablesData={covidPerCountryData}
+              global={globalData}
+              dataFields={apiConstants.dataFields}
+              tablePage={tablePage}
+              onPageChangeHandler={this.onPageChangeHandler}
+            />
+          )}
+      </Container>
+    );
+  }
 }
 
 export default App;
