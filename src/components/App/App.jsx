@@ -18,6 +18,7 @@ class App extends React.Component {
       error: false,
       errorMessage: '',
       currentCountry: '',
+      currentIndicator: 'TotalConfirmed',
     };
   }
 
@@ -71,6 +72,12 @@ class App extends React.Component {
     });
   }
 
+  onCurrentIndicatorHandler = (newIndicator) => {
+    this.setState({
+      currentIndicator: newIndicator,
+    });
+  }
+
   render() {
     const {
       covidPerCountryData,
@@ -80,6 +87,7 @@ class App extends React.Component {
       error,
       errorMessage,
       currentCountry,
+      currentIndicator,
     } = this.state;
     const resultGot = error ? (
       <div>
@@ -105,8 +113,10 @@ class App extends React.Component {
         </Paper>
         <CasesTable
           currentCountry={currentCountry}
+          currentIndicator={currentIndicator}
           rows={covidPerCountryData}
           onCurrentCountryHandler={this.onCurrentCountryHandler}
+          onCurrentIndicatorHandler={this.onCurrentIndicatorHandler}
         />
         {loading ? (
           <CircularProgress />

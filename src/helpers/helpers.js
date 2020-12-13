@@ -52,3 +52,30 @@ export const DataHelper = {
     return mappedData;
   },
 };
+
+export const INDICATORS = [
+  {
+    title: 'Total Cases',
+    key: 'TotalConfirmed',
+  },
+  {
+    title: 'New Cases',
+    key: 'NewConfirmed',
+  },
+  {
+    title: 'Total Deaths',
+    key: 'TotalDeaths',
+  },
+  {
+    title: 'New Deaths',
+    key: 'NewDeaths',
+  },
+  {
+    title: 'Total Recovered',
+    key: 'TotalRecovered',
+  },
+  {
+    title: 'New Recovered',
+    key: 'NewRecovered',
+  },
+];

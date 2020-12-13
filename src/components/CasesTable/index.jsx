@@ -17,14 +17,19 @@ import InputCountry from './InputCountry';
 import { sortArray } from '../../helpers/helpers';
 
 const CasesTable = (props) => {
-  const { currentCountry, onCurrentCountryHandler } = props;
+  const {
+    currentCountry,
+    onCurrentCountryHandler,
+    currentIndicator,
+    onCurrentIndicatorHandler,
+  } = props;
   let { rows } = props;
 
   if (currentCountry) {
     rows = rows.filter((row) => row.Country === currentCountry);
   }
 
-  rows = sortArray(rows, 'TotalConfirmed');
+  rows = sortArray(rows, currentIndicator);
 
   const countriesList = rows.map((obj) => obj.Country);
   return (
@@ -41,7 +46,7 @@ const CasesTable = (props) => {
           </Grid>
           <Grid item sm={6}>
 
-            <SelectIndicator />
+            <SelectIndicator onCurrentIndicatorHandler={onCurrentIndicatorHandler} />
 
           </Grid>
         </Grid>
@@ -59,7 +64,7 @@ const CasesTable = (props) => {
                   <TableCell component="th" scope="row">
                     {row.Country}
                   </TableCell>
-                  <TableCell align="right">{row.TotalConfirmed}</TableCell>
+                  <TableCell align="right">{row[currentIndicator]}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -75,6 +80,8 @@ CasesTable.propTypes = {
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
   currentCountry: PropTypes.string,
   onCurrentCountryHandler: PropTypes.func.isRequired,
+  currentIndicator: PropTypes.string.isRequired,
+  onCurrentIndicatorHandler: PropTypes.func.isRequired,
 };
 
 CasesTable.defaultProps = {
