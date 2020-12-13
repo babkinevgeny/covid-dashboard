@@ -6,3 +6,7 @@ export const pagerConstants = {
   arrowBackId: 'back',
   arrowForwardId: 'forward',
 };
+
+export const apiConstants = {
+  dataFields: ['TotalConfirmed', 'TotalDeaths', 'TotalRecovered'],
+};

@@ -1,14 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-import { Paper } from '@material-ui/core';
+import { Paper, CircularProgress } from '@material-ui/core';
 import TablesPager from '../TablesPager';
-import { Countries } from '../../data/CountriesStub.json';
+import { apiConstants } from '../../helpers/helpers';
 import '../../css/App.scss';
 
 function App() {
-  const tableData = Countries;
-  const dataFields = ['TotalConfirmed', 'TotalDeaths', 'TotalRecovered'];
+  const [loading, setLoading] = useState(true);
+  const [countriesData, setCountriesData] = useState([]);
+  const [globalData, setGlobalData] = useState([]);
+  const [tablePage, setTablePage] = useState(0);
+
+  useEffect(() => {
+    const getData = () => {
+      console.log('getData');
+      setLoading(true);
+      fetch('https://api.covid19api.com/summary')
+        .then((response) => response.json(),
+          (error) => console.log(error))
+        .then((responseJson) => {
+          let timerId;
+          if (responseJson.Message.length > 0) {
+            timerId = setTimeout(() => getData(), 500);
+          } else {
+            clearTimeout(timerId);
+            const { Global, Countries } = responseJson;
+            setGlobalData({ ...Global });
+            setCountriesData([...Countries]);
+            setLoading(false);
+          }
+        },
+        (error) => {
+          setLoading(true);
+          console.log(error);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+
+    getData();
+  }, []);
+
+  const onPageChangeHandler = (newPage) => {
+    setTablePage(newPage);
+  };
+
   return (
     <Container maxWidth="lg" className="App">
       <Paper>
@@ -16,7 +54,18 @@ function App() {
           Here will be our awesome COVID-19 dashboard!
         </Typography>
       </Paper>
-      <TablesPager tablesData={tableData} data={dataFields} />
+      {loading ? (
+        <CircularProgress />
+      )
+        : (
+          <TablesPager
+            tablesData={countriesData}
+            global={globalData}
+            dataFields={apiConstants.dataFields}
+            tablePage={tablePage}
+            onPageChangeHandler={onPageChangeHandler}
+          />
+        )}
     </Container>
   );
 }
