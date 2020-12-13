@@ -11,13 +11,13 @@ import { sortArray } from '../helpers/helpers';
 function CountriesTable(props) {
   const { data, field } = props;
 
-  sortArray(data, field, false);
+  const sortedData = sortArray(data, field);
 
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableBody>
-          {data.map((row) => (
+          {sortedData.map((row) => (
             <TableRow key={row.Country}>
               <TableCell>{row.Country}</TableCell>
               <TableCell align="right">{row[field]}</TableCell>
