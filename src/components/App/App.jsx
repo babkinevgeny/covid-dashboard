@@ -2,7 +2,7 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { Paper, CircularProgress } from '@material-ui/core';
-import Cases from '../Cases/Cases';
+import CasesTable from '../CasesTable';
 import TablesPager from '../TablesPager';
 import { apiConstants, DataHelper } from '../../helpers/helpers';
 import '../../css/App.scss';
@@ -95,7 +95,7 @@ class App extends React.Component {
             Here will be our awesome COVID-19 dashboard!
           </Typography>
         </Paper>
-        <Cases />
+        <CasesTable rows={covidPerCountryData} />
         {loading ? (
           <CircularProgress />
         )
