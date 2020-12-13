@@ -39,7 +39,7 @@ const SelectIndicator = () => {
   });
 
   return (
-    <FormControl variant="outlined" style={{ textAlign: 'left' }}>
+    <FormControl variant="outlined" style={{ width: '100%', textAlign: 'left' }}>
       <Select id="select-indicator" value="1">{menuItems}</Select>
     </FormControl>
   );

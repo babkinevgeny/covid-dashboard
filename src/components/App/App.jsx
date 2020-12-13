@@ -17,6 +17,7 @@ class App extends React.Component {
       tablePage: 0,
       error: false,
       errorMessage: '',
+      currentCountry: '',
     };
   }
 
@@ -64,6 +65,12 @@ class App extends React.Component {
     });
   }
 
+  onCurrentCountryHandler = (newCountry) => {
+    this.setState({
+      currentCountry: newCountry,
+    });
+  }
+
   render() {
     const {
       covidPerCountryData,
@@ -72,6 +79,7 @@ class App extends React.Component {
       loading,
       error,
       errorMessage,
+      currentCountry,
     } = this.state;
     const resultGot = error ? (
       <div>
@@ -95,7 +103,11 @@ class App extends React.Component {
             Here will be our awesome COVID-19 dashboard!
           </Typography>
         </Paper>
-        <CasesTable rows={covidPerCountryData} />
+        <CasesTable
+          currentCountry={currentCountry}
+          rows={covidPerCountryData}
+          onCurrentCountryHandler={this.onCurrentCountryHandler}
+        />
         {loading ? (
           <CircularProgress />
         )

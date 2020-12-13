@@ -17,7 +17,12 @@ import InputCountry from './InputCountry';
 import { sortArray } from '../../helpers/helpers';
 
 const CasesTable = (props) => {
+  const { currentCountry, onCurrentCountryHandler } = props;
   let { rows } = props;
+
+  if (currentCountry) {
+    rows = rows.filter((row) => row.Country === currentCountry);
+  }
 
   rows = sortArray(rows, 'TotalConfirmed');
 
@@ -26,12 +31,15 @@ const CasesTable = (props) => {
     <Container className="select-indicator">
       <Box component="section">
         <Grid container spacing={0}>
-          <Grid item>
+          <Grid item sm={6}>
 
-            <InputCountry countriesList={countriesList} />
+            <InputCountry
+              onCurrentCountryHandler={onCurrentCountryHandler}
+              countriesList={countriesList}
+            />
 
           </Grid>
-          <Grid item>
+          <Grid item sm={6}>
 
             <SelectIndicator />
 
@@ -65,6 +73,12 @@ const CasesTable = (props) => {
 
 CasesTable.propTypes = {
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currentCountry: PropTypes.string,
+  onCurrentCountryHandler: PropTypes.func.isRequired,
+};
+
+CasesTable.defaultProps = {
+  currentCountry: '',
 };
 
 export default CasesTable;
