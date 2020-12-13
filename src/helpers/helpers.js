@@ -1,5 +1,6 @@
-export const sortArray = (rows, field, acs) => {
-  rows.sort((r1, r2) => (r1[field] - r2[field]) * (acs ? 1 : -1));
+export const sortArray = (rows, field, acs = false) => {
+  const sortedArr = [...rows].sort((r1, r2) => (r1[field] - r2[field]) * (acs ? 1 : -1));
+  return sortedArr;
 };
 
 export const pagerConstants = {
