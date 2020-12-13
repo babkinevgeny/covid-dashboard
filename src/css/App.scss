@@ -28,6 +28,21 @@
   color: #61dafb;
 }
 
+.tables_pager {
+  display: flex;
+  max-height: 400px;
+  overflow: hidden;
+}
+
+.tables_pagination-ul {
+  margin: 0;
+  display: flex;
+  padding: 0;
+  flex-wrap: wrap;
+  list-style: none;
+  align-items: center;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

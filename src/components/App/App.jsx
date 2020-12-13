@@ -2,10 +2,14 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { Paper } from '@material-ui/core';
-import './App.scss';
 import Cases from '../Cases/Cases';
+import TablesPager from '../TablesPager';
+import { Countries } from '../../data/CountriesStub.json';
+import '../../css/App.scss';
 
 function App() {
+  const tableData = Countries;
+  const dataFields = ['TotalConfirmed', 'TotalDeaths', 'TotalRecovered'];
   return (
     <Container maxWidth="lg" className="App">
       <Paper>
@@ -14,6 +18,7 @@ function App() {
         </Typography>
       </Paper>
       <Cases />
+      <TablesPager tablesData={tableData} data={dataFields} />
     </Container>
   );
 }
