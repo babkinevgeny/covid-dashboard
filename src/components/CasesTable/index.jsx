@@ -61,8 +61,13 @@ const CasesTable = (props) => {
             <TableBody>
               {rows.map((row) => (
                 <TableRow key={row.Country}>
-                  <TableCell component="th" scope="row">
-                    {row.Country}
+                  <TableCell className="row" component="th" scope="row">
+                    <img
+                      className="flag"
+                      src={`https://www.countryflags.io/${row.CountryCode.toUpperCase()}/flat/64.png`}
+                      alt="flag"
+                    />
+                    <span>{row.Country}</span>
                   </TableCell>
                   <TableCell align="right">{row[currentIndicator]}</TableCell>
                 </TableRow>
