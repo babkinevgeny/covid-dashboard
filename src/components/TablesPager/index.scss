@@ -1,0 +1,24 @@
+.data_group_radio {
+  flex-direction: row;
+}
+
+.tables_pager {
+  display: flex;
+  flex-direction: column;
+  max-height: 400px;
+  overflow: hidden;
+}
+
+.tables_pagination-ul {
+  margin: 0;
+  display: flex;
+  padding: 0;
+  flex-wrap: wrap;
+  list-style: none;
+  align-items: center;
+}
+
+.MuiTableContainer-root {
+  overflow-y: scroll;
+  max-height: 300px;
+}

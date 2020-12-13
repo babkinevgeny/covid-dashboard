@@ -2,13 +2,23 @@ import React, { Component } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
 import PropTypes from 'prop-types';
 import CountriesTable from '../CountriesTable';
-import { pagerConstants } from '../../helpers';
+import { pagerConstants, dataPostfixMap } from '../../helpers';
+import './index.scss';
 
 class TablesPager extends Component {
-  handlePageChange = (e) => {
-    const { id } = e.currentTarget;
+  handleDataGroupChange = (event) => {
+    const { value } = event.target;
+    const { onDataGroupChangedHandler } = this.props;
+    onDataGroupChangedHandler(value);
+  }
+
+  handlePageChange= (event) => {
+    const { id } = event.currentTarget;
     this.updatePageIndex(id);
   }
 
@@ -30,11 +40,22 @@ class TablesPager extends Component {
       global,
       dataFields,
       tablePage,
+      dataGroup,
     } = this.props;
-    const currentField = dataFields[tablePage];
+    const currentField = `${dataFields[tablePage]}${dataPostfixMap[dataGroup]}`;
     return (
       <div>
         <div className="tables_pager">
+          <RadioGroup
+            aria-label="dataGroup"
+            name="dataGroup"
+            defaultValue={dataGroup}
+            onChange={this.handleDataGroupChange}
+            className="data_group_radio"
+          >
+            <FormControlLabel value="total" control={<Radio color="primary" />} label="Total" />
+            <FormControlLabel value="per100" control={<Radio color="primary" />} label="Per 100.000 of Population" />
+          </RadioGroup>
           <div key={currentField}>
             <h3>{currentField}</h3>
             <div className="global">
@@ -76,6 +97,8 @@ TablesPager.propTypes = {
   dataFields: PropTypes.arrayOf(PropTypes.string).isRequired,
   tablePage: PropTypes.number.isRequired,
   onPageChangeHandler: PropTypes.func.isRequired,
+  onDataGroupChangedHandler: PropTypes.func.isRequired,
+  dataGroup: PropTypes.string.isRequired,
 };
 
 export default TablesPager;

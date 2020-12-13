@@ -12,20 +12,25 @@ export const apiConstants = {
   dataFields: ['TotalConfirmed', 'TotalDeaths', 'TotalRecovered', 'NewConfirmed', 'NewDeaths', 'NewRecovered'],
 };
 
+export const dataPostfixMap = {
+  total: '',
+  per100: 'Per100',
+};
+
 export const DataHelper = {
-  fetchRequestData: (url,
+  fetchRequestData: function fetchData(url,
     onSuccessHandler,
     needReFetchPredicate,
     preLoadingHandler = () => { },
     onErrorHandler = () => { },
-    onParseErrorHandler = () => { }) => {
+    onParseErrorHandler = () => { }) {
     preLoadingHandler();
     fetch(url)
       .then((response) => response.json(), onErrorHandler)
       .then((responseJson) => {
         let timerId;
         if (needReFetchPredicate(responseJson)) {
-          timerId = setTimeout(() => this.fetchRequestData(
+          timerId = setTimeout(() => fetchData(
             url,
             onSuccessHandler,
             needReFetchPredicate,

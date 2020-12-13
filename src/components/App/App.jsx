@@ -22,6 +22,7 @@ class App extends React.Component {
       currentIndicator: 'TotalConfirmed',
       keyboardHidden: true,
       casesTableInputValue: '',
+      dataGroup: 'total',
     };
   }
 
@@ -133,6 +134,12 @@ class App extends React.Component {
     });
   }
 
+  onDataGroupChangedHandler = (newGroup) => {
+    this.setState({
+      dataGroup: newGroup,
+    });
+  }
+
   render() {
     const {
       covidPerCountryData,
@@ -145,6 +152,7 @@ class App extends React.Component {
       currentIndicator,
       keyboardHidden,
       casesTableInputValue,
+      dataGroup,
     } = this.state;
     const resultGot = error ? (
       <div>
@@ -159,6 +167,8 @@ class App extends React.Component {
           dataFields={apiConstants.dataFields}
           tablePage={tablePage}
           onPageChangeHandler={this.onPageChangeHandler}
+          onDataGroupChangedHandler={this.onDataGroupChangedHandler}
+          dataGroup={dataGroup}
         />
       );
     return (
