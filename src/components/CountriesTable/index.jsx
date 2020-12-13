@@ -6,7 +6,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
-import { sortArray } from '../helpers/helpers';
+import { sortArray } from '../../helpers/helpers';
 
 function CountriesTable(props) {
   const { data, field } = props;
