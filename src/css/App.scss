@@ -50,9 +50,9 @@
   overflow: scroll;
 }
 
-.row {
+th.row {
   position: relative;
-  padding-left: 40px !important;
+  padding-left: 40px;
 }
 
 .flag {
@@ -74,7 +74,7 @@
   }
 
   .hg-button {
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
   
     &:hover {
       background-color: lighten(lightgray, 10%);
@@ -82,8 +82,12 @@
 
     &:focus,
     &:active {
-      background-color:lightgray;
+      background-color:lighten(lightgray, 5%);
     }
   }
 }
 
+.select {
+  width: 100%;
+  text-align: left;
+}

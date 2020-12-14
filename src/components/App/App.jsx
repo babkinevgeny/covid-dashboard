@@ -5,7 +5,7 @@ import { Paper, CircularProgress } from '@material-ui/core';
 import CasesTable from '../CasesTable';
 import TablesPager from '../TablesPager';
 import KeyboardContainer from '../KeyboardContainer';
-import { apiConstants, DataHelper } from '../../helpers/helpers';
+import { apiConstants, DataHelper } from '../../helpers';
 import '../../css/App.scss';
 
 class App extends React.Component {

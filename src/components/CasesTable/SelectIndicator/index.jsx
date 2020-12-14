@@ -5,23 +5,27 @@ import {
   Select,
   MenuItem,
 } from '@material-ui/core';
-import { INDICATORS } from '../../../helpers/helpers';
+import { Indicators } from '../../../helpers';
 
-const SelectIndicator = (props) => {
-  const { onCurrentIndicatorHandler } = props;
-  const menuItems = INDICATORS.map((indicator, index) => {
-    const { key, title } = indicator;
-    return (
-      <MenuItem key={key} value={index}>{title}</MenuItem>
-    );
-  });
+const SelectIndicator = ({ onCurrentIndicatorHandler, currentIndicator }) => {
+  const menuItems = Indicators.map(({ key, title }, index) => (
+    <MenuItem key={key} value={index}>{title}</MenuItem>
+  ));
+
+  const selectValue = Indicators.findIndex((elem) => elem.key === currentIndicator);
+
+  const changeCurrentIndicator = (event) => {
+    const { value } = event.target;
+    const { key } = Indicators[value];
+    onCurrentIndicatorHandler(key);
+  };
 
   return (
-    <FormControl variant="outlined" style={{ width: '100%', textAlign: 'left' }}>
+    <FormControl variant="outlined" className="select">
       <Select
         id="select-indicator"
-        value="1"
-        onChange={(event) => onCurrentIndicatorHandler(INDICATORS[event.target.value].key)}
+        value={selectValue}
+        onChange={changeCurrentIndicator}
       >
         {menuItems}
       </Select>
@@ -31,6 +35,7 @@ const SelectIndicator = (props) => {
 
 SelectIndicator.propTypes = {
   onCurrentIndicatorHandler: PropTypes.func.isRequired,
+  currentIndicator: PropTypes.string.isRequired,
 };
 
 export default SelectIndicator;

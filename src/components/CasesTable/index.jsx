@@ -14,27 +14,32 @@ import {
 } from '@material-ui/core';
 import SelectIndicator from './SelectIndicator';
 import InputCountry from './InputCountry';
-import { sortArray } from '../../helpers/helpers';
+import { sortArray, getFlagUrl } from '../../helpers';
 
-const CasesTable = (props) => {
-  const {
-    currentCountry,
-    onCurrentCountryHandler,
-    currentIndicator,
-    onCurrentIndicatorHandler,
-    toggleKeyboard,
-    setCasesTableInputValue,
-    inputValue,
-  } = props;
-  let { rows } = props;
+const getPreparedRows = (rows, currentCountry, currentIndicator) => {
+  let preparedRows = [...rows];
 
   if (currentCountry) {
-    rows = rows.filter((row) => row.Country === currentCountry);
+    preparedRows = rows.filter((row) => row.Country === currentCountry);
   }
 
-  rows = sortArray(rows, currentIndicator);
+  preparedRows = sortArray(preparedRows, currentIndicator);
 
-  const countriesList = rows.map((obj) => obj.Country);
+  return preparedRows;
+};
+
+const CasesTable = ({
+  currentCountry,
+  onCurrentCountryHandler,
+  currentIndicator,
+  onCurrentIndicatorHandler,
+  toggleKeyboard,
+  setCasesTableInputValue,
+  inputValue,
+  rows,
+}) => {
+  const preparedRows = getPreparedRows(rows, currentCountry, currentIndicator);
+  const countriesList = preparedRows.map((obj) => obj.Country);
   return (
     <Container className="select-indicator">
       <Box component="section">
@@ -52,7 +57,10 @@ const CasesTable = (props) => {
           </Grid>
           <Grid item sm={6}>
 
-            <SelectIndicator onCurrentIndicatorHandler={onCurrentIndicatorHandler} />
+            <SelectIndicator
+              onCurrentIndicatorHandler={onCurrentIndicatorHandler}
+              currentIndicator={currentIndicator}
+            />
 
           </Grid>
         </Grid>
@@ -65,13 +73,13 @@ const CasesTable = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {preparedRows.map((row) => (
                 <TableRow key={row.Country}>
                   <TableCell className="row" component="th" scope="row">
                     <img
                       className="flag"
-                      src={`https://www.countryflags.io/${row.CountryCode.toUpperCase()}/flat/64.png`}
-                      alt="flag"
+                      src={getFlagUrl(row.CountryCode)}
+                      alt={`Flag of ${row.Country}`}
                     />
                     <span>{row.Country}</span>
                   </TableCell>

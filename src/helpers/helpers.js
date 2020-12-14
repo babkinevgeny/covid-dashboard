@@ -53,7 +53,7 @@ export const DataHelper = {
   },
 };
 
-export const INDICATORS = [
+export const Indicators = [
   {
     title: 'Total Cases',
     key: 'TotalConfirmed',
@@ -79,3 +79,5 @@ export const INDICATORS = [
     key: 'NewRecovered',
   },
 ];
+
+export const getFlagUrl = (countryCode) => `https://www.countryflags.io/${countryCode.toUpperCase()}/flat/64.png`;

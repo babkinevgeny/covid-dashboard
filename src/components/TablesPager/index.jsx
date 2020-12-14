@@ -4,7 +4,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import PropTypes from 'prop-types';
 import CountriesTable from '../CountriesTable';
-import { pagerConstants } from '../../helpers/helpers';
+import { pagerConstants } from '../../helpers';
 
 class TablesPager extends Component {
   handlePageChange = (e) => {
