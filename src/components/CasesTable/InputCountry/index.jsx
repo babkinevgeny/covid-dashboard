@@ -5,7 +5,14 @@ import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 
 const InputCountry = (props) => {
-  const { countriesList, onCurrentCountryHandler } = props;
+  const {
+    countriesList,
+    onCurrentCountryHandler,
+    toggleKeyboard,
+    setCasesTableInputValue,
+    inputValue,
+  } = props;
+
   return (
     <Autocomplete
       id="combo-box-demo"
@@ -13,7 +20,13 @@ const InputCountry = (props) => {
       autoComplete
       getOptionLabel={(option) => option}
       renderInput={(params) => <TextField {...params} label="Country" variant="outlined" />}
-      onChange={(event, value) => onCurrentCountryHandler(value)}
+      onChange={(_event, value) => {
+        onCurrentCountryHandler(value);
+      }}
+      inputValue={inputValue}
+      onOpen={toggleKeyboard}
+      onBlur={toggleKeyboard}
+      onInputChange={(_event, value) => setCasesTableInputValue(value)}
     />
   );
 };
@@ -21,6 +34,9 @@ const InputCountry = (props) => {
 InputCountry.propTypes = {
   countriesList: PropTypes.arrayOf(PropTypes.string).isRequired,
   onCurrentCountryHandler: PropTypes.func.isRequired,
+  toggleKeyboard: PropTypes.func.isRequired,
+  setCasesTableInputValue: PropTypes.func.isRequired,
+  inputValue: PropTypes.string.isRequired,
 };
 
 export default InputCountry;

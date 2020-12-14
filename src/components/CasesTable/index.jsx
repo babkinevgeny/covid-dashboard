@@ -22,6 +22,9 @@ const CasesTable = (props) => {
     onCurrentCountryHandler,
     currentIndicator,
     onCurrentIndicatorHandler,
+    toggleKeyboard,
+    setCasesTableInputValue,
+    inputValue,
   } = props;
   let { rows } = props;
 
@@ -41,6 +44,9 @@ const CasesTable = (props) => {
             <InputCountry
               onCurrentCountryHandler={onCurrentCountryHandler}
               countriesList={countriesList}
+              toggleKeyboard={toggleKeyboard}
+              setCasesTableInputValue={setCasesTableInputValue}
+              inputValue={inputValue}
             />
 
           </Grid>
@@ -77,7 +83,6 @@ const CasesTable = (props) => {
         </TableContainer>
       </Box>
     </Container>
-
   );
 };
 
@@ -87,6 +92,9 @@ CasesTable.propTypes = {
   onCurrentCountryHandler: PropTypes.func.isRequired,
   currentIndicator: PropTypes.string.isRequired,
   onCurrentIndicatorHandler: PropTypes.func.isRequired,
+  toggleKeyboard: PropTypes.func.isRequired,
+  setCasesTableInputValue: PropTypes.func.isRequired,
+  inputValue: PropTypes.string.isRequired,
 };
 
 CasesTable.defaultProps = {

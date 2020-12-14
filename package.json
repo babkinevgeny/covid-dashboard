@@ -15,6 +15,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "^4.0.1",
+    "react-simple-keyboard": "^2.5.87",
     "typescript": "^3.9.7",
     "web-vitals": "^0.2.4"
   },

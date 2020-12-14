@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { Paper, CircularProgress } from '@material-ui/core';
 import CasesTable from '../CasesTable';
 import TablesPager from '../TablesPager';
+import KeyboardContainer from '../KeyboardContainer';
 import { apiConstants, DataHelper } from '../../helpers/helpers';
 import '../../css/App.scss';
 
@@ -19,6 +20,8 @@ class App extends React.Component {
       errorMessage: '',
       currentCountry: '',
       currentIndicator: 'TotalConfirmed',
+      keyboardHidden: true,
+      casesTableInputValue: '',
     };
   }
 
@@ -78,6 +81,40 @@ class App extends React.Component {
     });
   }
 
+  toggleKeyboard = () => {
+    const { keyboardHidden } = this.state;
+    this.setState({
+      keyboardHidden: !keyboardHidden,
+    });
+  }
+
+  setCasesTableInputValue = (value) => {
+    this.setState({
+      casesTableInputValue: value,
+    });
+  }
+
+  updateCasesTableInputValue = (value) => {
+    const { casesTableInputValue } = this.state;
+    const isSignButton = value.substring(0, 1) !== '{';
+    let newValue;
+
+    if (!isSignButton) {
+      if (value === '{bksp}') {
+        newValue = casesTableInputValue.substring(0, casesTableInputValue.length - 1);
+      }
+      if (value === '{space}') {
+        newValue = `${casesTableInputValue} `;
+      }
+    } else {
+      newValue = casesTableInputValue + value;
+    }
+
+    this.setState({
+      casesTableInputValue: newValue,
+    });
+  }
+
   render() {
     const {
       covidPerCountryData,
@@ -88,6 +125,8 @@ class App extends React.Component {
       errorMessage,
       currentCountry,
       currentIndicator,
+      keyboardHidden,
+      casesTableInputValue,
     } = this.state;
     const resultGot = error ? (
       <div>
@@ -117,11 +156,18 @@ class App extends React.Component {
           rows={covidPerCountryData}
           onCurrentCountryHandler={this.onCurrentCountryHandler}
           onCurrentIndicatorHandler={this.onCurrentIndicatorHandler}
+          toggleKeyboard={this.toggleKeyboard}
+          setCasesTableInputValue={this.setCasesTableInputValue}
+          inputValue={casesTableInputValue}
         />
         {loading ? (
           <CircularProgress />
         )
           : resultGot}
+        <KeyboardContainer
+          isHidden={keyboardHidden}
+          updateCasesTableInputValue={this.updateCasesTableInputValue}
+        />
       </Container>
     );
   }
