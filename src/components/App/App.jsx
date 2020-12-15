@@ -1,8 +1,8 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import { Paper, CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@material-ui/core';
 import TablesPager from '../TablesPager';
+import CovidMap from '../CovidMap';
 import { apiConstants, DataHelper } from '../../helpers/helpers';
 import '../../css/App.scss';
 
@@ -89,15 +89,11 @@ class App extends React.Component {
       );
     return (
       <Container maxWidth="lg" className="App">
-        <Paper>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Here will be our awesome COVID-19 dashboard!
-          </Typography>
-        </Paper>
         {loading ? (
           <CircularProgress />
         )
           : resultGot}
+        <CovidMap />
       </Container>
     );
   }
