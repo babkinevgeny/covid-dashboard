@@ -7,6 +7,7 @@ const DataHelper = {
     onParseErrorHandler = () => { }) {
     preLoadingHandler();
     fetch(url)
+      .catch(onErrorHandler)
       .then((response) => response.json(), onErrorHandler)
       .then((responseJson) => {
         let timerId;

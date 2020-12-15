@@ -11,20 +11,20 @@ import { pagerConstants, dataPostfixMap } from '../../helpers';
 import './index.scss';
 
 class TablesPager extends Component {
-  handlePerPopulationChange = (e) => {
-    const { value } = e.target;
+  handlePerPopulationChange = (event) => {
+    const { value } = event.target;
     const { onPerPopulationChangedHandler } = this.props;
     onPerPopulationChangedHandler(value);
   }
 
-  handleDataGroupChange = (e) => {
-    const { value } = e.target;
+  handleDataGroupChange = (event) => {
+    const { value } = event.target;
     const { onDataGroupChangedHandler } = this.props;
     onDataGroupChangedHandler(value);
   }
 
-  handlePageChange = (e) => {
-    const { id } = e.currentTarget;
+  handlePageChange = (event) => {
+    const { id } = event.currentTarget;
     this.updatePageIndex(id);
   }
 
@@ -69,6 +69,16 @@ class TablesPager extends Component {
     );
   }
 
+  getCurrentFieldName = (options) => {
+    const {
+      dataGroup,
+      dataFields,
+      tablePage,
+      perPopulation,
+    } = options;
+    return `${dataGroup}${dataFields[tablePage]}${dataPostfixMap[perPopulation]}`;
+  }
+
   render() {
     const {
       tablesData,
@@ -78,22 +88,28 @@ class TablesPager extends Component {
       dataGroup,
       perPopulation,
     } = this.props;
-    const currentField = `${dataGroup}${dataFields[tablePage]}${dataPostfixMap[perPopulation]}`;
+    const currentField = this.getCurrentFieldName({
+      dataGroup,
+      dataFields,
+      tablePage,
+      perPopulation,
+    });
+
     return (
       <div>
         <div className="tables_pager">
           <div className="radio_groups_wrapper">
             {this.getRadioGroup({
-              ariaLabel: 'perPopulation',
-              fieldName: 'perPopulation',
+              ariaLabel: keyConstants.perPopulationKey,
+              fieldName: keyConstants.perPopulationKey,
               defValue: perPopulation,
               onChangeHandler: this.handlePerPopulationChange,
               className: 'per_population_radio',
-              labelValues: [{ label: 'Total', value: 'total' }, { label: dataPostfixMap.perPopulation, value: 'perPopulation' }],
+              labelValues: [{ label: 'Total', value: 'total' }, { label: dataPostfixMap.perPopulation, value: keyConstants.perPopulationKey }],
             })}
             {this.getRadioGroup({
-              ariaLabel: 'dataGroup',
-              fieldName: 'dataGroup',
+              ariaLabel: keyConstants.dataGroupKey,
+              fieldName: keyConstants.dataGroupKey,
               defValue: dataGroup,
               onChangeHandler: this.handleDataGroupChange,
               className: 'data_group_radio',
@@ -113,7 +129,7 @@ class TablesPager extends Component {
           <ul className="tables_pagination-ul">
             <li>
               <IconButton
-                onClick={(e) => this.handlePageChange(e)}
+                onClick={(event) => this.handlePageChange(event)}
                 id={pagerConstants.arrowBackId}
               >
                 <ArrowBackIcon />
@@ -121,7 +137,7 @@ class TablesPager extends Component {
             </li>
             <li>
               <IconButton
-                onClick={(e) => this.handlePageChange(e)}
+                onClick={(event) => this.handlePageChange(event)}
                 id={pagerConstants.arrowForwardId}
               >
                 <ArrowForwardIcon />

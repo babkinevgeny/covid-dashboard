@@ -14,6 +14,11 @@ export const apiConstants = {
   dataFields: ['Confirmed', 'Deaths', 'Recovered'],
 };
 
+export const keyConstants = {
+  perPopulationKey: 'perPopulation',
+  dataGroupKey: 'dataGroup',
+};
+
 export const dataPostfixMap = {
   total: '',
   perPopulation: ` Per ${populationBase.toLocaleString()} Population`,
@@ -25,10 +30,11 @@ export const dataPrefixMap = {
 };
 
 export const DataProcessor = {
-  addCountryData(data, population, flag) {
+  addCountryData(data, population) {
     const perPopulationData = apiConstants.dataFields.reduce((acc, field) => {
       Object.values(dataPrefixMap).forEach((prefix) => {
-        const dataPerPopulation = (data[`${prefix}${field}`] / population) * populationBase;
+        const dataField = data[`${prefix}${field}`];
+        const dataPerPopulation = (dataField / population) * populationBase;
         const fieldName = `${prefix}${field}${dataPostfixMap.perPopulation}`;
         acc[fieldName] = dataPerPopulation;
       });
@@ -37,7 +43,6 @@ export const DataProcessor = {
     return {
       ...data,
       ...perPopulationData,
-      flag,
       population,
     };
   },
@@ -46,8 +51,8 @@ export const DataProcessor = {
     const mappedData = covidPerCountryData.map((data) => {
       const countryData = countriesData.find((country) => country.name === data.Country);
       if (countryData) {
-        const { flag, population } = countryData;
-        return this.addCountryData(data, population, flag);
+        const { population } = countryData;
+        return this.addCountryData(data, population);
       }
       return data;
     });
