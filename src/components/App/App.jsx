@@ -93,7 +93,7 @@ class App extends React.Component {
           <CircularProgress />
         )
           : resultGot}
-        <CovidMap />
+        <CovidMap countries={covidPerCountryData} />
       </Container>
     );
   }
