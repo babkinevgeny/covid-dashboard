@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
+import { keyboardScheme } from '../../helpers';
 
 const KeyboardContainer = ({ isHidden, updateCasesTableInputValue }) => {
   const classes = ['keyboard-container'];
@@ -17,13 +18,7 @@ const KeyboardContainer = ({ isHidden, updateCasesTableInputValue }) => {
         onKeyPress={(value) => updateCasesTableInputValue(value)}
         theme="hg-theme-default hg-layout-default"
         layout={{
-          default: [
-            '` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-            'q w e r t y u i o p [ ] \\',
-            "a s d f g h j k l ; '",
-            'z x c v b n m , . /',
-            '{space}',
-          ],
+          default: keyboardScheme,
         }}
       />
     </section>

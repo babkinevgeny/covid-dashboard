@@ -5,6 +5,7 @@ import {
   DataHelper,
   Indicators,
   getFlagUrl,
+  keyboardScheme,
 } from './helpers';
 
 export {
@@ -14,4 +15,5 @@ export {
   DataHelper,
   Indicators,
   getFlagUrl,
+  keyboardScheme,
 };
