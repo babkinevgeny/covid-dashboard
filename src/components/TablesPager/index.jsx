@@ -11,14 +11,20 @@ import { pagerConstants, dataPostfixMap } from '../../helpers';
 import './index.scss';
 
 class TablesPager extends Component {
-  handleDataGroupChange = (event) => {
-    const { value } = event.target;
+  handlePerPopulationChange = (e) => {
+    const { value } = e.target;
+    const { onPerPopulationChangedHandler } = this.props;
+    onPerPopulationChangedHandler(value);
+  }
+
+  handleDataGroupChange = (e) => {
+    const { value } = e.target;
     const { onDataGroupChangedHandler } = this.props;
     onDataGroupChangedHandler(value);
   }
 
-  handlePageChange= (event) => {
-    const { id } = event.currentTarget;
+  handlePageChange = (e) => {
+    const { id } = e.currentTarget;
     this.updatePageIndex(id);
   }
 
@@ -34,6 +40,35 @@ class TablesPager extends Component {
     onPageChangeHandler(nextPage);
   }
 
+  getRadioGroup = (options) => {
+    const {
+      ariaLabel,
+      fieldName,
+      defValue,
+      onChangeHandler,
+      className,
+      labelValues,
+    } = options;
+    return (
+      <RadioGroup
+        aria-label={ariaLabel}
+        name={fieldName}
+        value={defValue}
+        onChange={onChangeHandler}
+        className={className}
+      >
+        {labelValues.map((labelValue) => (
+          <FormControlLabel
+            key={labelValue.value}
+            value={labelValue.value}
+            control={<Radio color="primary" />}
+            label={labelValue.label}
+          />
+        ))}
+      </RadioGroup>
+    );
+  }
+
   render() {
     const {
       tablesData,
@@ -41,21 +76,30 @@ class TablesPager extends Component {
       dataFields,
       tablePage,
       dataGroup,
+      perPopulation,
     } = this.props;
-    const currentField = `${dataFields[tablePage]}${dataPostfixMap[dataGroup]}`;
+    const currentField = `${dataGroup}${dataFields[tablePage]}${dataPostfixMap[perPopulation]}`;
     return (
       <div>
         <div className="tables_pager">
-          <RadioGroup
-            aria-label="dataGroup"
-            name="dataGroup"
-            defaultValue={dataGroup}
-            onChange={this.handleDataGroupChange}
-            className="data_group_radio"
-          >
-            <FormControlLabel value="total" control={<Radio color="primary" />} label="Total" />
-            <FormControlLabel value="per100" control={<Radio color="primary" />} label="Per 100.000 of Population" />
-          </RadioGroup>
+          <div className="radio_groups_wrapper">
+            {this.getRadioGroup({
+              ariaLabel: 'perPopulation',
+              fieldName: 'perPopulation',
+              defValue: perPopulation,
+              onChangeHandler: this.handlePerPopulationChange,
+              className: 'per_population_radio',
+              labelValues: [{ label: 'Total', value: 'total' }, { label: dataPostfixMap.perPopulation, value: 'perPopulation' }],
+            })}
+            {this.getRadioGroup({
+              ariaLabel: 'dataGroup',
+              fieldName: 'dataGroup',
+              defValue: dataGroup,
+              onChangeHandler: this.handleDataGroupChange,
+              className: 'data_group_radio',
+              labelValues: [{ label: 'Total', value: 'Total' }, { label: 'New', value: 'New' }],
+            })}
+          </div>
           <div key={currentField}>
             <h3>{currentField}</h3>
             <div className="global">
@@ -98,7 +142,9 @@ TablesPager.propTypes = {
   tablePage: PropTypes.number.isRequired,
   onPageChangeHandler: PropTypes.func.isRequired,
   onDataGroupChangedHandler: PropTypes.func.isRequired,
+  onPerPopulationChangedHandler: PropTypes.func.isRequired,
   dataGroup: PropTypes.string.isRequired,
+  perPopulation: PropTypes.string.isRequired,
 };
 
 export default TablesPager;

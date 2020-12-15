@@ -6,6 +6,7 @@ import CasesTable from '../CasesTable';
 import TablesPager from '../TablesPager';
 import KeyboardContainer from '../KeyboardContainer';
 import { apiConstants, DataHelper } from '../../helpers';
+import DataHelper from '../../helpers/DataHelper';
 import '../../css/App.scss';
 
 class App extends React.Component {
@@ -22,7 +23,8 @@ class App extends React.Component {
       currentIndicator: 'TotalConfirmed',
       keyboardHidden: true,
       casesTableInputValue: '',
-      dataGroup: 'total',
+      dataGroup: 'Total',
+      perPopulation: 'total',
     };
   }
 
@@ -58,7 +60,7 @@ class App extends React.Component {
   }
 
   onCountriesSuccess = (covidData, responseJson) => {
-    const processedData = DataHelper.postProcessData(covidData, responseJson);
+    const processedData = DataProcessor.postProcessData(covidData, responseJson);
     this.setState({
       covidPerCountryData: processedData,
     });
@@ -140,6 +142,12 @@ class App extends React.Component {
     });
   }
 
+  onPerPopulationChangedHandler = (perPopulation) => {
+    this.setState({
+      perPopulation,
+    });
+  }
+
   render() {
     const {
       covidPerCountryData,
@@ -153,6 +161,7 @@ class App extends React.Component {
       keyboardHidden,
       casesTableInputValue,
       dataGroup,
+      perPopulation,
     } = this.state;
     const resultGot = error ? (
       <div>
@@ -168,7 +177,9 @@ class App extends React.Component {
           tablePage={tablePage}
           onPageChangeHandler={this.onPageChangeHandler}
           onDataGroupChangedHandler={this.onDataGroupChangedHandler}
+          onPerPopulationChangedHandler={this.onPerPopulationChangedHandler}
           dataGroup={dataGroup}
+          perPopulation={perPopulation}
         />
       );
     return (

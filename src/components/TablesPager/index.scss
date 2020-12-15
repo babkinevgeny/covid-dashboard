@@ -1,4 +1,5 @@
-.data_group_radio {
+.data_group_radio,
+.per_population_radio {
   flex-direction: row;
 }
 
@@ -7,6 +8,12 @@
   flex-direction: column;
   max-height: 400px;
   overflow: hidden;
+}
+
+.radio_groups_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 .tables_pagination-ul {

@@ -8,60 +8,46 @@ export const pagerConstants = {
   arrowForwardId: 'forward',
 };
 
+const populationBase = 100000;
+
 export const apiConstants = {
-  dataFields: ['TotalConfirmed', 'TotalDeaths', 'TotalRecovered', 'NewConfirmed', 'NewDeaths', 'NewRecovered'],
+  dataFields: ['Confirmed', 'Deaths', 'Recovered'],
 };
 
 export const dataPostfixMap = {
   total: '',
-  per100: 'Per100',
+  perPopulation: ` Per ${populationBase.toLocaleString()} Population`,
 };
 
-export const DataHelper = {
-  fetchRequestData: function fetchData(url,
-    onSuccessHandler,
-    needReFetchPredicate,
-    preLoadingHandler = () => { },
-    onErrorHandler = () => { },
-    onParseErrorHandler = () => { }) {
-    preLoadingHandler();
-    fetch(url)
-      .then((response) => response.json(), onErrorHandler)
-      .then((responseJson) => {
-        let timerId;
-        if (needReFetchPredicate(responseJson)) {
-          timerId = setTimeout(() => fetchData(
-            url,
-            onSuccessHandler,
-            needReFetchPredicate,
-            preLoadingHandler,
-            onErrorHandler,
-            onParseErrorHandler,
-          ), 500);
-        } else {
-          clearTimeout(timerId);
-          onSuccessHandler(responseJson);
-        }
-      }, onParseErrorHandler);
+export const dataPrefixMap = {
+  totalCases: 'Total',
+  newCases: 'New',
+};
+
+export const DataProcessor = {
+  addCountryData(data, population, flag) {
+    const perPopulationData = apiConstants.dataFields.reduce((acc, field) => {
+      Object.values(dataPrefixMap).forEach((prefix) => {
+        const dataPerPopulation = (data[`${prefix}${field}`] / population) * populationBase;
+        const fieldName = `${prefix}${field}${dataPostfixMap.perPopulation}`;
+        acc[fieldName] = dataPerPopulation;
+      });
+      return acc;
+    }, {});
+    return {
+      ...data,
+      ...perPopulationData,
+      flag,
+      population,
+    };
   },
 
-  postProcessData: (covidPerCountryData, countriesData) => {
+  postProcessData(covidPerCountryData, countriesData) {
     const mappedData = covidPerCountryData.map((data) => {
       const countryData = countriesData.find((country) => country.name === data.Country);
       if (countryData) {
         const { flag, population } = countryData;
-        const per100Data = apiConstants.dataFields.reduce((acc, field) => {
-          const dataPer100 = (data[field] / population) * 100000;
-          const fieldName = `${field}Per100`;
-          acc[fieldName] = dataPer100;
-          return acc;
-        }, {});
-        return {
-          ...data,
-          ...per100Data,
-          flag,
-          population,
-        };
+        return this.addCountryData(data, population, flag);
       }
       return data;
     });
