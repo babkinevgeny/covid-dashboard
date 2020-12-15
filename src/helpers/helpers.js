@@ -44,8 +44,10 @@ export const DataHelper = {
     const mappedData = covidPerCountryData.map((data) => {
       const countryData = countriesData.find((country) => country.name === data.Country);
       if (countryData) {
-        const { flag, population } = countryData;
-        return { ...data, flag, population };
+        const { flag, population, latlng } = countryData;
+        return {
+          ...data, flag, population, latlng,
+        };
       }
       return data;
     });
