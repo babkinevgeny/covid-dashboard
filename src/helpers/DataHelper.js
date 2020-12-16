@@ -1,7 +1,7 @@
 const DataHelper = {
   fetchRequestData: function fetchData(url,
     onSuccessHandler,
-    needReFetchPredicate,
+    needReFetchPredicate = () => false,
     preLoadingHandler = () => { },
     onErrorHandler = () => { },
     onParseErrorHandler = () => { }) {

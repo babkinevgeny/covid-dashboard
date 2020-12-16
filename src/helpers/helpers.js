@@ -35,8 +35,9 @@ export const DataProcessor = {
       Object.values(dataPrefixMap).forEach((prefix) => {
         const dataField = data[`${prefix}${field}`];
         const dataPerPopulation = (dataField / population) * populationBase;
+        const dataPerPopulationRounded = Math.round(dataPerPopulation * 1000) / 1000;
         const fieldName = `${prefix}${field}${dataPostfixMap.perPopulation}`;
-        acc[fieldName] = dataPerPopulation;
+        acc[fieldName] = dataPerPopulationRounded;
       });
       return acc;
     }, {});
