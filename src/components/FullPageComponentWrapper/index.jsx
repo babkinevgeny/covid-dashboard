@@ -14,10 +14,9 @@ class FullPageComponentWrapper extends Component {
   }
 
   onExpandButtonClick = () => {
-    const { fullScreen } = this.state;
-    this.setState({
-      fullScreen: !fullScreen,
-    });
+    this.setState((state) => ({
+      fullScreen: !state.fullScreen,
+    }));
   }
 
   render() {
@@ -28,7 +27,7 @@ class FullPageComponentWrapper extends Component {
       <div className={`component_wrapper${fullScreen ? ' wrapper_fullscreen' : ''}`}>
         <IconButton
           className="page_expand"
-          onClick={() => this.onExpandButtonClick()}
+          onClick={this.onExpandButtonClick}
           id="fullScreen"
         >
           {icon}
