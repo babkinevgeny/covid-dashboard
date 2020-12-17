@@ -81,12 +81,29 @@ class App extends React.Component {
     });
   }
 
-  toggleKeyboard = () => {
-    this.setState((state) => ({
-      keyboardHidden: !state.keyboardHidden,
-    }));
+  showKeyboard = () => {
+    const isHidden = this.checkKeyboard(true);
+
+    if (isHidden) {
+      this.setState({
+        keyboardHidden: false,
+      });
+    }
+  }
+
+  hideKeyboard = () => {
+    const isShown = this.checkKeyboard(false);
+
+    if (isShown) {
+      this.setState({
+        keyboardHidden: true,
+      });
+    }
+  }
+
+  checkKeyboard = (value) => {
     const { keyboardHidden } = this.state;
-    console.log(keyboardHidden);
+    return keyboardHidden === value;
   }
 
   setCasesTableInputValue = (value) => {
@@ -157,7 +174,8 @@ class App extends React.Component {
           rows={covidPerCountryData}
           onCurrentCountryHandler={this.onCurrentCountryHandler}
           onCurrentIndicatorHandler={this.onCurrentIndicatorHandler}
-          toggleKeyboard={this.toggleKeyboard}
+          showKeyboard={this.showKeyboard}
+          hideKeyboard={this.hideKeyboard}
           setCasesTableInputValue={this.setCasesTableInputValue}
           inputValue={casesTableInputValue}
         />

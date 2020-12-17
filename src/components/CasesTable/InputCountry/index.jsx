@@ -6,7 +6,8 @@ import PropTypes from 'prop-types';
 const InputCountry = ({
   countriesList,
   onCurrentCountryHandler,
-  toggleKeyboard,
+  showKeyboard,
+  hideKeyboard,
   setCasesTableInputValue,
   inputValue,
 }) => (
@@ -21,17 +22,25 @@ const InputCountry = ({
       onCurrentCountryHandler(value);
     }}
     inputValue={inputValue}
-    onOpen={toggleKeyboard}
-    onBlur={toggleKeyboard}
-    onInputChange={(_event, value) => setCasesTableInputValue(value)}
+    onOpen={showKeyboard}
+    onBlur={hideKeyboard}
+    onInputChange={(_event, value, reason) => {
+      setCasesTableInputValue(value);
+
+      if (reason === 'clear') {
+        showKeyboard();
+      }
+    }}
     className="select"
+    blurOnSelect
   />
 );
 
 InputCountry.propTypes = {
   countriesList: PropTypes.arrayOf(PropTypes.string).isRequired,
   onCurrentCountryHandler: PropTypes.func.isRequired,
-  toggleKeyboard: PropTypes.func.isRequired,
+  showKeyboard: PropTypes.func.isRequired,
+  hideKeyboard: PropTypes.func.isRequired,
   setCasesTableInputValue: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
 };

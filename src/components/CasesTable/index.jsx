@@ -33,7 +33,8 @@ const CasesTable = ({
   onCurrentCountryHandler,
   currentIndicator,
   onCurrentIndicatorHandler,
-  toggleKeyboard,
+  showKeyboard,
+  hideKeyboard,
   setCasesTableInputValue,
   inputValue,
   rows,
@@ -49,9 +50,11 @@ const CasesTable = ({
             <InputCountry
               onCurrentCountryHandler={onCurrentCountryHandler}
               countriesList={countriesList}
-              toggleKeyboard={toggleKeyboard}
+              showKeyboard={showKeyboard}
+              hideKeyboard={hideKeyboard}
               setCasesTableInputValue={setCasesTableInputValue}
               inputValue={inputValue}
+              show
             />
 
           </Grid>
@@ -100,7 +103,8 @@ CasesTable.propTypes = {
   onCurrentCountryHandler: PropTypes.func.isRequired,
   currentIndicator: PropTypes.string.isRequired,
   onCurrentIndicatorHandler: PropTypes.func.isRequired,
-  toggleKeyboard: PropTypes.func.isRequired,
+  showKeyboard: PropTypes.func.isRequired,
+  hideKeyboard: PropTypes.func.isRequired,
   setCasesTableInputValue: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
 };
