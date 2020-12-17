@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import FullscreenIcon from '@material-ui/icons/Fullscreen';
-import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
+import Fullscreen from '@material-ui/icons/Fullscreen';
+import FullscreenExit from '@material-ui/icons/FullscreenExit';
 import PropTypes from 'prop-types';
 import './index.scss';
 
@@ -22,7 +22,7 @@ class FullPageComponentWrapper extends Component {
   render() {
     const { children } = this.props;
     const { fullScreen } = this.state;
-    const icon = fullScreen ? <FullscreenExitIcon /> : <FullscreenIcon />;
+    const icon = fullScreen ? <FullscreenExit /> : <Fullscreen />;
     return (
       <div className={`component_wrapper${fullScreen ? ' wrapper_fullscreen' : ''}`}>
         <IconButton

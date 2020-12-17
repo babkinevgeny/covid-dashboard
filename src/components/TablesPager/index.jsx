@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
+import {
+  IconButton,
+  FormControlLabel,
+  RadioGroup,
+  Radio,
+} from '@material-ui/core';
+import { ArrowBack, ArrowForward } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import CountriesTable from '../CountriesTable';
 import { pagerConstants, dataPostfixMap, keyConstants } from '../../helpers';
@@ -131,7 +132,7 @@ class TablesPager extends Component {
                 onClick={(event) => this.handlePageChange(event)}
                 id={pagerConstants.arrowBackId}
               >
-                <ArrowBackIcon />
+                <ArrowBack />
               </IconButton>
             </li>
             <li>
@@ -139,7 +140,7 @@ class TablesPager extends Component {
                 onClick={(event) => this.handlePageChange(event)}
                 id={pagerConstants.arrowForwardId}
               >
-                <ArrowForwardIcon />
+                <ArrowForward />
               </IconButton>
             </li>
           </ul>
