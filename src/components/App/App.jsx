@@ -82,10 +82,11 @@ class App extends React.Component {
   }
 
   toggleKeyboard = () => {
+    this.setState((state) => ({
+      keyboardHidden: !state.keyboardHidden,
+    }));
     const { keyboardHidden } = this.state;
-    this.setState({
-      keyboardHidden: !keyboardHidden,
-    });
+    console.log(keyboardHidden);
   }
 
   setCasesTableInputValue = (value) => {
