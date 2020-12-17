@@ -7,7 +7,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import PropTypes from 'prop-types';
 import CountriesTable from '../CountriesTable';
-import { pagerConstants, dataPostfixMap } from '../../helpers';
+import { pagerConstants, dataPostfixMap, keyConstants } from '../../helpers';
 import './index.scss';
 
 class TablesPager extends Component {
@@ -40,44 +40,38 @@ class TablesPager extends Component {
     onPageChangeHandler(nextPage);
   }
 
-  getRadioGroup = (options) => {
-    const {
-      ariaLabel,
-      fieldName,
-      defValue,
-      onChangeHandler,
-      className,
-      labelValues,
-    } = options;
-    return (
-      <RadioGroup
-        aria-label={ariaLabel}
-        name={fieldName}
-        value={defValue}
-        onChange={onChangeHandler}
-        className={className}
-      >
-        {labelValues.map((labelValue) => (
-          <FormControlLabel
-            key={labelValue.value}
-            value={labelValue.value}
-            control={<Radio color="primary" />}
-            label={labelValue.label}
-          />
-        ))}
-      </RadioGroup>
-    );
-  }
+  getRadioGroup = ({
+    ariaLabel,
+    fieldName,
+    defValue,
+    onChangeHandler,
+    className,
+    labelValues,
+  }) => (
+    <RadioGroup
+      aria-label={ariaLabel}
+      name={fieldName}
+      value={defValue}
+      onChange={onChangeHandler}
+      className={className}
+    >
+      {labelValues.map((labelValue) => (
+        <FormControlLabel
+          key={labelValue.value}
+          value={labelValue.value}
+          control={<Radio color="primary" />}
+          label={labelValue.label}
+        />
+      ))}
+    </RadioGroup>
+  )
 
-  getCurrentFieldName = (options) => {
-    const {
-      dataGroup,
-      dataFields,
-      tablePage,
-      perPopulation,
-    } = options;
-    return `${dataGroup}${dataFields[tablePage]}${dataPostfixMap[perPopulation]}`;
-  }
+  getCurrentFieldName = ({
+    dataGroup,
+    dataFields,
+    tablePage,
+    perPopulation,
+  }) => `${dataGroup}${dataFields[tablePage]}${dataPostfixMap[perPopulation]}`
 
   render() {
     const {
@@ -95,6 +89,11 @@ class TablesPager extends Component {
       perPopulation,
     });
 
+    const timeConstLabels = [{ label: 'Total', value: 'Total' }, { label: 'New', value: 'New' }];
+    const amountConstLabels = [
+      { label: 'Total', value: 'total' },
+      { label: dataPostfixMap.perPopulation, value: keyConstants.perPopulationKey }];
+
     return (
       <div>
         <div className="tables_pager">
@@ -105,7 +104,7 @@ class TablesPager extends Component {
               defValue: perPopulation,
               onChangeHandler: this.handlePerPopulationChange,
               className: 'per_population_radio',
-              labelValues: [{ label: 'Total', value: 'total' }, { label: dataPostfixMap.perPopulation, value: keyConstants.perPopulationKey }],
+              labelValues: amountConstLabels,
             })}
             {this.getRadioGroup({
               ariaLabel: keyConstants.dataGroupKey,
@@ -113,7 +112,7 @@ class TablesPager extends Component {
               defValue: dataGroup,
               onChangeHandler: this.handleDataGroupChange,
               className: 'data_group_radio',
-              labelValues: [{ label: 'Total', value: 'Total' }, { label: 'New', value: 'New' }],
+              labelValues: timeConstLabels,
             })}
           </div>
           <div key={currentField}>

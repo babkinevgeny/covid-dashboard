@@ -5,8 +5,7 @@ import { Paper, CircularProgress } from '@material-ui/core';
 import CasesTable from '../CasesTable';
 import TablesPager from '../TablesPager';
 import KeyboardContainer from '../KeyboardContainer';
-import { apiConstants, DataHelper } from '../../helpers';
-import DataHelper from '../../helpers/DataHelper';
+import { apiConstants, DataHelper, dataProcessor } from '../../helpers';
 import '../../css/App.scss';
 
 class App extends React.Component {
@@ -60,7 +59,7 @@ class App extends React.Component {
   }
 
   onCountriesSuccess = (covidData, responseJson) => {
-    const processedData = DataProcessor.postProcessData(covidData, responseJson);
+    const processedData = dataProcessor.postProcessData(covidData, responseJson);
     this.setState({
       covidPerCountryData: processedData,
     });

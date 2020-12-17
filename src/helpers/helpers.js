@@ -29,7 +29,7 @@ export const dataPrefixMap = {
   newCases: 'New',
 };
 
-export const DataProcessor = {
+export const dataProcessor = {
   addCountryData(data, population) {
     const perPopulationData = apiConstants.dataFields.reduce((acc, field) => {
       Object.values(dataPrefixMap).forEach((prefix) => {
