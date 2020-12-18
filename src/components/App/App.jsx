@@ -2,8 +2,10 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { Paper, CircularProgress } from '@material-ui/core';
+import CasesTable from '../CasesTable';
 import TablesPager from '../TablesPager';
-import { apiConstants, DataHelper } from '../../helpers/helpers';
+import KeyboardContainer from '../KeyboardContainer';
+import { apiConstants, DataHelper } from '../../helpers';
 import '../../css/App.scss';
 
 class App extends React.Component {
@@ -16,6 +18,10 @@ class App extends React.Component {
       tablePage: 0,
       error: false,
       errorMessage: '',
+      currentCountry: '',
+      currentIndicator: 'TotalConfirmed',
+      keyboardHidden: true,
+      casesTableInputValue: '',
     };
   }
 
@@ -63,6 +69,70 @@ class App extends React.Component {
     });
   }
 
+  onCurrentCountryHandler = (newCountry) => {
+    this.setState({
+      currentCountry: newCountry,
+    });
+  }
+
+  onCurrentIndicatorHandler = (newIndicator) => {
+    this.setState({
+      currentIndicator: newIndicator,
+    });
+  }
+
+  showKeyboard = () => {
+    const isHidden = this.checkKeyboard(true);
+
+    if (isHidden) {
+      this.setState({
+        keyboardHidden: false,
+      });
+    }
+  }
+
+  hideKeyboard = () => {
+    const isShown = this.checkKeyboard(false);
+
+    if (isShown) {
+      this.setState({
+        keyboardHidden: true,
+      });
+    }
+  }
+
+  checkKeyboard = (value) => {
+    const { keyboardHidden } = this.state;
+    return keyboardHidden === value;
+  }
+
+  setCasesTableInputValue = (value) => {
+    this.setState({
+      casesTableInputValue: value,
+    });
+  }
+
+  updateCasesTableInputValue = (value) => {
+    const { casesTableInputValue } = this.state;
+    const isSignButton = value.substring(0, 1) !== '{';
+    let newValue;
+
+    if (!isSignButton) {
+      if (value === '{bksp}') {
+        newValue = casesTableInputValue.substring(0, casesTableInputValue.length - 1);
+      }
+      if (value === '{space}') {
+        newValue = `${casesTableInputValue} `;
+      }
+    } else {
+      newValue = casesTableInputValue + value;
+    }
+
+    this.setState({
+      casesTableInputValue: newValue,
+    });
+  }
+
   render() {
     const {
       covidPerCountryData,
@@ -71,6 +141,10 @@ class App extends React.Component {
       loading,
       error,
       errorMessage,
+      currentCountry,
+      currentIndicator,
+      keyboardHidden,
+      casesTableInputValue,
     } = this.state;
     const resultGot = error ? (
       <div>
@@ -94,10 +168,25 @@ class App extends React.Component {
             Here will be our awesome COVID-19 dashboard!
           </Typography>
         </Paper>
+        <CasesTable
+          currentCountry={currentCountry}
+          currentIndicator={currentIndicator}
+          rows={covidPerCountryData}
+          onCurrentCountryHandler={this.onCurrentCountryHandler}
+          onCurrentIndicatorHandler={this.onCurrentIndicatorHandler}
+          showKeyboard={this.showKeyboard}
+          hideKeyboard={this.hideKeyboard}
+          setCasesTableInputValue={this.setCasesTableInputValue}
+          inputValue={casesTableInputValue}
+        />
         {loading ? (
           <CircularProgress />
         )
           : resultGot}
+        <KeyboardContainer
+          isHidden={keyboardHidden}
+          updateCasesTableInputValue={this.updateCasesTableInputValue}
+        />
       </Container>
     );
   }

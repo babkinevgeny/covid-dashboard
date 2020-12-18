@@ -52,3 +52,40 @@ export const DataHelper = {
     return mappedData;
   },
 };
+
+export const Indicators = [
+  {
+    title: 'Total Cases',
+    key: 'TotalConfirmed',
+  },
+  {
+    title: 'New Cases',
+    key: 'NewConfirmed',
+  },
+  {
+    title: 'Total Deaths',
+    key: 'TotalDeaths',
+  },
+  {
+    title: 'New Deaths',
+    key: 'NewDeaths',
+  },
+  {
+    title: 'Total Recovered',
+    key: 'TotalRecovered',
+  },
+  {
+    title: 'New Recovered',
+    key: 'NewRecovered',
+  },
+];
+
+export const getFlagUrl = (countryCode) => `https://www.countryflags.io/${countryCode.toUpperCase()}/flat/64.png`;
+
+export const keyboardScheme = [
+  '` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+  'q w e r t y u i o p [ ] \\',
+  'a s d f g h j k l ; \'',
+  'z x c v b n m , . /',
+  '{space}',
+];
