@@ -5,7 +5,7 @@ import { Paper, CircularProgress } from '@material-ui/core';
 import CasesTable from '../CasesTable';
 import TablesPager from '../TablesPager';
 import KeyboardContainer from '../KeyboardContainer';
-import { apiConstants, DataHelper } from '../../helpers';
+import { apiConstants, DataHelper, dataProcessor } from '../../helpers';
 import '../../css/App.scss';
 
 class App extends React.Component {
@@ -22,6 +22,8 @@ class App extends React.Component {
       currentIndicator: 'TotalConfirmed',
       keyboardHidden: true,
       casesTableInputValue: '',
+      dataGroup: 'Total',
+      perPopulation: 'total',
     };
   }
 
@@ -48,7 +50,7 @@ class App extends React.Component {
       loading: false,
     });
 
-    DataHelper.fetchRequestData('https://restcountries.eu/rest/v2/?fields=name;population;flag',
+    DataHelper.fetchRequestData('https://restcountries.eu/rest/v2/?fields=name;population',
       (respJson) => this.onCountriesSuccess([...Countries], respJson),
       () => false,
       () => { },
@@ -57,7 +59,7 @@ class App extends React.Component {
   }
 
   onCountriesSuccess = (covidData, responseJson) => {
-    const processedData = DataHelper.postProcessData(covidData, responseJson);
+    const processedData = dataProcessor.postProcessData(covidData, responseJson);
     this.setState({
       covidPerCountryData: processedData,
     });
@@ -133,6 +135,18 @@ class App extends React.Component {
     });
   }
 
+  onDataGroupChangedHandler = (newGroup) => {
+    this.setState({
+      dataGroup: newGroup,
+    });
+  }
+
+  onPerPopulationChangedHandler = (perPopulation) => {
+    this.setState({
+      perPopulation,
+    });
+  }
+
   render() {
     const {
       covidPerCountryData,
@@ -145,6 +159,8 @@ class App extends React.Component {
       currentIndicator,
       keyboardHidden,
       casesTableInputValue,
+      dataGroup,
+      perPopulation,
     } = this.state;
     const resultGot = error ? (
       <div>
@@ -159,6 +175,10 @@ class App extends React.Component {
           dataFields={apiConstants.dataFields}
           tablePage={tablePage}
           onPageChangeHandler={this.onPageChangeHandler}
+          onDataGroupChangedHandler={this.onDataGroupChangedHandler}
+          onPerPopulationChangedHandler={this.onPerPopulationChangedHandler}
+          dataGroup={dataGroup}
+          perPopulation={perPopulation}
         />
       );
     return (

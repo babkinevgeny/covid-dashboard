@@ -8,44 +8,52 @@ export const pagerConstants = {
   arrowForwardId: 'forward',
 };
 
+const populationBase = 100000;
+
 export const apiConstants = {
-  dataFields: ['TotalConfirmed', 'TotalDeaths', 'TotalRecovered'],
+  dataFields: ['Confirmed', 'Deaths', 'Recovered'],
 };
 
-export const DataHelper = {
-  fetchRequestData: (url,
-    onSuccessHandler,
-    needReFetchPredicate,
-    preLoadingHandler = () => { },
-    onErrorHandler = () => { },
-    onParseErrorHandler = () => { }) => {
-    preLoadingHandler();
-    fetch(url)
-      .then((response) => response.json(), onErrorHandler)
-      .then((responseJson) => {
-        let timerId;
-        if (needReFetchPredicate(responseJson)) {
-          timerId = setTimeout(() => this.fetchRequestData(
-            url,
-            onSuccessHandler,
-            needReFetchPredicate,
-            preLoadingHandler,
-            onErrorHandler,
-            onParseErrorHandler,
-          ), 500);
-        } else {
-          clearTimeout(timerId);
-          onSuccessHandler(responseJson);
-        }
-      }, onParseErrorHandler);
+export const keyConstants = {
+  perPopulationKey: 'perPopulation',
+  dataGroupKey: 'dataGroup',
+};
+
+export const dataPostfixMap = {
+  total: '',
+  perPopulation: ` Per ${populationBase.toLocaleString()} Population`,
+};
+
+export const dataPrefixMap = {
+  totalCases: 'Total',
+  newCases: 'New',
+};
+
+export const dataProcessor = {
+  addCountryData(data, population) {
+    const perPopulationData = apiConstants.dataFields.reduce((acc, field) => {
+      Object.values(dataPrefixMap).forEach((prefix) => {
+        const dataField = data[`${prefix}${field}`];
+        const dataPerPopulation = (dataField / population) * populationBase;
+        const dataPerPopulationRounded = Math.round(dataPerPopulation * 1000) / 1000;
+        const fieldName = `${prefix}${field}${dataPostfixMap.perPopulation}`;
+        acc[fieldName] = dataPerPopulationRounded;
+      });
+      return acc;
+    }, {});
+    return {
+      ...data,
+      ...perPopulationData,
+      population,
+    };
   },
 
-  postProcessData: (covidPerCountryData, countriesData) => {
+  postProcessData(covidPerCountryData, countriesData) {
     const mappedData = covidPerCountryData.map((data) => {
       const countryData = countriesData.find((country) => country.name === data.Country);
       if (countryData) {
-        const { flag, population } = countryData;
-        return { ...data, flag, population };
+        const { population } = countryData;
+        return this.addCountryData(data, population);
       }
       return data;
     });

@@ -2,13 +2,29 @@ import React, { Component } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
 import PropTypes from 'prop-types';
 import CountriesTable from '../CountriesTable';
-import { pagerConstants } from '../../helpers';
+import { pagerConstants, dataPostfixMap, keyConstants } from '../../helpers';
+import './index.scss';
 
 class TablesPager extends Component {
-  handlePageChange = (e) => {
-    const { id } = e.currentTarget;
+  handlePerPopulationChange = (event) => {
+    const { value } = event.target;
+    const { onPerPopulationChangedHandler } = this.props;
+    onPerPopulationChangedHandler(value);
+  }
+
+  handleDataGroupChange = (event) => {
+    const { value } = event.target;
+    const { onDataGroupChangedHandler } = this.props;
+    onDataGroupChangedHandler(value);
+  }
+
+  handlePageChange = (event) => {
+    const { id } = event.currentTarget;
     this.updatePageIndex(id);
   }
 
@@ -24,17 +40,81 @@ class TablesPager extends Component {
     onPageChangeHandler(nextPage);
   }
 
+  getRadioGroup = ({
+    ariaLabel,
+    fieldName,
+    defValue,
+    onChangeHandler,
+    className,
+    labelValues,
+  }) => (
+    <RadioGroup
+      aria-label={ariaLabel}
+      name={fieldName}
+      value={defValue}
+      onChange={onChangeHandler}
+      className={className}
+    >
+      {labelValues.map((labelValue) => (
+        <FormControlLabel
+          key={labelValue.value}
+          value={labelValue.value}
+          control={<Radio color="primary" />}
+          label={labelValue.label}
+        />
+      ))}
+    </RadioGroup>
+  )
+
+  getCurrentFieldName = ({
+    dataGroup,
+    dataFields,
+    tablePage,
+    perPopulation,
+  }) => `${dataGroup}${dataFields[tablePage]}${dataPostfixMap[perPopulation]}`
+
   render() {
     const {
       tablesData,
       global,
       dataFields,
       tablePage,
+      dataGroup,
+      perPopulation,
     } = this.props;
-    const currentField = dataFields[tablePage];
+    const currentField = this.getCurrentFieldName({
+      dataGroup,
+      dataFields,
+      tablePage,
+      perPopulation,
+    });
+
+    const timeConstLabels = [{ label: 'Total', value: 'Total' }, { label: 'New', value: 'New' }];
+    const amountConstLabels = [
+      { label: 'Total', value: 'total' },
+      { label: dataPostfixMap.perPopulation, value: keyConstants.perPopulationKey }];
+
     return (
       <div>
         <div className="tables_pager">
+          <div className="radio_groups_wrapper">
+            {this.getRadioGroup({
+              ariaLabel: keyConstants.perPopulationKey,
+              fieldName: keyConstants.perPopulationKey,
+              defValue: perPopulation,
+              onChangeHandler: this.handlePerPopulationChange,
+              className: 'per_population_radio',
+              labelValues: amountConstLabels,
+            })}
+            {this.getRadioGroup({
+              ariaLabel: keyConstants.dataGroupKey,
+              fieldName: keyConstants.dataGroupKey,
+              defValue: dataGroup,
+              onChangeHandler: this.handleDataGroupChange,
+              className: 'data_group_radio',
+              labelValues: timeConstLabels,
+            })}
+          </div>
           <div key={currentField}>
             <h3>{currentField}</h3>
             <div className="global">
@@ -48,7 +128,7 @@ class TablesPager extends Component {
           <ul className="tables_pagination-ul">
             <li>
               <IconButton
-                onClick={(e) => this.handlePageChange(e)}
+                onClick={(event) => this.handlePageChange(event)}
                 id={pagerConstants.arrowBackId}
               >
                 <ArrowBackIcon />
@@ -56,7 +136,7 @@ class TablesPager extends Component {
             </li>
             <li>
               <IconButton
-                onClick={(e) => this.handlePageChange(e)}
+                onClick={(event) => this.handlePageChange(event)}
                 id={pagerConstants.arrowForwardId}
               >
                 <ArrowForwardIcon />
@@ -76,6 +156,10 @@ TablesPager.propTypes = {
   dataFields: PropTypes.arrayOf(PropTypes.string).isRequired,
   tablePage: PropTypes.number.isRequired,
   onPageChangeHandler: PropTypes.func.isRequired,
+  onDataGroupChangedHandler: PropTypes.func.isRequired,
+  onPerPopulationChangedHandler: PropTypes.func.isRequired,
+  dataGroup: PropTypes.string.isRequired,
+  perPopulation: PropTypes.string.isRequired,
 };
 
 export default TablesPager;
