@@ -9,7 +9,7 @@ export const pagerConstants = {
 };
 
 export const apiConstants = {
-  dataFields: ['TotalConfirmed', 'TotalDeaths', 'TotalRecovered'],
+  dataFields: ['TotalConfirmed', 'TotalDeaths', 'TotalRecovered', 'NewConfirmed', 'NewDeaths', 'NewRecovered'],
 };
 
 export const DataHelper = {
@@ -45,7 +45,18 @@ export const DataHelper = {
       const countryData = countriesData.find((country) => country.name === data.Country);
       if (countryData) {
         const { flag, population } = countryData;
-        return { ...data, flag, population };
+        const per100Data = apiConstants.dataFields.reduce((acc, field) => {
+          const dataPer100 = (data[field] / population) * 100000;
+          const fieldName = `${field}Per100`;
+          acc[fieldName] = dataPer100;
+          return acc;
+        }, {});
+        return {
+          ...data,
+          ...per100Data,
+          flag,
+          population,
+        };
       }
       return data;
     });
