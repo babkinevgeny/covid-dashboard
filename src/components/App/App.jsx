@@ -5,6 +5,7 @@ import { Paper, CircularProgress } from '@material-ui/core';
 import CasesTable from '../CasesTable';
 import TablesPager from '../TablesPager';
 import KeyboardContainer from '../KeyboardContainer';
+import FullPageComponentWrapper from '../FullPageComponentWrapper';
 import { apiConstants, DataHelper, dataProcessor } from '../../helpers';
 import '../../css/App.scss';
 
@@ -169,17 +170,19 @@ class App extends React.Component {
       </div>
     )
       : (
-        <TablesPager
-          tablesData={covidPerCountryData}
-          global={globalData}
-          dataFields={apiConstants.dataFields}
-          tablePage={tablePage}
-          onPageChangeHandler={this.onPageChangeHandler}
-          onDataGroupChangedHandler={this.onDataGroupChangedHandler}
-          onPerPopulationChangedHandler={this.onPerPopulationChangedHandler}
-          dataGroup={dataGroup}
-          perPopulation={perPopulation}
-        />
+        <FullPageComponentWrapper>
+          <TablesPager
+            tablesData={covidPerCountryData}
+            global={globalData}
+            dataFields={apiConstants.dataFields}
+            tablePage={tablePage}
+            onPageChangeHandler={this.onPageChangeHandler}
+            onDataGroupChangedHandler={this.onDataGroupChangedHandler}
+            onPerPopulationChangedHandler={this.onPerPopulationChangedHandler}
+            dataGroup={dataGroup}
+            perPopulation={perPopulation}
+          />
+        </FullPageComponentWrapper>
       );
     return (
       <Container maxWidth="lg" className="App">

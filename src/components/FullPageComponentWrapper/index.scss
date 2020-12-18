@@ -1,0 +1,25 @@
+.component_wrapper {
+  position: relative;
+}
+
+#fullScreen {
+  position: absolute;
+  right: -24px;
+  top: -24px;
+}
+
+.wrapper_fullscreen {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  background-color: white;
+
+  & #fullScreen {
+    right: 0;
+    top: 0;
+  }
+}
+
