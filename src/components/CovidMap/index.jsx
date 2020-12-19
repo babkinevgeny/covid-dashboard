@@ -6,6 +6,7 @@ import {
   CircleMarker,
   Popup,
 } from 'react-leaflet';
+import Legend from './Legend';
 import {
   getIndicatorTitleByKey,
   getIndicatorColorByKey,
@@ -73,6 +74,7 @@ const CovidMap = ({
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {markers}
+      <Legend />
     </MapContainer>
   );
 };

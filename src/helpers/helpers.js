@@ -66,52 +66,52 @@ export const indicators = [
   {
     title: 'Total Cases',
     key: 'TotalConfirmed',
-    color: '#c0392b',
+    color: '#c23616',
   },
   {
     title: 'Total Cases Per 100.000 Population',
     key: 'TotalConfirmedPer100000Population',
-    color: '#e74c3c',
+    color: '#e1b12c',
   },
   {
     title: 'New Cases',
     key: 'NewConfirmed',
-    color: '#d35400',
+    color: '#8c7ae6',
   },
   {
     title: 'New Cases Per 100.000 Population',
     key: 'NewConfirmedPer100000Population',
-    color: '#e67e22',
+    color: '#0097e6',
   },
   {
     title: 'Total Deaths',
     key: 'TotalDeaths',
-    color: '#2c3e50',
+    color: '#2f3640',
   },
   {
     title: 'Total Deaths Per 100.000 Population',
     key: 'TotalDeathsPer100000Population',
-    color: '#34495e',
+    color: '#192a56',
   },
   {
     title: 'New Deaths',
     key: 'NewDeaths',
-    color: '#7f8c8d',
+    color: '#718093',
   },
   {
     title: 'New Deaths Per 100.000 Population',
     key: 'NewDeathsPer100000Population',
-    color: '#95a5a6',
+    color: '#487eb0',
   },
   {
     title: 'Total Recovered',
     key: 'TotalRecovered',
-    color: '#27ae60',
+    color: '#44bd32',
   },
   {
     title: 'Total Recovered Per 100.000 Population',
     key: 'TotalRecoveredPer100000Population',
-    color: '#2ecc71',
+    color: '#4cd137',
   },
   {
     title: 'New Recovered',
