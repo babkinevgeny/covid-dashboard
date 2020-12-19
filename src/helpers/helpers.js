@@ -21,7 +21,7 @@ export const keyConstants = {
 
 export const dataPostfixMap = {
   total: '',
-  perPopulation: ` Per ${populationBase.toLocaleString()} Population`,
+  perPopulation: `Per${populationBase.toString()}Population`,
 };
 
 export const dataPrefixMap = {
@@ -53,10 +53,6 @@ export const dataProcessor = {
     const mappedData = covidPerCountryData.map((data) => {
       const countryData = countriesData.find((country) => country.name === data.Country);
       if (countryData) {
-        // const { flag, population, latlng } = countryData;
-        // return {
-        //   ...data, flag, population, latlng,
-        // };
         const { population, latlng } = countryData;
         return this.addCountryData(data, population, latlng);
       }
@@ -72,24 +68,48 @@ export const indicators = [
     key: 'TotalConfirmed',
   },
   {
+    title: 'Total Cases Per 100.000 Population',
+    key: 'TotalConfirmedPer100000Population',
+  },
+  {
     title: 'New Cases',
     key: 'NewConfirmed',
+  },
+  {
+    title: 'New Cases Per 100.000 Population',
+    key: 'NewConfirmedPer100000Population',
   },
   {
     title: 'Total Deaths',
     key: 'TotalDeaths',
   },
   {
+    title: 'Total Deaths Per 100.000 Population',
+    key: 'TotalDeathsPer100000Population',
+  },
+  {
     title: 'New Deaths',
     key: 'NewDeaths',
+  },
+  {
+    title: 'New Deaths Per 100.000 Population',
+    key: 'NewDeathsPer100000Population',
   },
   {
     title: 'Total Recovered',
     key: 'TotalRecovered',
   },
   {
+    title: 'Total Recovered Per 100.000 Population',
+    key: 'TotalRecoveredPer100000Population',
+  },
+  {
     title: 'New Recovered',
     key: 'NewRecovered',
+  },
+  {
+    title: 'New Recovered Per 100.000 Population',
+    key: 'NewRecoveredPer100000Population',
   },
 ];
 
@@ -107,4 +127,18 @@ export const getIndicatorTitleByKey = (key) => {
   const indicatorObj = indicators.find((obj) => obj.key === key);
 
   return indicatorObj.title;
+};
+
+export const getPreparedRows = (rows, currentCountry, currentIndicator) => {
+  let preparedRows = [...rows];
+
+  if (currentCountry) {
+    preparedRows = rows.filter((row) => row.Country === currentCountry);
+  }
+
+  if (preparedRows.length > 1) {
+    preparedRows = sortArray(preparedRows, currentIndicator);
+  }
+
+  return preparedRows;
 };

@@ -10,6 +10,7 @@ import {
   dataPrefixMap,
   dataPostfixMap,
   getIndicatorTitleByKey,
+  getPreparedRows,
 } from './helpers';
 import DataHelper from './DataHelper';
 
@@ -26,4 +27,5 @@ export {
   dataPrefixMap,
   dataPostfixMap,
   getIndicatorTitleByKey,
+  getPreparedRows,
 };
