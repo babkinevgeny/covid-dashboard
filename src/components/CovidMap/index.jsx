@@ -49,7 +49,7 @@ const CovidMap = ({
 
     return (
       <CircleMarker
-        key={`marker-${Country.toLowerCase()}`}
+        key={`marker-${Country.toLowerCase()}-${markerBackgroundColor}`}
         center={parsedLatlng}
         radius={markerRadius}
         className="icon-marker"
