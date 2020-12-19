@@ -10,7 +10,12 @@ import {
   dataPrefixMap,
   dataPostfixMap,
   getIndicatorTitleByKey,
+  getIndicatorColorByKey,
   getPreparedRows,
+  getRandomIntInclusive,
+  getAllValuesOfIndicator,
+  getMaxValue,
+  getMarkerRadiusByIndicator,
 } from './helpers';
 import DataHelper from './DataHelper';
 
@@ -27,5 +32,10 @@ export {
   dataPrefixMap,
   dataPostfixMap,
   getIndicatorTitleByKey,
+  getIndicatorColorByKey,
   getPreparedRows,
+  getRandomIntInclusive,
+  getAllValuesOfIndicator,
+  getMaxValue,
+  getMarkerRadiusByIndicator,
 };

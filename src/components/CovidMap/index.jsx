@@ -3,10 +3,16 @@ import PropTypes from 'prop-types';
 import {
   MapContainer,
   TileLayer,
-  Marker,
+  CircleMarker,
   Popup,
 } from 'react-leaflet';
-import { getIndicatorTitleByKey } from '../../helpers';
+import {
+  getIndicatorTitleByKey,
+  getIndicatorColorByKey,
+  getAllValuesOfIndicator,
+  getMaxValue,
+  getMarkerRadiusByIndicator,
+} from '../../helpers';
 
 const CovidMap = ({
   countries,
@@ -24,6 +30,11 @@ const CovidMap = ({
     [],
   );
 
+  const markerBackgroundColor = getIndicatorColorByKey(currentIndicator);
+
+  const valuesOfIndicator = getAllValuesOfIndicator(countries, currentIndicator);
+  const maxValue = getMaxValue(valuesOfIndicator);
+
   const markers = countries.map((infoObj) => {
     const { latlng, Country } = infoObj;
     const indicatorNumber = infoObj[currentIndicator];
@@ -34,20 +45,25 @@ const CovidMap = ({
       parsedLatlng = [...latlng];
     }
 
+    const markerRadius = getMarkerRadiusByIndicator(maxValue, indicatorNumber);
+
     return (
-      <Marker
+      <CircleMarker
         key={`marker-${Country.toLowerCase()}`}
-        position={parsedLatlng}
+        center={parsedLatlng}
+        radius={markerRadius}
         className="icon-marker"
-        opacity="0.5"
         eventHandlers={eventHandlers}
+        fillColor={markerBackgroundColor}
+        fillOpacity={0.4}
+        color="transparent"
       >
         <Popup>
           <h4 className="map-popup-title">{Country}</h4>
           <span className="map-popup-indicator-name">{`${indicatorTitle}: `}</span>
           <span>{indicatorNumber}</span>
         </Popup>
-      </Marker>
+      </CircleMarker>
     );
   });
 

@@ -1,8 +1,6 @@
 import React from 'react';
 import {
-  Paper,
   CircularProgress,
-  Typography,
   Container,
 } from '@material-ui/core';
 import TablesPager from '../TablesPager';
@@ -10,7 +8,11 @@ import CasesTable from '../CasesTable';
 import CovidMap from '../CovidMap';
 import KeyboardContainer from '../KeyboardContainer';
 import FullPageComponentWrapper from '../FullPageComponentWrapper';
-import { apiConstants, DataHelper, dataProcessor } from '../../helpers';
+import {
+  apiConstants,
+  DataHelper,
+  dataProcessor,
+} from '../../helpers';
 import '../../css/App.scss';
 
 class App extends React.Component {
@@ -190,11 +192,10 @@ class App extends React.Component {
       );
     return (
       <Container maxWidth="lg" className="App">
-        <Paper>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Here will be our awesome COVID-19 dashboard!
-          </Typography>
-        </Paper>
+        <CovidMap
+          countries={covidPerCountryData}
+          currentIndicator={currentIndicator}
+        />
         <CasesTable
           currentCountry={currentCountry}
           currentIndicator={currentIndicator}
@@ -210,7 +211,6 @@ class App extends React.Component {
           <CircularProgress />
         )
           : resultGot}
-        <CovidMap countries={covidPerCountryData} currentIndicator={currentIndicator} />
         <KeyboardContainer
           isHidden={keyboardHidden}
           updateCasesTableInputValue={this.updateCasesTableInputValue}

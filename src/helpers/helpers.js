@@ -66,50 +66,62 @@ export const indicators = [
   {
     title: 'Total Cases',
     key: 'TotalConfirmed',
+    color: '#c0392b',
   },
   {
     title: 'Total Cases Per 100.000 Population',
     key: 'TotalConfirmedPer100000Population',
+    color: '#e74c3c',
   },
   {
     title: 'New Cases',
     key: 'NewConfirmed',
+    color: '#d35400',
   },
   {
     title: 'New Cases Per 100.000 Population',
     key: 'NewConfirmedPer100000Population',
+    color: '#e67e22',
   },
   {
     title: 'Total Deaths',
     key: 'TotalDeaths',
+    color: '#2c3e50',
   },
   {
     title: 'Total Deaths Per 100.000 Population',
     key: 'TotalDeathsPer100000Population',
+    color: '#34495e',
   },
   {
     title: 'New Deaths',
     key: 'NewDeaths',
+    color: '#7f8c8d',
   },
   {
     title: 'New Deaths Per 100.000 Population',
     key: 'NewDeathsPer100000Population',
+    color: '#95a5a6',
   },
   {
     title: 'Total Recovered',
     key: 'TotalRecovered',
+    color: '#27ae60',
   },
   {
     title: 'Total Recovered Per 100.000 Population',
     key: 'TotalRecoveredPer100000Population',
+    color: '#2ecc71',
   },
   {
     title: 'New Recovered',
     key: 'NewRecovered',
+    color: '#16a085',
   },
   {
     title: 'New Recovered Per 100.000 Population',
     key: 'NewRecoveredPer100000Population',
+    color: '#1abc9c',
   },
 ];
 
@@ -123,10 +135,16 @@ export const keyboardScheme = [
   '{space}',
 ];
 
-export const getIndicatorTitleByKey = (key) => {
-  const indicatorObj = indicators.find((obj) => obj.key === key);
+export const getIndicatorObjByKey = (key) => indicators.find((obj) => obj.key === key);
 
+export const getIndicatorTitleByKey = (key) => {
+  const indicatorObj = getIndicatorObjByKey(key);
   return indicatorObj.title;
+};
+
+export const getIndicatorColorByKey = (key) => {
+  const indicatorObj = getIndicatorObjByKey(key);
+  return indicatorObj.color;
 };
 
 export const getPreparedRows = (rows, currentCountry, currentIndicator) => {
@@ -141,4 +159,39 @@ export const getPreparedRows = (rows, currentCountry, currentIndicator) => {
   }
 
   return preparedRows;
+};
+
+export const getRandomIntInclusive = (min, max) => {
+  const minRounded = Math.ceil(min);
+  const maxRounded = Math.floor(max);
+  return Math.floor(Math.random() * (maxRounded - minRounded + 1)) + minRounded;
+};
+
+export const getAllValuesOfIndicator = (data, indicator) => {
+  if (!data.length) {
+    return [0, 2];
+  }
+  const values = data.reduce((uniqueAcc, row) => {
+    const value = row[indicator];
+
+    if (!value) {
+      return uniqueAcc;
+    }
+
+    const hasThisValue = uniqueAcc.includes(value);
+    return hasThisValue ? uniqueAcc : [...uniqueAcc, value];
+  }, []);
+  return values;
+};
+
+export const getMaxValue = (values) => Math.max(...values);
+
+const maxRadius = 100;
+const minRadius = 3;
+const diffRadius = maxRadius - minRadius;
+
+export const getMarkerRadiusByIndicator = (max, value) => {
+  const checkedValue = value || 0;
+  const radius = (diffRadius * checkedValue) / max;
+  return radius < minRadius ? minRadius : radius;
 };
