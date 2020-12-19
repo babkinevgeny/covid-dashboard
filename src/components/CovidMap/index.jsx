@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   MapContainer,
@@ -12,6 +12,18 @@ const CovidMap = ({
   countries,
   currentIndicator,
 }) => {
+  const eventHandlers = useMemo(
+    () => ({
+      mouseover(event) {
+        event.target.openPopup();
+      },
+      mouseout(event) {
+        event.target.closePopup();
+      },
+    }),
+    [],
+  );
+
   const markers = countries.map((infoObj) => {
     const { latlng, Country } = infoObj;
     const indicatorNumber = infoObj[currentIndicator];
@@ -28,10 +40,11 @@ const CovidMap = ({
         position={parsedLatlng}
         className="icon-marker"
         opacity="0.5"
+        eventHandlers={eventHandlers}
       >
         <Popup>
-          <h4>{Country}</h4>
-          <span>{`${indicatorTitle}: `}</span>
+          <h4 className="map-popup-title">{Country}</h4>
+          <span className="map-popup-indicator-name">{`${indicatorTitle}: `}</span>
           <span>{indicatorNumber}</span>
         </Popup>
       </Marker>
