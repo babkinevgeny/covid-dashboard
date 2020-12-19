@@ -1,9 +1,16 @@
 import React from 'react';
-import Container from '@material-ui/core/Container';
-import { CircularProgress } from '@material-ui/core';
+import {
+  Paper,
+  CircularProgress,
+  Typography,
+  Container,
+} from '@material-ui/core';
 import TablesPager from '../TablesPager';
+import CasesTable from '../CasesTable';
 import CovidMap from '../CovidMap';
-import { apiConstants, DataHelper } from '../../helpers/helpers';
+import KeyboardContainer from '../KeyboardContainer';
+import FullPageComponentWrapper from '../FullPageComponentWrapper';
+import { apiConstants, DataHelper, dataProcessor } from '../../helpers';
 import '../../css/App.scss';
 
 class App extends React.Component {
@@ -16,6 +23,12 @@ class App extends React.Component {
       tablePage: 0,
       error: false,
       errorMessage: '',
+      currentCountry: '',
+      currentIndicator: 'TotalConfirmed',
+      keyboardHidden: true,
+      casesTableInputValue: '',
+      dataGroup: 'Total',
+      perPopulation: 'total',
     };
   }
 
@@ -51,7 +64,7 @@ class App extends React.Component {
   }
 
   onCountriesSuccess = (covidData, responseJson) => {
-    const processedData = DataHelper.postProcessData(covidData, responseJson);
+    const processedData = dataProcessor.postProcessData(covidData, responseJson);
     this.setState({
       covidPerCountryData: processedData,
     });
@@ -63,6 +76,82 @@ class App extends React.Component {
     });
   }
 
+  onCurrentCountryHandler = (newCountry) => {
+    this.setState({
+      currentCountry: newCountry,
+    });
+  }
+
+  onCurrentIndicatorHandler = (newIndicator) => {
+    this.setState({
+      currentIndicator: newIndicator,
+    });
+  }
+
+  showKeyboard = () => {
+    const isHidden = this.checkKeyboard(true);
+
+    if (isHidden) {
+      this.setState({
+        keyboardHidden: false,
+      });
+    }
+  }
+
+  hideKeyboard = () => {
+    const isShown = this.checkKeyboard(false);
+
+    if (isShown) {
+      this.setState({
+        keyboardHidden: true,
+      });
+    }
+  }
+
+  checkKeyboard = (value) => {
+    const { keyboardHidden } = this.state;
+    return keyboardHidden === value;
+  }
+
+  setCasesTableInputValue = (value) => {
+    this.setState({
+      casesTableInputValue: value,
+    });
+  }
+
+  updateCasesTableInputValue = (value) => {
+    const { casesTableInputValue } = this.state;
+    const isSignButton = value.substring(0, 1) !== '{';
+    let newValue;
+
+    if (!isSignButton) {
+      if (value === '{bksp}') {
+        newValue = casesTableInputValue.substring(0, casesTableInputValue.length - 1);
+      }
+      if (value === '{space}') {
+        newValue = `${casesTableInputValue} `;
+      }
+    } else {
+      newValue = casesTableInputValue + value;
+    }
+
+    this.setState({
+      casesTableInputValue: newValue,
+    });
+  }
+
+  onDataGroupChangedHandler = (newGroup) => {
+    this.setState({
+      dataGroup: newGroup,
+    });
+  }
+
+  onPerPopulationChangedHandler = (perPopulation) => {
+    this.setState({
+      perPopulation,
+    });
+  }
+
   render() {
     const {
       covidPerCountryData,
@@ -71,6 +160,12 @@ class App extends React.Component {
       loading,
       error,
       errorMessage,
+      currentCountry,
+      currentIndicator,
+      keyboardHidden,
+      casesTableInputValue,
+      dataGroup,
+      perPopulation,
     } = this.state;
     const resultGot = error ? (
       <div>
@@ -79,21 +174,47 @@ class App extends React.Component {
       </div>
     )
       : (
-        <TablesPager
-          tablesData={covidPerCountryData}
-          global={globalData}
-          dataFields={apiConstants.dataFields}
-          tablePage={tablePage}
-          onPageChangeHandler={this.onPageChangeHandler}
-        />
+        <FullPageComponentWrapper>
+          <TablesPager
+            tablesData={covidPerCountryData}
+            global={globalData}
+            dataFields={apiConstants.dataFields}
+            tablePage={tablePage}
+            onPageChangeHandler={this.onPageChangeHandler}
+            onDataGroupChangedHandler={this.onDataGroupChangedHandler}
+            onPerPopulationChangedHandler={this.onPerPopulationChangedHandler}
+            dataGroup={dataGroup}
+            perPopulation={perPopulation}
+          />
+        </FullPageComponentWrapper>
       );
     return (
       <Container maxWidth="lg" className="App">
+        <Paper>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Here will be our awesome COVID-19 dashboard!
+          </Typography>
+        </Paper>
+        <CasesTable
+          currentCountry={currentCountry}
+          currentIndicator={currentIndicator}
+          rows={covidPerCountryData}
+          onCurrentCountryHandler={this.onCurrentCountryHandler}
+          onCurrentIndicatorHandler={this.onCurrentIndicatorHandler}
+          showKeyboard={this.showKeyboard}
+          hideKeyboard={this.hideKeyboard}
+          setCasesTableInputValue={this.setCasesTableInputValue}
+          inputValue={casesTableInputValue}
+        />
         {loading ? (
           <CircularProgress />
         )
           : resultGot}
         <CovidMap countries={covidPerCountryData} />
+        <KeyboardContainer
+          isHidden={keyboardHidden}
+          updateCasesTableInputValue={this.updateCasesTableInputValue}
+        />
       </Container>
     );
   }

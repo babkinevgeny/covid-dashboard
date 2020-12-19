@@ -1,3 +1,9 @@
+#root {
+  position: relative;
+  min-height: 100vh;
+  height: 100%;
+}
+
 .App {
   text-align: center;
 }
@@ -124,4 +130,53 @@
     padding: 0;
     margin: .6em 0 0;
   }
+}
+
+.select-indicator {
+  display: flex;
+  max-height: 400px;
+  max-width: 400px;
+  overflow: scroll;
+}
+
+th.row {
+  position: relative;
+  padding-left: 40px;
+}
+
+.flag {
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+}
+
+.keyboard-container {
+  position:fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  &--hidden {
+    display: none;
+  }
+
+  .hg-button {
+    transition: all 0.3s ease;
+  
+    &:hover {
+      background-color: lighten(lightgray, 10%);
+    }
+
+    &:focus,
+    &:active {
+      background-color:lighten(lightgray, 5%);
+    }
+  }
+}
+
+.select {
+  width: 100%;
+  text-align: left;
 }

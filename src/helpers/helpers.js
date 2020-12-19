@@ -8,49 +8,97 @@ export const pagerConstants = {
   arrowForwardId: 'forward',
 };
 
+const populationBase = 100000;
+
 export const apiConstants = {
-  dataFields: ['TotalConfirmed', 'TotalDeaths', 'TotalRecovered'],
+  dataFields: ['Confirmed', 'Deaths', 'Recovered'],
 };
 
-export const DataHelper = {
-  fetchRequestData: (url,
-    onSuccessHandler,
-    needReFetchPredicate,
-    preLoadingHandler = () => { },
-    onErrorHandler = () => { },
-    onParseErrorHandler = () => { }) => {
-    preLoadingHandler();
-    fetch(url)
-      .then((response) => response.json(), onErrorHandler)
-      .then((responseJson) => {
-        let timerId;
-        if (needReFetchPredicate(responseJson)) {
-          timerId = setTimeout(() => this.fetchRequestData(
-            url,
-            onSuccessHandler,
-            needReFetchPredicate,
-            preLoadingHandler,
-            onErrorHandler,
-            onParseErrorHandler,
-          ), 500);
-        } else {
-          clearTimeout(timerId);
-          onSuccessHandler(responseJson);
-        }
-      }, onParseErrorHandler);
+export const keyConstants = {
+  perPopulationKey: 'perPopulation',
+  dataGroupKey: 'dataGroup',
+};
+
+export const dataPostfixMap = {
+  total: '',
+  perPopulation: ` Per ${populationBase.toLocaleString()} Population`,
+};
+
+export const dataPrefixMap = {
+  totalCases: 'Total',
+  newCases: 'New',
+};
+
+export const dataProcessor = {
+  addCountryData(data, population, latlng) {
+    const perPopulationData = apiConstants.dataFields.reduce((acc, field) => {
+      Object.values(dataPrefixMap).forEach((prefix) => {
+        const dataField = data[`${prefix}${field}`];
+        const dataPerPopulation = (dataField / population) * populationBase;
+        const dataPerPopulationRounded = Math.round(dataPerPopulation * 1000) / 1000;
+        const fieldName = `${prefix}${field}${dataPostfixMap.perPopulation}`;
+        acc[fieldName] = dataPerPopulationRounded;
+      });
+      return acc;
+    }, {});
+    return {
+      ...data,
+      ...perPopulationData,
+      population,
+      latlng,
+    };
   },
 
-  postProcessData: (covidPerCountryData, countriesData) => {
+  postProcessData(covidPerCountryData, countriesData) {
     const mappedData = covidPerCountryData.map((data) => {
       const countryData = countriesData.find((country) => country.name === data.Country);
       if (countryData) {
-        const { flag, population, latlng } = countryData;
-        return {
-          ...data, flag, population, latlng,
-        };
+        // const { flag, population, latlng } = countryData;
+        // return {
+        //   ...data, flag, population, latlng,
+        // };
+        const { population, latlng } = countryData;
+        return this.addCountryData(data, population, latlng);
       }
       return data;
     });
     return mappedData;
   },
 };
+
+export const Indicators = [
+  {
+    title: 'Total Cases',
+    key: 'TotalConfirmed',
+  },
+  {
+    title: 'New Cases',
+    key: 'NewConfirmed',
+  },
+  {
+    title: 'Total Deaths',
+    key: 'TotalDeaths',
+  },
+  {
+    title: 'New Deaths',
+    key: 'NewDeaths',
+  },
+  {
+    title: 'Total Recovered',
+    key: 'TotalRecovered',
+  },
+  {
+    title: 'New Recovered',
+    key: 'NewRecovered',
+  },
+];
+
+export const getFlagUrl = (countryCode) => `https://www.countryflags.io/${countryCode.toUpperCase()}/flat/64.png`;
+
+export const keyboardScheme = [
+  '` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+  'q w e r t y u i o p [ ] \\',
+  'a s d f g h j k l ; \'',
+  'z x c v b n m , . /',
+  '{space}',
+];
