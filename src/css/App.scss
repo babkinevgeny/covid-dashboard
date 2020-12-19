@@ -53,6 +53,7 @@
   height: 500px;
   max-height: 500px;
   margin-bottom: 20px;
+  z-index: 1;
 }
 
 .icon-marker {
@@ -158,6 +159,7 @@ th.row {
   width: 100%;
   bottom: 0;
   left: 0;
+  z-index: 2;
   &--hidden {
     display: none;
   }

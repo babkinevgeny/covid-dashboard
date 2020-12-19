@@ -6,10 +6,16 @@ import {
   Marker,
   Popup,
 } from 'react-leaflet';
+import { getIndicatorTitleByKey } from '../../helpers';
 
-const CovidMap = (props) => {
-  const { countries } = props;
-  const markers = countries.map(({ latlng, Country }) => {
+const CovidMap = ({
+  countries,
+  currentIndicator,
+}) => {
+  const markers = countries.map((infoObj) => {
+    const { latlng, Country } = infoObj;
+    const indicatorNumber = infoObj[currentIndicator];
+    const indicatorTitle = getIndicatorTitleByKey(currentIndicator);
     let parsedLatlng = [0, 0];
 
     if (latlng) {
@@ -24,7 +30,9 @@ const CovidMap = (props) => {
         opacity="0.5"
       >
         <Popup>
-          {Country}
+          <h4>{Country}</h4>
+          <span>{`${indicatorTitle}: `}</span>
+          <span>{indicatorNumber}</span>
         </Popup>
       </Marker>
     );
@@ -42,6 +50,7 @@ const CovidMap = (props) => {
 
 CovidMap.propTypes = {
   countries: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currentIndicator: PropTypes.string.isRequired,
 };
 
 export default CovidMap;

@@ -66,7 +66,7 @@ export const dataProcessor = {
   },
 };
 
-export const Indicators = [
+export const indicators = [
   {
     title: 'Total Cases',
     key: 'TotalConfirmed',
@@ -102,3 +102,9 @@ export const keyboardScheme = [
   'z x c v b n m , . /',
   '{space}',
 ];
+
+export const getIndicatorTitleByKey = (key) => {
+  const indicatorObj = indicators.find((obj) => obj.key === key);
+
+  return indicatorObj.title;
+};

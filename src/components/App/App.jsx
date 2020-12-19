@@ -210,7 +210,7 @@ class App extends React.Component {
           <CircularProgress />
         )
           : resultGot}
-        <CovidMap countries={covidPerCountryData} />
+        <CovidMap countries={covidPerCountryData} currentIndicator={currentIndicator} />
         <KeyboardContainer
           isHidden={keyboardHidden}
           updateCasesTableInputValue={this.updateCasesTableInputValue}

@@ -2,13 +2,14 @@ import {
   sortArray,
   pagerConstants,
   apiConstants,
-  Indicators,
+  indicators,
   getFlagUrl,
   keyboardScheme,
   keyConstants,
   dataProcessor,
   dataPrefixMap,
   dataPostfixMap,
+  getIndicatorTitleByKey,
 } from './helpers';
 import DataHelper from './DataHelper';
 
@@ -17,11 +18,12 @@ export {
   pagerConstants,
   apiConstants,
   DataHelper,
-  Indicators,
+  indicators,
   getFlagUrl,
   keyboardScheme,
   keyConstants,
   dataProcessor,
   dataPrefixMap,
   dataPostfixMap,
+  getIndicatorTitleByKey,
 };
