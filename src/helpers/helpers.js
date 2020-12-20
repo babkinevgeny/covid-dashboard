@@ -36,7 +36,7 @@ export const dataPrefixMap = {
 export const dataProcessor = {
   globalPopulation: 0,
 
-  addPerPopulationData(data, population) {
+  addPerPopulationData(data, population, latlng = [0, 0]) {
     const perPopulationData = apiConstants.dataFields.reduce((acc, field) => {
       Object.values(dataPrefixMap).forEach((prefix) => {
         const dataField = data[`${prefix}${field}`];
@@ -194,8 +194,6 @@ export const indicators = [
     color: colors.aquagreen,
   },
 ];
-
-export const getIndicatorObj = (indicator) => Indicators.find((ind) => ind.key === indicator) || {};
 
 export const getFlagUrl = (countryCode) => `https://www.countryflags.io/${countryCode.toUpperCase()}/flat/64.png`;
 

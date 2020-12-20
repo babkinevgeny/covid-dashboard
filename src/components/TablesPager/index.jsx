@@ -12,7 +12,7 @@ import {
   pagerConstants,
   dataPostfixMap,
   keyConstants,
-  getIndicatorObj,
+  getIndicatorTitleByKey,
   populationBase,
 } from '../../helpers';
 import './index.scss';
@@ -127,7 +127,7 @@ class TablesPager extends Component {
             })}
           </div>
           <div key={currentIndicator}>
-            <h3>{getIndicatorObj(currentIndicator)?.title}</h3>
+            <h3>{getIndicatorTitleByKey(currentIndicator)}</h3>
             <div className="global">
               <span>Global &nbsp;</span>
               <span>{global[currentIndicator]}</span>
@@ -165,9 +165,25 @@ class TablesPager extends Component {
   }
 }
 
+const globalShape = {
+  TotalConfirmed: PropTypes.number,
+  TotalConfirmedPer100000Population: PropTypes.number,
+  NewConfirmed: PropTypes.number,
+  NewConfirmedPer100000Population: PropTypes.number,
+  TotalDeaths: PropTypes.number,
+  TotalDeathsPer100000Population: PropTypes.number,
+  NewDeaths: PropTypes.number,
+  NewDeathsPer100000Population: PropTypes.number,
+  TotalRecovered: PropTypes.number,
+  TotalRecoveredPer100000Population: PropTypes.number,
+  NewRecovered: PropTypes.number,
+  NewRecoveredPer100000Population: PropTypes.number,
+  latlng: PropTypes.arrayOf(PropTypes.number),
+};
+
 TablesPager.propTypes = {
   tablesData: PropTypes.arrayOf(PropTypes.object).isRequired,
-  global: PropTypes.objectOf(PropTypes.number).isRequired,
+  global: PropTypes.shape(globalShape).isRequired,
   dataFields: PropTypes.arrayOf(PropTypes.string).isRequired,
   tablePage: PropTypes.number.isRequired,
   onPageChangeHandler: PropTypes.func.isRequired,

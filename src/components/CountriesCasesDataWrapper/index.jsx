@@ -91,7 +91,7 @@ CountriesCasesDataWrapper.propTypes = {
   setCasesTableInputValue: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   lastAPIDate: PropTypes.instanceOf(moment).isRequired,
-  chartByCountriesCovidData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  chartByCountriesCovidData: PropTypes.objectOf(PropTypes.array).isRequired,
   chartDataKey: PropTypes.string.isRequired,
 };
 

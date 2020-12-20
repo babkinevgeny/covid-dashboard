@@ -3,7 +3,8 @@ import { Bar } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import {
-  getIndicatorObj,
+  getIndicatorTitleByKey,
+  getIndicatorColorByKey,
   alphaChanel20PercentInHex,
   alphaChanel40PercentInHex,
   alphaChanel100PercentInHex,
@@ -47,10 +48,9 @@ const CasesChart = ({
 
   const { currentArray, currentLabels } = reCalculateData(daysBackCount);
   const covidData = currentArray.map((row) => getCovidData(row, currentIndicator));
-  const indicatorObj = getIndicatorObj(currentIndicator);
-  const currentIndicatorTitle = indicatorObj?.title;
+  const currentIndicatorTitle = getIndicatorTitleByKey(currentIndicator);
   const chartLabel = currentCountry ? `${currentIndicatorTitle} in ${currentCountry}` : `${currentIndicatorTitle}`;
-  const color = (indicatorObj?.color);
+  const color = getIndicatorColorByKey(currentIndicator);
   const data = {
     labels: currentLabels,
     datasets: [{

@@ -5,7 +5,6 @@ import {
 } from '@material-ui/core';
 import moment from 'moment';
 import TablesPager from '../TablesPager';
-import CasesTable from '../CasesTable';
 import CovidMap from '../CovidMap';
 import KeyboardContainer from '../KeyboardContainer';
 import FullPageComponentWrapper from '../FullPageComponentWrapper';
@@ -38,7 +37,7 @@ class App extends React.Component {
       dataGroup: 'Total',
       perPopulation: 'total',
       lastAPIDate: moment.utc(),
-      chartByCountriesCovidData: [],
+      chartByCountriesCovidData: {},
       chartDataKey: globalChartDataKey,
     };
   }
@@ -255,10 +254,6 @@ class App extends React.Component {
       );
     return (
       <Container maxWidth="lg" className="App">
-        <CovidMap
-          countries={covidPerCountryData}
-          currentIndicator={currentIndicator}
-        />
         <CountriesCasesDataWrapper
           currentCountry={currentCountry}
           currentIndicator={currentIndicator}
@@ -274,9 +269,10 @@ class App extends React.Component {
           chartDataKey={chartDataKey}
         />
         <FullPageComponentWrapper>
-          <div>
-            <h3>Here will be the map</h3>
-          </div>
+          <CovidMap
+            countries={covidPerCountryData}
+            currentIndicator={currentIndicator}
+          />
         </FullPageComponentWrapper>
         {
           loading ? (
