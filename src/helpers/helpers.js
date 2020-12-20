@@ -344,7 +344,11 @@ export const getRightCoordinates = (name) => {
   return country.rightLatlng;
 };
 
-export const alphaChanelPercentageInHex = '66';
+export const alphaChanel20PercentInHex = '33';
+
+export const alphaChanel40PercentInHex = '66';
+
+export const alphaChanel100PercentInHex = 'FF';
 
 export const opacity = 0.4;
 

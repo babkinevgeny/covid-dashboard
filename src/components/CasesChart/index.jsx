@@ -2,7 +2,12 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { getIndicatorObj } from '../../helpers';
+import {
+  getIndicatorObj,
+  alphaChanel20PercentInHex,
+  alphaChanel40PercentInHex,
+  alphaChanel100PercentInHex,
+} from '../../helpers';
 import IntegerFieldWithIncAndDec from '../IntegerFieldWithIncAndDec';
 import './index.scss';
 
@@ -52,15 +57,15 @@ function CasesChart(props) {
     labels: currentLabels,
     datasets: [{
       label: chartLabel,
-      backgroundColor: `${color}33`,
-      borderColor: `${color}FF`,
+      backgroundColor: `${color}${alphaChanel20PercentInHex}`,
+      borderColor: `${color}${alphaChanel100PercentInHex}`,
       borderWidth: 1,
       stack: 1,
       barThickness: 'flex',
       barPercentage: 1,
       categoryPercentage: 1,
-      hoverBackgroundColor: `${color}66`,
-      hoverBorderColor: `${color}FF`,
+      hoverBackgroundColor: `${color}${alphaChanel40PercentInHex}`,
+      hoverBorderColor: `${color}${alphaChanel100PercentInHex}`,
       data: covidData,
     }],
   };

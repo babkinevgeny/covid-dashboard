@@ -19,13 +19,15 @@ import {
   getMapURL,
   checkCountry,
   getRightCoordinates,
-  alphaChanelPercentageInHex,
   opacity,
   mapCenterCoorinates,
   mapZoom,
   populationBase,
   globalChartDataKey,
   getIndicatorObj,
+  alphaChanel20PercentInHex,
+  alphaChanel40PercentInHex,
+  alphaChanel100PercentInHex,
 } from './helpers';
 import DataHelper from './DataHelper';
 
@@ -51,11 +53,13 @@ export {
   getMapURL,
   checkCountry,
   getRightCoordinates,
-  alphaChanelPercentageInHex,
   opacity,
   mapCenterCoorinates,
   mapZoom,
   populationBase,
   globalChartDataKey,
   getIndicatorObj,
+  alphaChanel20PercentInHex,
+  alphaChanel40PercentInHex,
+  alphaChanel100PercentInHex,
 };
