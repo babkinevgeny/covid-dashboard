@@ -210,7 +210,12 @@ export const getMarkerRadiusByIndicator = (max, value) => {
   return radius < minRadius ? minRadius : radius;
 };
 
-export const getMapURL = ({ nickname, styleId, token }) => `https://api.mapbox.com/styles/v1/${nickname}/${styleId}/tiles/256/{z}/{x}/{y}@2x?access_token=${token}`;
+export const getMapURL = ({
+  baseUrl,
+  nickname,
+  styleId,
+  token,
+}) => `${baseUrl}/styles/v1/${nickname}/${styleId}/tiles/256/{z}/{x}/{y}@2x?access_token=${token}`;
 
 const listOfWrongCountries = [
   {
