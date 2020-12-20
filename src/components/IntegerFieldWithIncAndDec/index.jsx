@@ -12,12 +12,14 @@ const IntegerFieldWithIncAndDec = ({
 }) => (
   <div>
     <IconButton
+      disabled={inputValue < 2}
       aria-label="decrement"
       onClick={handleDecrementButtonClick}
     >
       <ExposureNeg1Icon />
     </IconButton>
     <TextField
+      disabled
       id="outlined-number"
       label={fieldLabel}
       value={`${inputValue}`}

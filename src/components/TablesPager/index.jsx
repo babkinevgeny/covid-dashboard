@@ -90,7 +90,7 @@ class TablesPager extends Component {
       perPopulation,
       newCountryOnRowCLickHandler,
     } = this.props;
-    const currentField = this.getCurrentFieldName({
+    const currentIndicator = this.getCurrentFieldName({
       dataGroup,
       dataFields,
       tablePage,
@@ -126,15 +126,15 @@ class TablesPager extends Component {
               labelValues: timeConstLabels,
             })}
           </div>
-          <div key={currentField}>
-            <h3>{getIndicatorObj(currentField)?.title}</h3>
+          <div key={currentIndicator}>
+            <h3>{getIndicatorObj(currentIndicator)?.title}</h3>
             <div className="global">
               <span>Global &nbsp;</span>
-              <span>{global[currentField]}</span>
+              <span>{global[currentIndicator]}</span>
             </div>
             <CountriesTable
               data={tablesData}
-              field={currentField}
+              field={currentIndicator}
               newCountryOnRowCLickHandler={newCountryOnRowCLickHandler}
             />
           </div>

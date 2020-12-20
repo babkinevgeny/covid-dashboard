@@ -7,6 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 import { sortArray } from '../../helpers';
+import './index.scss';
 
 function CountriesTable({ data, field, newCountryOnRowCLickHandler }) {
   const sortedData = sortArray(data, field);
@@ -18,7 +19,7 @@ function CountriesTable({ data, field, newCountryOnRowCLickHandler }) {
           {sortedData.map((row) => {
             const onRowClickHandler = () => newCountryOnRowCLickHandler(row.Country);
             return (
-              <TableRow key={row.Country} onClick={onRowClickHandler}>
+              <TableRow key={row.Country} className="countries_table_row" onClick={onRowClickHandler}>
                 <TableCell>{row.Country}</TableCell>
                 <TableCell align="right">{row[field]}</TableCell>
               </TableRow>
