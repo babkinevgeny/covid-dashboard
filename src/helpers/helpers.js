@@ -292,10 +292,7 @@ const listOfWrongCountries = [
   },
 ];
 
-export const checkCountry = (name) => {
-  const hasCountryInList = listOfWrongCountries.some((countryObj) => countryObj.country === name);
-  return hasCountryInList;
-};
+export const checkCountry = (name) => listOfWrongCountries.some(({ country }) => country === name);
 
 export const getRightCoordinates = (name) => {
   const country = listOfWrongCountries.find((countryObj) => countryObj.country === name);
