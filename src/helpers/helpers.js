@@ -375,3 +375,5 @@ export const getStartOfYear = (currentDate) => {
   startDate.startOf('year');
   return startDate;
 };
+
+export const covidBaseURL = 'https://api.covid19api.com/';

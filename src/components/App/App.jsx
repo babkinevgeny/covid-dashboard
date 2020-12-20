@@ -17,6 +17,7 @@ import {
   sortArray,
   globalChartDataKey,
   getStartOfYear,
+  covidBaseURL,
 } from '../../helpers';
 import '../../css/App.scss';
 
@@ -45,7 +46,7 @@ class App extends React.Component {
   componentDidMount() {
     const getData = () => {
       DataHelper.fetchRequestData(
-        'https://api.covid19api.com/summary',
+        `${covidBaseURL}summary`,
         this.onCovidDataSuccess,
         (responseJson) => responseJson.Message.length > 0,
         () => { this.setState({ loading: true }); },
@@ -105,12 +106,9 @@ class App extends React.Component {
 
   onChartDataSuccess = (responseJson, dataKey, newCountry) => {
     const { covidPerCountryData } = this.state;
-    let sortedData;
-    if (dataKey === globalChartDataKey) {
-      sortedData = sortArray(responseJson, 'TotalConfirmed', true);
-    } else {
-      sortedData = responseJson;
-    }
+    const sortedData = (dataKey === globalChartDataKey)
+      ? sortArray(responseJson, 'TotalConfirmed', true)
+      : responseJson;
     const countryData = covidPerCountryData.find((country) => country.Country === newCountry);
     const postProcessedData = dataProcessor.postProcessChartCountriesData(sortedData, countryData);
     this.setState((state) => ({
@@ -197,7 +195,7 @@ class App extends React.Component {
     let currentCountrySlug;
     if (newCountry) {
       countryRow = covidPerCountryData.find((row) => row.Country === newCountry);
-      currentCountrySlug = countryRow.Slug;
+      currentCountrySlug = countryRow ? countryRow.Slug : globalChartDataKey;
     } else {
       currentCountrySlug = globalChartDataKey;
     }
@@ -210,7 +208,7 @@ class App extends React.Component {
     const startDate = getStartOfYear(lastAPIDate);
     const countryDomain = currentCountrySlug === globalChartDataKey ? currentCountrySlug : `total/country/${currentCountrySlug}`;
     DataHelper.fetchRequestData(
-      `https://api.covid19api.com/${countryDomain}?from=${startDate.format()}&to=${lastAPIDate.format()}`,
+      `${covidBaseURL}${countryDomain}?from=${startDate.format()}&to=${lastAPIDate.format()}`,
       (responseJson) => this.onChartDataSuccess(responseJson, currentCountrySlug, newCountry),
     );
   }
