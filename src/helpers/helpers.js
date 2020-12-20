@@ -186,7 +186,7 @@ export const getAllValuesOfIndicator = (data, indicator) => {
 
 export const getMaxValue = (values) => Math.max(...values);
 
-const maxRadius = 100;
+const maxRadius = 60;
 const minRadius = 3;
 const diffRadius = maxRadius - minRadius;
 
@@ -194,4 +194,17 @@ export const getMarkerRadiusByIndicator = (max, value) => {
   const checkedValue = value || 0;
   const radius = (diffRadius * checkedValue) / max;
   return radius < minRadius ? minRadius : radius;
+};
+
+export const mapAccessObj = {
+  nickname: 'babkinwork',
+  lightStyleID: 'ckiwzx6db0h8819t77jr71xq7',
+  darkStyleID: 'ckiwzpi6e5ayj19qoqolkynbk',
+  token: 'pk.eyJ1IjoiYmFia2lud29yayIsImEiOiJja2l3enJmNGUwenlhMnNuemQ5b2tveGI5In0.nEbDmytCE3cQM83iG9YQnQ',
+};
+
+export const getMapURL = (mapObj, mode = 'light') => {
+  const { nickname, token } = mapObj;
+  const modeID = mode === 'light' ? mapObj.lightStyleID : mapObj.darkStyleID;
+  return `https://api.mapbox.com/styles/v1/${nickname}/${modeID}/tiles/256/{z}/{x}/{y}@2x?access_token=${token}`;
 };

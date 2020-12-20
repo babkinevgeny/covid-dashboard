@@ -13,6 +13,8 @@ import {
   getAllValuesOfIndicator,
   getMaxValue,
   getMarkerRadiusByIndicator,
+  mapAccessObj,
+  getMapURL,
 } from '../../helpers';
 
 const CovidMap = ({
@@ -71,7 +73,7 @@ const CovidMap = ({
   return (
     <MapContainer center={[31.505, -0.09]} zoom={2} scrollWheelZoom={false}>
       <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url={getMapURL(mapAccessObj)}
       />
       {markers}
       <Legend />

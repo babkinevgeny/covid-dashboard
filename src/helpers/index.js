@@ -16,6 +16,8 @@ import {
   getAllValuesOfIndicator,
   getMaxValue,
   getMarkerRadiusByIndicator,
+  mapAccessObj,
+  getMapURL,
 } from './helpers';
 import DataHelper from './DataHelper';
 
@@ -38,4 +40,6 @@ export {
   getAllValuesOfIndicator,
   getMaxValue,
   getMarkerRadiusByIndicator,
+  mapAccessObj,
+  getMapURL,
 };
