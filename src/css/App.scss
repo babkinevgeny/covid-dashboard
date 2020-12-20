@@ -216,19 +216,20 @@ th.row {
     z-index: 2;
 
     &:hover + .text {
-      transform: translateX(0px);
+      display: block;
     }
   }
 
+  
+
 
   & .text {
-    transform: translateX(600px);
-    transition: all 0.3s ease-in-out;
     font-size: 12px;
     background: rgba(255, 255, 255, 0.4);
     padding: 5px 20px;
     font-size: 12px;
     font-weight: bold;
     z-index: 1;
+    display: none;
   }
 }

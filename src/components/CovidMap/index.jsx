@@ -15,6 +15,8 @@ import {
   getMarkerRadiusByIndicator,
   mapAccessObj,
   getMapURL,
+  checkCountry,
+  getRightCoordinates,
 } from '../../helpers';
 
 const CovidMap = ({
@@ -40,12 +42,19 @@ const CovidMap = ({
 
   const markers = countries.map((infoObj) => {
     const { latlng, Country } = infoObj;
+
     const indicatorNumber = infoObj[currentIndicator];
     const indicatorTitle = getIndicatorTitleByKey(currentIndicator);
     let parsedLatlng = [0, 0];
 
     if (latlng) {
       parsedLatlng = [...latlng];
+    }
+
+    const isWrongCountry = checkCountry(Country);
+
+    if (isWrongCountry) {
+      parsedLatlng = getRightCoordinates(Country);
     }
 
     const markerRadius = getMarkerRadiusByIndicator(maxValue, indicatorNumber);

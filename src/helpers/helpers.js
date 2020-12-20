@@ -186,7 +186,7 @@ export const getAllValuesOfIndicator = (data, indicator) => {
 
 export const getMaxValue = (values) => Math.max(...values);
 
-const maxRadius = 60;
+const maxRadius = 20;
 const minRadius = 3;
 const diffRadius = maxRadius - minRadius;
 
@@ -207,4 +207,89 @@ export const getMapURL = (mapObj, mode = 'light') => {
   const { nickname, token } = mapObj;
   const modeID = mode === 'light' ? mapObj.lightStyleID : mapObj.darkStyleID;
   return `https://api.mapbox.com/styles/v1/${nickname}/${modeID}/tiles/256/{z}/{x}/{y}@2x?access_token=${token}`;
+};
+
+const listOfWrongCountries = [
+  {
+    country: 'United Kingdom',
+    rightLatlng: [51.509865, -0.118092],
+  },
+  {
+    country: 'Venezuela (Bolivarian Republic)',
+    rightLatlng: [10.5, -66.916664],
+  },
+  {
+    country: 'Taiwan, Republic of China',
+    rightLatlng: [25.105497, 121.597366],
+  },
+  {
+    country: 'Syrian Arab Republic (Syria)',
+    rightLatlng: [33.510414, 36.278336],
+  },
+  {
+    country: 'Saint Vincent and Grenadines',
+    rightLatlng: [13.1587, -61.2248],
+  },
+  {
+    country: 'Palestinian Territory',
+    rightLatlng: [31.898043, 35.204269],
+  },
+  {
+    country: 'Moldova',
+    rightLatlng: [47.003670, 28.907089],
+  },
+  {
+    country: 'Macedonia, Republic of',
+    rightLatlng: [41.99646, 21.43141],
+  },
+  {
+    country: 'Macao, SAR China',
+    rightLatlng: [22.210928, 113.552971],
+  },
+  {
+    country: 'Lao PDR',
+    rightLatlng: [17.974855, 102.630867],
+  },
+  {
+    country: 'Korea (South)',
+    rightLatlng: [37.532600, 127.024612],
+  },
+  {
+    country: 'Iran, Islamic Republic of',
+    rightLatlng: [35.715298, 51.404343],
+  },
+  {
+    country: 'Holy See (Vatican City State)',
+    rightLatlng: [41.904755, 12.454628],
+  },
+  {
+    country: 'Congo (Kinshasa)',
+    rightLatlng: [-4.322447, 15.307045],
+  },
+  {
+    country: 'Congo (Brazzaville)',
+    rightLatlng: [-4.2661, 15.2832],
+  },
+  {
+    country: 'Cape Verde',
+    rightLatlng: [14.93152, -23.51254],
+  },
+  {
+    country: 'Bolivia',
+    rightLatlng: [-16.489689, -68.119293],
+  },
+  {
+    country: 'Russian Federation',
+    rightLatlng: [55.751244, 37.618423],
+  },
+];
+
+export const checkCountry = (name) => {
+  const country = listOfWrongCountries.find((countryObj) => countryObj.country === name);
+  return !!country;
+};
+
+export const getRightCoordinates = (name) => {
+  const country = listOfWrongCountries.find((countryObj) => countryObj.country === name);
+  return country.rightLatlng;
 };

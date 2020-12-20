@@ -18,6 +18,8 @@ import {
   getMarkerRadiusByIndicator,
   mapAccessObj,
   getMapURL,
+  checkCountry,
+  getRightCoordinates,
 } from './helpers';
 import DataHelper from './DataHelper';
 
@@ -42,4 +44,6 @@ export {
   getMarkerRadiusByIndicator,
   mapAccessObj,
   getMapURL,
+  checkCountry,
+  getRightCoordinates,
 };
