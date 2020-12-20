@@ -57,7 +57,7 @@ class App extends React.Component {
       loading: false,
     });
 
-    DataHelper.fetchRequestData('https://restcountries.eu/rest/v2/?fields=name;population;flag;latlng',
+    DataHelper.fetchRequestData('https://restcountries.eu/rest/v2/?fields=name;population;latlng',
       (respJson) => this.onCountriesSuccess([...Countries], respJson),
       () => false,
       () => { },

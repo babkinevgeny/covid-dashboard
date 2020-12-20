@@ -2,10 +2,10 @@ import React from 'react';
 import { indicators, alphaChanelPercentageInHex } from '../../../helpers';
 
 const Legend = () => {
-  const legendItems = indicators.map((indObj) => (
-    <div className="legend-item" key={indObj.key}>
-      <span className="box" style={{ backgroundColor: `${indObj.color}${alphaChanelPercentageInHex}` }}>
-        <span className="text">{indObj.title}</span>
+  const legendItems = indicators.map(({ key, color, title }) => (
+    <div className="legend-item" key={key}>
+      <span className="box" style={{ backgroundColor: `${color}${alphaChanelPercentageInHex}` }}>
+        <span className="text">{title}</span>
       </span>
     </div>
   ));

@@ -13,11 +13,14 @@ import {
   getAllValuesOfIndicator,
   getMaxValue,
   getMarkerRadiusByIndicator,
-  mapAccessObj,
   getMapURL,
   checkCountry,
   getRightCoordinates,
+  opacity,
+  mapCenterCoorinates,
+  mapZoom,
 } from '../../helpers';
+import mapAccessObj from './access';
 
 const CovidMap = ({
   countries,
@@ -42,11 +45,7 @@ const CovidMap = ({
 
     const indicatorNumber = infoObj[currentIndicator];
     const indicatorTitle = getIndicatorTitleByKey(currentIndicator);
-    let parsedLatlng = [0, 0];
-
-    if (latlng) {
-      parsedLatlng = [...latlng];
-    }
+    let parsedLatlng = latlng ? [...latlng] : [0, 0];
 
     const isWrongCountry = checkCountry(Country);
 
@@ -64,7 +63,7 @@ const CovidMap = ({
         className="icon-marker"
         eventHandlers={eventHandlers}
         fillColor={markerBackgroundColor}
-        fillOpacity={0.4}
+        fillOpacity={opacity}
         color="transparent"
       >
         <Popup className="marker-popup">
@@ -77,7 +76,7 @@ const CovidMap = ({
   });
 
   return (
-    <MapContainer center={[31.505, -0.09]} zoom={2} scrollWheelZoom={false}>
+    <MapContainer center={mapCenterCoorinates} zoom={mapZoom} scrollWheelZoom={false}>
       <TileLayer
         url={getMapURL(mapAccessObj)}
       />

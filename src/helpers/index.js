@@ -16,11 +16,13 @@ import {
   getAllValuesOfIndicator,
   getMaxValue,
   getMarkerRadiusByIndicator,
-  mapAccessObj,
   getMapURL,
   checkCountry,
   getRightCoordinates,
   alphaChanelPercentageInHex,
+  opacity,
+  mapCenterCoorinates,
+  mapZoom,
 } from './helpers';
 import DataHelper from './DataHelper';
 
@@ -43,9 +45,11 @@ export {
   getAllValuesOfIndicator,
   getMaxValue,
   getMarkerRadiusByIndicator,
-  mapAccessObj,
   getMapURL,
   checkCountry,
   getRightCoordinates,
   alphaChanelPercentageInHex,
+  opacity,
+  mapCenterCoorinates,
+  mapZoom,
 };

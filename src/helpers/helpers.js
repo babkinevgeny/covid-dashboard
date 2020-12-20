@@ -21,7 +21,7 @@ export const keyConstants = {
 
 export const dataPostfixMap = {
   total: '',
-  perPopulation: `Per${populationBase.toString()}Population`,
+  perPopulation: `Per${populationBase}Population`,
 };
 
 export const dataPrefixMap = {
@@ -62,66 +62,81 @@ export const dataProcessor = {
   },
 };
 
+const colors = {
+  red: '#c23616',
+  yellow: '#e1b12c',
+  purple: '#8c7ae6',
+  lightBlue: '#0097e6',
+  darkGray: '#2f3640',
+  darkBlue: '#192a56',
+  lightGray: '#718093',
+  blue: '#487eb0',
+  green: '#44bd32',
+  lightGreen: '#4cd137',
+  darkAquagreen: '#16a085',
+  aquagreen: '#1abc9c',
+};
+
 export const indicators = [
   {
     title: 'Total Cases',
     key: 'TotalConfirmed',
-    color: '#c23616',
+    color: colors.red,
   },
   {
     title: 'Total Cases Per 100.000 Population',
     key: 'TotalConfirmedPer100000Population',
-    color: '#e1b12c',
+    color: colors.yellow,
   },
   {
     title: 'New Cases',
     key: 'NewConfirmed',
-    color: '#8c7ae6',
+    color: colors.purple,
   },
   {
     title: 'New Cases Per 100.000 Population',
     key: 'NewConfirmedPer100000Population',
-    color: '#0097e6',
+    color: colors.lightBlue,
   },
   {
     title: 'Total Deaths',
     key: 'TotalDeaths',
-    color: '#2f3640',
+    color: colors.darkGray,
   },
   {
     title: 'Total Deaths Per 100.000 Population',
     key: 'TotalDeathsPer100000Population',
-    color: '#192a56',
+    color: colors.darkBlue,
   },
   {
     title: 'New Deaths',
     key: 'NewDeaths',
-    color: '#718093',
+    color: colors.lightGray,
   },
   {
     title: 'New Deaths Per 100.000 Population',
     key: 'NewDeathsPer100000Population',
-    color: '#487eb0',
+    color: colors.blue,
   },
   {
     title: 'Total Recovered',
     key: 'TotalRecovered',
-    color: '#44bd32',
+    color: colors.green,
   },
   {
     title: 'Total Recovered Per 100.000 Population',
     key: 'TotalRecoveredPer100000Population',
-    color: '#4cd137',
+    color: colors.lightGreen,
   },
   {
     title: 'New Recovered',
     key: 'NewRecovered',
-    color: '#16a085',
+    color: colors.darkAquagreen,
   },
   {
     title: 'New Recovered Per 100.000 Population',
     key: 'NewRecoveredPer100000Population',
-    color: '#1abc9c',
+    color: colors.aquagreen,
   },
 ];
 
@@ -139,12 +154,12 @@ export const getIndicatorObjByKey = (key) => indicators.find((obj) => obj.key ==
 
 export const getIndicatorTitleByKey = (key) => {
   const indicatorObj = getIndicatorObjByKey(key);
-  return indicatorObj.title;
+  return indicatorObj?.title;
 };
 
 export const getIndicatorColorByKey = (key) => {
   const indicatorObj = getIndicatorObjByKey(key);
-  return indicatorObj.color;
+  return indicatorObj?.color;
 };
 
 export const getPreparedRows = (rows, currentCountry, currentIndicator) => {
@@ -186,28 +201,16 @@ export const getAllValuesOfIndicator = (data, indicator) => {
 
 export const getMaxValue = (values) => Math.max(...values);
 
-const maxRadius = 20;
-const minRadius = 3;
-const diffRadius = maxRadius - minRadius;
-
 export const getMarkerRadiusByIndicator = (max, value) => {
+  const maxRadius = 20;
+  const minRadius = 3;
+  const diffRadius = maxRadius - minRadius;
   const checkedValue = value || 0;
   const radius = (diffRadius * checkedValue) / max;
   return radius < minRadius ? minRadius : radius;
 };
 
-export const mapAccessObj = {
-  nickname: 'babkinwork',
-  lightStyleID: 'ckiwzx6db0h8819t77jr71xq7',
-  darkStyleID: 'ckiwzpi6e5ayj19qoqolkynbk',
-  token: 'pk.eyJ1IjoiYmFia2lud29yayIsImEiOiJja2l3enJmNGUwenlhMnNuemQ5b2tveGI5In0.nEbDmytCE3cQM83iG9YQnQ',
-};
-
-export const getMapURL = (mapObj, mode = 'light') => {
-  const { nickname, token } = mapObj;
-  const modeID = mode === 'light' ? mapObj.lightStyleID : mapObj.darkStyleID;
-  return `https://api.mapbox.com/styles/v1/${nickname}/${modeID}/tiles/256/{z}/{x}/{y}@2x?access_token=${token}`;
-};
+export const getMapURL = ({ nickname, styleId, token }) => `https://api.mapbox.com/styles/v1/${nickname}/${styleId}/tiles/256/{z}/{x}/{y}@2x?access_token=${token}`;
 
 const listOfWrongCountries = [
   {
@@ -285,8 +288,8 @@ const listOfWrongCountries = [
 ];
 
 export const checkCountry = (name) => {
-  const country = listOfWrongCountries.find((countryObj) => countryObj.country === name);
-  return !!country;
+  const hasCountryInList = listOfWrongCountries.some((countryObj) => countryObj.country === name);
+  return hasCountryInList;
 };
 
 export const getRightCoordinates = (name) => {
@@ -295,3 +298,9 @@ export const getRightCoordinates = (name) => {
 };
 
 export const alphaChanelPercentageInHex = '66';
+
+export const opacity = 0.4;
+
+export const mapCenterCoorinates = [31.505, -0.09];
+
+export const mapZoom = 2;
