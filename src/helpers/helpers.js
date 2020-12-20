@@ -293,3 +293,5 @@ export const getRightCoordinates = (name) => {
   const country = listOfWrongCountries.find((countryObj) => countryObj.country === name);
   return country.rightLatlng;
 };
+
+export const alphaChanelPercentageInHex = '66';

@@ -70,7 +70,7 @@ const CovidMap = ({
         fillOpacity={0.4}
         color="transparent"
       >
-        <Popup>
+        <Popup className="marker-popup">
           <h4 className="map-popup-title">{Country}</h4>
           <span className="map-popup-indicator-name">{`${indicatorTitle}: `}</span>
           <span>{indicatorNumber}</span>

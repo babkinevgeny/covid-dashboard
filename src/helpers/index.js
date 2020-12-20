@@ -20,6 +20,7 @@ import {
   getMapURL,
   checkCountry,
   getRightCoordinates,
+  alphaChanelPercentageInHex,
 } from './helpers';
 import DataHelper from './DataHelper';
 
@@ -46,4 +47,5 @@ export {
   getMapURL,
   checkCountry,
   getRightCoordinates,
+  alphaChanelPercentageInHex,
 };
