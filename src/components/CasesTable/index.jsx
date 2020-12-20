@@ -14,19 +14,7 @@ import {
 } from '@material-ui/core';
 import SelectIndicator from './SelectIndicator';
 import InputCountry from './InputCountry';
-import { sortArray, getFlagUrl } from '../../helpers';
-
-const getPreparedRows = (rows, currentCountry, currentIndicator) => {
-  let preparedRows = [...rows];
-
-  if (currentCountry) {
-    preparedRows = rows.filter((row) => row.Country === currentCountry);
-  }
-
-  preparedRows = sortArray(preparedRows, currentIndicator);
-
-  return preparedRows;
-};
+import { getPreparedRows, getFlagUrl } from '../../helpers';
 
 const CasesTable = ({
   currentCountry,

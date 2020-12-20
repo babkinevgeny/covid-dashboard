@@ -1,12 +1,18 @@
 import React from 'react';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import { Paper, CircularProgress } from '@material-ui/core';
-import CasesTable from '../CasesTable';
+import {
+  CircularProgress,
+  Container,
+} from '@material-ui/core';
 import TablesPager from '../TablesPager';
+import CasesTable from '../CasesTable';
+import CovidMap from '../CovidMap';
 import KeyboardContainer from '../KeyboardContainer';
 import FullPageComponentWrapper from '../FullPageComponentWrapper';
-import { apiConstants, DataHelper, dataProcessor } from '../../helpers';
+import {
+  apiConstants,
+  DataHelper,
+  dataProcessor,
+} from '../../helpers';
 import '../../css/App.scss';
 
 class App extends React.Component {
@@ -51,7 +57,7 @@ class App extends React.Component {
       loading: false,
     });
 
-    DataHelper.fetchRequestData('https://restcountries.eu/rest/v2/?fields=name;population',
+    DataHelper.fetchRequestData('https://restcountries.eu/rest/v2/?fields=name;population;latlng',
       (respJson) => this.onCountriesSuccess([...Countries], respJson),
       () => false,
       () => { },
@@ -186,11 +192,10 @@ class App extends React.Component {
       );
     return (
       <Container maxWidth="lg" className="App">
-        <Paper>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Here will be our awesome COVID-19 dashboard!
-          </Typography>
-        </Paper>
+        <CovidMap
+          countries={covidPerCountryData}
+          currentIndicator={currentIndicator}
+        />
         <CasesTable
           currentCountry={currentCountry}
           currentIndicator={currentIndicator}
