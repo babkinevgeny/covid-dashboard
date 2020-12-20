@@ -31,6 +31,7 @@ class App extends React.Component {
       casesTableInputValue: '',
       dataGroup: 'Total',
       perPopulation: 'total',
+      lastAPIDate: moment(),
     };
   }
 
@@ -50,11 +51,12 @@ class App extends React.Component {
   }
 
   onCovidDataSuccess = (responseJson) => {
-    const { Global, Countries } = responseJson;
+    const { Global, Countries, Date: lastDate } = responseJson;
     this.setState({
       covidPerCountryData: [...Countries],
       globalData: { ...Global },
       loading: false,
+      lastAPIDate: moment.utc(lastDate),
     });
 
     DataHelper.fetchRequestData('https://restcountries.eu/rest/v2/?fields=name;population;latlng',
@@ -168,6 +170,7 @@ class App extends React.Component {
       casesTableInputValue,
       dataGroup,
       perPopulation,
+      lastAPIDate,
     } = this.state;
     const resultGot = error ? (
       <div>
@@ -176,19 +179,29 @@ class App extends React.Component {
       </div>
     )
       : (
-        <FullPageComponentWrapper>
-          <TablesPager
-            tablesData={covidPerCountryData}
-            global={globalData}
-            dataFields={apiConstants.dataFields}
-            tablePage={tablePage}
-            onPageChangeHandler={this.onPageChangeHandler}
-            onDataGroupChangedHandler={this.onDataGroupChangedHandler}
-            onPerPopulationChangedHandler={this.onPerPopulationChangedHandler}
-            dataGroup={dataGroup}
-            perPopulation={perPopulation}
-          />
-        </FullPageComponentWrapper>
+        <>
+          <FullPageComponentWrapper>
+            <TablesPager
+              tablesData={covidPerCountryData}
+              global={globalData}
+              dataFields={apiConstants.dataFields}
+              tablePage={tablePage}
+              onPageChangeHandler={this.onPageChangeHandler}
+              onDataGroupChangedHandler={this.onDataGroupChangedHandler}
+              onPerPopulationChangedHandler={this.onPerPopulationChangedHandler}
+              dataGroup={dataGroup}
+              perPopulation={perPopulation}
+            />
+          </FullPageComponentWrapper>
+          <FullPageComponentWrapper>
+            <CasesChart
+              tablePage={tablePage}
+              dataGroup={dataGroup}
+              perPopulation={perPopulation}
+              lastAPIDate={lastAPIDate}
+            />
+          </FullPageComponentWrapper>
+        </>
       );
     return (
       <Container maxWidth="lg" className="App">
