@@ -8,7 +8,13 @@ import {
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import CountriesTable from '../CountriesTable';
-import { pagerConstants, dataPostfixMap, keyConstants } from '../../helpers';
+import {
+  pagerConstants,
+  dataPostfixMap,
+  keyConstants,
+  getIndicatorObj,
+  populationBase,
+} from '../../helpers';
 import './index.scss';
 
 class TablesPager extends Component {
@@ -82,6 +88,7 @@ class TablesPager extends Component {
       tablePage,
       dataGroup,
       perPopulation,
+      newCountryOnRowCLickHandler,
     } = this.props;
     const currentField = this.getCurrentFieldName({
       dataGroup,
@@ -93,7 +100,10 @@ class TablesPager extends Component {
     const timeConstLabels = [{ label: 'Total', value: 'Total' }, { label: 'New', value: 'New' }];
     const amountConstLabels = [
       { label: 'Total', value: 'total' },
-      { label: dataPostfixMap.perPopulation, value: keyConstants.perPopulationKey }];
+      {
+        label: `Per ${populationBase.toLocaleString()} Population`,
+        value: keyConstants.perPopulationKey,
+      }];
 
     return (
       <div>
@@ -117,12 +127,16 @@ class TablesPager extends Component {
             })}
           </div>
           <div key={currentField}>
-            <h3>{currentField}</h3>
+            <h3>{getIndicatorObj(currentField)?.title}</h3>
             <div className="global">
               <span>Global &nbsp;</span>
               <span>{global[currentField]}</span>
             </div>
-            <CountriesTable data={tablesData} field={currentField} />
+            <CountriesTable
+              data={tablesData}
+              field={currentField}
+              newCountryOnRowCLickHandler={newCountryOnRowCLickHandler}
+            />
           </div>
         </div>
         <nav className="tables_pagination">
@@ -161,6 +175,7 @@ TablesPager.propTypes = {
   onPerPopulationChangedHandler: PropTypes.func.isRequired,
   dataGroup: PropTypes.string.isRequired,
   perPopulation: PropTypes.string.isRequired,
+  newCountryOnRowCLickHandler: PropTypes.func.isRequired,
 };
 
 export default TablesPager;

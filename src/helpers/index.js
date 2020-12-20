@@ -23,6 +23,9 @@ import {
   opacity,
   mapCenterCoorinates,
   mapZoom,
+  populationBase,
+  globalChartDataKey,
+  getIndicatorObj,
 } from './helpers';
 import DataHelper from './DataHelper';
 
@@ -52,4 +55,7 @@ export {
   opacity,
   mapCenterCoorinates,
   mapZoom,
+  populationBase,
+  globalChartDataKey,
+  getIndicatorObj,
 };

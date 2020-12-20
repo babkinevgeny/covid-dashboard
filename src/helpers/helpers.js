@@ -8,7 +8,9 @@ export const pagerConstants = {
   arrowForwardId: 'forward',
 };
 
-const populationBase = 100000;
+export const globalChartDataKey = 'world';
+
+export const populationBase = 100000;
 
 export const apiConstants = {
   dataFields: ['Confirmed', 'Deaths', 'Recovered'],
@@ -30,7 +32,9 @@ export const dataPrefixMap = {
 };
 
 export const dataProcessor = {
-  addCountryData(data, population, latlng) {
+  globalPopulation: 0,
+
+  addPerPopulationData(data, population) {
     const perPopulationData = apiConstants.dataFields.reduce((acc, field) => {
       Object.values(dataPrefixMap).forEach((prefix) => {
         const dataField = data[`${prefix}${field}`];
@@ -49,16 +53,55 @@ export const dataProcessor = {
     };
   },
 
-  postProcessData(covidPerCountryData, countriesData) {
+  addChartPerPopulationCountryData(chartData, population) {
+    const withPopulationData = chartData.map((dataRow, index, allData) => {
+      const additionalData = apiConstants.dataFields.reduce((acc, field) => {
+        const dataField = dataRow[field];
+        const totalFieldName = `${dataPrefixMap.totalCases}${field}${dataPostfixMap.total}`;
+        acc[totalFieldName] = dataField;
+
+        const dataPerPopulation = (dataField / population) * populationBase;
+        const dataPerPopulationRounded = Math.round(dataPerPopulation * 1000) / 1000;
+        const totalPerPopFieldName = `${dataPrefixMap.totalCases}${field}${dataPostfixMap.perPopulation}`;
+        acc[totalPerPopFieldName] = dataPerPopulationRounded;
+
+        const prevDateDataField = index > 0 ? allData[index - 1][field] : 0;
+        const diff = dataField - prevDateDataField;
+        const newFieldName = `${dataPrefixMap.newCases}${field}`;
+        acc[newFieldName] = diff;
+
+        const newDataPerPopulation = (diff / population) * populationBase;
+        const newDataPerPopulationRounded = Math.round(newDataPerPopulation * 1000) / 1000;
+        const newFieldPerPopName = `${dataPrefixMap.newCases}${field}${dataPostfixMap.perPopulation}`;
+        acc[newFieldPerPopName] = newDataPerPopulationRounded;
+        return acc;
+      }, {});
+      return { ...dataRow, ...additionalData };
+    });
+    return withPopulationData;
+  },
+
+  postProcessData(covidPerCountryData, countriesData, globalObj) {
     const mappedData = covidPerCountryData.map((data) => {
       const countryData = countriesData.find((country) => country.name === data.Country);
       if (countryData) {
         const { population, latlng } = countryData;
-        return this.addCountryData(data, population, latlng);
+        this.globalPopulation += population;
+        return this.addPerPopulationData(data, population, latlng);
       }
       return data;
     });
-    return mappedData;
+    const global = this.addPerPopulationData(globalObj, this.globalPopulation);
+    return { Countries: mappedData, Global: global };
+  },
+
+  postProcessChartCountriesData(chartByCountriesCovidData, covidPerCountryData) {
+    if (covidPerCountryData) {
+      const { population } = covidPerCountryData;
+      return this.addChartPerPopulationCountryData(chartByCountriesCovidData, population);
+    }
+    return chartByCountriesCovidData.map((globalData) => this.addPerPopulationData(globalData,
+      this.globalPopulation));
   },
 };
 
@@ -139,6 +182,8 @@ export const indicators = [
     color: colors.aquagreen,
   },
 ];
+
+export const getIndicatorObj = (indicator) => Indicators.find((ind) => ind.key === indicator) || {};
 
 export const getFlagUrl = (countryCode) => `https://www.countryflags.io/${countryCode.toUpperCase()}/flat/64.png`;
 
