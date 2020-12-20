@@ -11,16 +11,14 @@ import {
 import IntegerFieldWithIncAndDec from '../IntegerFieldWithIncAndDec';
 import './index.scss';
 
-function CasesChart(props) {
-  const {
-    lastAPIDate,
-    countryData,
-    currentCountry,
-    currentIndicator,
-    daysBackCount,
-    onDaysCountChangeHandler,
-  } = props;
-
+const CasesChart = ({
+  lastAPIDate,
+  countryData,
+  currentCountry,
+  currentIndicator,
+  daysBackCount,
+  onDaysCountChangeHandler,
+}) => {
   function fillDatesArray(fromDate, toDate) {
     const res = [];
     const currDate = moment(fromDate);
@@ -113,7 +111,7 @@ function CasesChart(props) {
       />
     </div>
   );
-}
+};
 
 CasesChart.propTypes = {
   lastAPIDate: PropTypes.instanceOf(moment).isRequired,
