@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   MapContainer,
@@ -23,17 +23,14 @@ const CovidMap = ({
   countries,
   currentIndicator,
 }) => {
-  const eventHandlers = useMemo(
-    () => ({
-      mouseover(event) {
-        event.target.openPopup();
-      },
-      mouseout(event) {
-        event.target.closePopup();
-      },
-    }),
-    [],
-  );
+  const eventHandlers = {
+    mouseover(event) {
+      event.target.openPopup();
+    },
+    mouseout(event) {
+      event.target.closePopup();
+    },
+  };
 
   const markerBackgroundColor = getIndicatorColorByKey(currentIndicator);
 
