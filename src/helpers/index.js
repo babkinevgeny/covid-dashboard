@@ -28,6 +28,7 @@ import {
   alphaChanel20PercentInHex,
   alphaChanel40PercentInHex,
   alphaChanel100PercentInHex,
+  getStartOfYear,
 } from './helpers';
 import DataHelper from './DataHelper';
 
@@ -62,4 +63,5 @@ export {
   alphaChanel20PercentInHex,
   alphaChanel40PercentInHex,
   alphaChanel100PercentInHex,
+  getStartOfYear,
 };

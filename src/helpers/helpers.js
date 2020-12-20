@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const sortArray = (rows, field, acs = false) => {
   const sortedData = [...rows].sort((r1, r2) => (r1[field] - r2[field]) * (acs ? 1 : -1));
   return sortedData;
@@ -53,6 +55,13 @@ export const dataProcessor = {
     };
   },
 
+  getPerPopulationDataRounded(dataField, population, field, prefix) {
+    const dataPerPopulation = (dataField / population) * populationBase;
+    const dataPerPopulationRounded = Math.round(dataPerPopulation * 1000) / 1000;
+    const dataPerPopFieldName = `${prefix}${field}${dataPostfixMap.perPopulation}`;
+    return { dataPerPopFieldName, dataPerPopulationRounded };
+  },
+
   addChartPerPopulationCountryData(chartData, population) {
     const withPopulationData = chartData.map((dataRow, index, allData) => {
       const additionalData = apiConstants.dataFields.reduce((acc, field) => {
@@ -60,19 +69,22 @@ export const dataProcessor = {
         const totalFieldName = `${dataPrefixMap.totalCases}${field}${dataPostfixMap.total}`;
         acc[totalFieldName] = dataField;
 
-        const dataPerPopulation = (dataField / population) * populationBase;
-        const dataPerPopulationRounded = Math.round(dataPerPopulation * 1000) / 1000;
-        const totalPerPopFieldName = `${dataPrefixMap.totalCases}${field}${dataPostfixMap.perPopulation}`;
-        acc[totalPerPopFieldName] = dataPerPopulationRounded;
+        const {
+          dataPerPopFieldName: totalPerPopFieldName,
+          dataPerPopulationRounded: totalPerPopulationRounded,
+        } = this.getPerPopulationDataRounded(dataField,
+          population, field, dataPrefixMap.totalCases);
+        acc[totalPerPopFieldName] = totalPerPopulationRounded;
 
         const prevDateDataField = index > 0 ? allData[index - 1][field] : 0;
         const diff = dataField - prevDateDataField;
         const newFieldName = `${dataPrefixMap.newCases}${field}`;
         acc[newFieldName] = diff;
 
-        const newDataPerPopulation = (diff / population) * populationBase;
-        const newDataPerPopulationRounded = Math.round(newDataPerPopulation * 1000) / 1000;
-        const newFieldPerPopName = `${dataPrefixMap.newCases}${field}${dataPostfixMap.perPopulation}`;
+        const {
+          dataPerPopFieldName: newFieldPerPopName,
+          dataPerPopulationRounded: newDataPerPopulationRounded,
+        } = this.getPerPopulationDataRounded(diff, population, field, dataPrefixMap.newCases);
         acc[newFieldPerPopName] = newDataPerPopulationRounded;
         return acc;
       }, {});
@@ -355,3 +367,11 @@ export const opacity = 0.4;
 export const mapCenterCoorinates = [31.505, -0.09];
 
 export const mapZoom = 2;
+
+export const getStartOfYear = (currentDate) => {
+  const startDate = (moment.isMoment(currentDate)
+    ? currentDate
+    : moment(currentDate)).clone().utc();
+  startDate.startOf('year');
+  return startDate;
+};

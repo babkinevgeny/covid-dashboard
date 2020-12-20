@@ -7,6 +7,7 @@ import {
   alphaChanel20PercentInHex,
   alphaChanel40PercentInHex,
   alphaChanel100PercentInHex,
+  getStartOfYear,
 } from '../../helpers';
 import IntegerFieldWithIncAndDec from '../IntegerFieldWithIncAndDec';
 import './index.scss';
@@ -29,8 +30,7 @@ const CasesChart = ({
     return res;
   }
 
-  const startDate = moment.utc(lastAPIDate).clone();
-  startDate.subtract(daysBackCount, 'days').startOf('year');
+  const startDate = getStartOfYear(lastAPIDate);
   const datesArray = fillDatesArray(startDate, lastAPIDate);
 
   function getCovidData(row, indicator) {

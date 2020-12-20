@@ -16,6 +16,7 @@ import {
   dataProcessor,
   sortArray,
   globalChartDataKey,
+  getStartOfYear,
 } from '../../helpers';
 import '../../css/App.scss';
 
@@ -103,7 +104,7 @@ class App extends React.Component {
   }
 
   onChartDataSuccess = (responseJson, dataKey, newCountry) => {
-    const { chartByCountriesCovidData, covidPerCountryData } = this.state;
+    const { covidPerCountryData } = this.state;
     let sortedData;
     if (dataKey === globalChartDataKey) {
       sortedData = sortArray(responseJson, 'TotalConfirmed', true);
@@ -112,11 +113,13 @@ class App extends React.Component {
     }
     const countryData = covidPerCountryData.find((country) => country.Country === newCountry);
     const postProcessedData = dataProcessor.postProcessChartCountriesData(sortedData, countryData);
-    chartByCountriesCovidData[dataKey] = postProcessedData;
-    this.setState({
-      chartByCountriesCovidData,
+    this.setState((state) => ({
+      chartByCountriesCovidData: {
+        ...state.chartByCountriesCovidData,
+        [dataKey]: postProcessedData,
+      },
       chartDataKey: dataKey,
-    });
+    }));
   }
 
   showKeyboard = () => {
@@ -204,8 +207,7 @@ class App extends React.Component {
       });
       return;
     }
-    const startDate = lastAPIDate.clone().utc();
-    startDate.startOf('year');
+    const startDate = getStartOfYear(lastAPIDate);
     const countryDomain = currentCountrySlug === globalChartDataKey ? currentCountrySlug : `total/country/${currentCountrySlug}`;
     DataHelper.fetchRequestData(
       `https://api.covid19api.com/${countryDomain}?from=${startDate.format()}&to=${lastAPIDate.format()}`,
