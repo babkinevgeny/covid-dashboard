@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CountriesTable functional component testing CountriesTable must have a correct snapshot 1`] = `
+"<WithStyles(ForwardRef(TableContainer)) component={{...}}>
+  <WithStyles(ForwardRef(Table))>
+    <WithStyles(ForwardRef(TableBody))>
+      <WithStyles(ForwardRef(TableRow)) className=\\"countries_table_row\\" onClick={[Function: onRowClickHandler]}>
+        <WithStyles(ForwardRef(TableCell))>
+          Country2
+        </WithStyles(ForwardRef(TableCell))>
+        <WithStyles(ForwardRef(TableCell)) align=\\"right\\">
+          321
+        </WithStyles(ForwardRef(TableCell))>
+      </WithStyles(ForwardRef(TableRow))>
+      <WithStyles(ForwardRef(TableRow)) className=\\"countries_table_row\\" onClick={[Function: onRowClickHandler]}>
+        <WithStyles(ForwardRef(TableCell))>
+          Country1
+        </WithStyles(ForwardRef(TableCell))>
+        <WithStyles(ForwardRef(TableCell)) align=\\"right\\">
+          123
+        </WithStyles(ForwardRef(TableCell))>
+      </WithStyles(ForwardRef(TableRow))>
+    </WithStyles(ForwardRef(TableBody))>
+  </WithStyles(ForwardRef(Table))>
+</WithStyles(ForwardRef(TableContainer))>"
+`;
