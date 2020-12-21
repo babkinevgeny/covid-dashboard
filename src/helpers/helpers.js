@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const sortArray = (rows, field, acs = false) => {
   const sortedData = [...rows].sort((r1, r2) => (r1[field] - r2[field]) * (acs ? 1 : -1));
   return sortedData;
@@ -8,7 +10,9 @@ export const pagerConstants = {
   arrowForwardId: 'forward',
 };
 
-const populationBase = 100000;
+export const globalChartDataKey = 'world';
+
+export const populationBase = 100000;
 
 export const apiConstants = {
   dataFields: ['Confirmed', 'Deaths', 'Recovered'],
@@ -30,7 +34,9 @@ export const dataPrefixMap = {
 };
 
 export const dataProcessor = {
-  addCountryData(data, population, latlng) {
+  globalPopulation: 0,
+
+  addPerPopulationData(data, population, latlng = [0, 0]) {
     const perPopulationData = apiConstants.dataFields.reduce((acc, field) => {
       Object.values(dataPrefixMap).forEach((prefix) => {
         const dataField = data[`${prefix}${field}`];
@@ -49,16 +55,65 @@ export const dataProcessor = {
     };
   },
 
-  postProcessData(covidPerCountryData, countriesData) {
+  getPerPopulationDataRounded(dataField, population, field, prefix) {
+    const dataPerPopulation = (dataField / population) * populationBase;
+    const dataPerPopulationRounded = Math.round(dataPerPopulation * 1000) / 1000;
+    const dataPerPopFieldName = `${prefix}${field}${dataPostfixMap.perPopulation}`;
+    return { dataPerPopFieldName, dataPerPopulationRounded };
+  },
+
+  addChartPerPopulationCountryData(chartData, population) {
+    const withPopulationData = chartData.map((dataRow, index, allData) => {
+      const additionalData = apiConstants.dataFields.reduce((acc, field) => {
+        const dataField = dataRow[field];
+        const totalFieldName = `${dataPrefixMap.totalCases}${field}${dataPostfixMap.total}`;
+        acc[totalFieldName] = dataField;
+
+        const {
+          dataPerPopFieldName: totalPerPopFieldName,
+          dataPerPopulationRounded: totalPerPopulationRounded,
+        } = this.getPerPopulationDataRounded(dataField,
+          population, field, dataPrefixMap.totalCases);
+        acc[totalPerPopFieldName] = totalPerPopulationRounded;
+
+        const prevDateDataField = index > 0 ? allData[index - 1][field] : 0;
+        const diff = dataField - prevDateDataField;
+        const newFieldName = `${dataPrefixMap.newCases}${field}`;
+        acc[newFieldName] = diff;
+
+        const {
+          dataPerPopFieldName: newFieldPerPopName,
+          dataPerPopulationRounded: newDataPerPopulationRounded,
+        } = this.getPerPopulationDataRounded(diff, population, field, dataPrefixMap.newCases);
+        acc[newFieldPerPopName] = newDataPerPopulationRounded;
+        return acc;
+      }, {});
+      return { ...dataRow, ...additionalData };
+    });
+    return withPopulationData;
+  },
+
+  postProcessData(covidPerCountryData, countriesData, globalObj) {
     const mappedData = covidPerCountryData.map((data) => {
       const countryData = countriesData.find((country) => country.name === data.Country);
       if (countryData) {
         const { population, latlng } = countryData;
-        return this.addCountryData(data, population, latlng);
+        this.globalPopulation += population;
+        return this.addPerPopulationData(data, population, latlng);
       }
       return data;
     });
-    return mappedData;
+    const global = this.addPerPopulationData(globalObj, this.globalPopulation);
+    return { Countries: mappedData, Global: global };
+  },
+
+  postProcessChartCountriesData(chartByCountriesCovidData, covidPerCountryData) {
+    if (covidPerCountryData) {
+      const { population } = covidPerCountryData;
+      return this.addChartPerPopulationCountryData(chartByCountriesCovidData, population);
+    }
+    return chartByCountriesCovidData.map((globalData) => this.addPerPopulationData(globalData,
+      this.globalPopulation));
   },
 };
 
@@ -299,10 +354,23 @@ export const getRightCoordinates = (name) => {
   return country.rightLatlng;
 };
 
-export const alphaChanelPercentageInHex = '66';
+export const alphaChanel20PercentInHex = '33';
+
+export const alphaChanel40PercentInHex = '66';
+
+export const alphaChanel100PercentInHex = 'FF';
 
 export const opacity = 0.4;
 
 export const mapCenterCoorinates = [31.505, -0.09];
 
 export const mapZoom = 2;
+
+export const getStartOfYear = (currentDate) => {
+  const currentMoment = moment.isMoment(currentDate) ? currentDate : moment(currentDate);
+  const startDate = currentMoment.clone().utc();
+  startDate.startOf('year');
+  return startDate;
+};
+
+export const covidBaseURL = 'https://api.covid19api.com/';

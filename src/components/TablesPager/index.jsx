@@ -8,7 +8,13 @@ import {
 import { ArrowBack, ArrowForward } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import CountriesTable from '../CountriesTable';
-import { pagerConstants, dataPostfixMap, keyConstants } from '../../helpers';
+import {
+  pagerConstants,
+  dataPostfixMap,
+  keyConstants,
+  getIndicatorTitleByKey,
+  populationBase,
+} from '../../helpers';
 import './index.scss';
 
 class TablesPager extends Component {
@@ -82,8 +88,9 @@ class TablesPager extends Component {
       tablePage,
       dataGroup,
       perPopulation,
+      newCountryOnRowCLickHandler,
     } = this.props;
-    const currentField = this.getCurrentFieldName({
+    const currentIndicator = this.getCurrentFieldName({
       dataGroup,
       dataFields,
       tablePage,
@@ -93,7 +100,10 @@ class TablesPager extends Component {
     const timeConstLabels = [{ label: 'Total', value: 'Total' }, { label: 'New', value: 'New' }];
     const amountConstLabels = [
       { label: 'Total', value: 'total' },
-      { label: dataPostfixMap.perPopulation, value: keyConstants.perPopulationKey }];
+      {
+        label: `Per ${populationBase.toLocaleString()} Population`,
+        value: keyConstants.perPopulationKey,
+      }];
 
     return (
       <div>
@@ -116,13 +126,17 @@ class TablesPager extends Component {
               labelValues: timeConstLabels,
             })}
           </div>
-          <div key={currentField}>
-            <h3>{currentField}</h3>
+          <div key={currentIndicator}>
+            <h3>{getIndicatorTitleByKey(currentIndicator)}</h3>
             <div className="global">
               <span>Global &nbsp;</span>
-              <span>{global[currentField]}</span>
+              <span>{global[currentIndicator]}</span>
             </div>
-            <CountriesTable data={tablesData} field={currentField} />
+            <CountriesTable
+              data={tablesData}
+              field={currentIndicator}
+              newCountryOnRowCLickHandler={newCountryOnRowCLickHandler}
+            />
           </div>
         </div>
         <nav className="tables_pagination">
@@ -151,9 +165,25 @@ class TablesPager extends Component {
   }
 }
 
+const globalShape = {
+  TotalConfirmed: PropTypes.number,
+  TotalConfirmedPer100000Population: PropTypes.number,
+  NewConfirmed: PropTypes.number,
+  NewConfirmedPer100000Population: PropTypes.number,
+  TotalDeaths: PropTypes.number,
+  TotalDeathsPer100000Population: PropTypes.number,
+  NewDeaths: PropTypes.number,
+  NewDeathsPer100000Population: PropTypes.number,
+  TotalRecovered: PropTypes.number,
+  TotalRecoveredPer100000Population: PropTypes.number,
+  NewRecovered: PropTypes.number,
+  NewRecoveredPer100000Population: PropTypes.number,
+  latlng: PropTypes.arrayOf(PropTypes.number),
+};
+
 TablesPager.propTypes = {
   tablesData: PropTypes.arrayOf(PropTypes.object).isRequired,
-  global: PropTypes.objectOf(PropTypes.number).isRequired,
+  global: PropTypes.shape(globalShape).isRequired,
   dataFields: PropTypes.arrayOf(PropTypes.string).isRequired,
   tablePage: PropTypes.number.isRequired,
   onPageChangeHandler: PropTypes.func.isRequired,
@@ -161,6 +191,7 @@ TablesPager.propTypes = {
   onPerPopulationChangedHandler: PropTypes.func.isRequired,
   dataGroup: PropTypes.string.isRequired,
   perPopulation: PropTypes.string.isRequired,
+  newCountryOnRowCLickHandler: PropTypes.func.isRequired,
 };
 
 export default TablesPager;

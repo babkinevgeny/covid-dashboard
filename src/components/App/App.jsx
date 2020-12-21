@@ -3,15 +3,20 @@ import {
   CircularProgress,
   Container,
 } from '@material-ui/core';
+import moment from 'moment';
 import TablesPager from '../TablesPager';
-import CasesTable from '../CasesTable';
 import CovidMap from '../CovidMap';
 import KeyboardContainer from '../KeyboardContainer';
 import FullPageComponentWrapper from '../FullPageComponentWrapper';
+import CountriesCasesDataWrapper from '../CountriesCasesDataWrapper';
 import {
   apiConstants,
   DataHelper,
   dataProcessor,
+  sortArray,
+  globalChartDataKey,
+  getStartOfYear,
+  covidBaseURL,
 } from '../../helpers';
 import '../../css/App.scss';
 
@@ -31,13 +36,16 @@ class App extends React.Component {
       casesTableInputValue: '',
       dataGroup: 'Total',
       perPopulation: 'total',
+      lastAPIDate: moment.utc(),
+      chartByCountriesCovidData: {},
+      chartDataKey: globalChartDataKey,
     };
   }
 
   componentDidMount() {
     const getData = () => {
       DataHelper.fetchRequestData(
-        'https://api.covid19api.com/summary',
+        `${covidBaseURL}summary`,
         this.onCovidDataSuccess,
         (responseJson) => responseJson.Message.length > 0,
         () => { this.setState({ loading: true }); },
@@ -50,26 +58,30 @@ class App extends React.Component {
   }
 
   onCovidDataSuccess = (responseJson) => {
-    const { Global, Countries } = responseJson;
+    const { Global, Countries, Date: lastDate } = responseJson;
     this.setState({
       covidPerCountryData: [...Countries],
       globalData: { ...Global },
       loading: false,
+      lastAPIDate: moment.utc(lastDate),
     });
 
     DataHelper.fetchRequestData('https://restcountries.eu/rest/v2/?fields=name;population;latlng',
-      (respJson) => this.onCountriesSuccess([...Countries], respJson),
+      (respJson) => this.onCountriesSuccess([...Countries], respJson, { ...Global }),
       () => false,
       () => { },
       (error) => { this.setState({ error: true, errorMessage: error.message }); },
       (error) => { this.setState({ error: true, errorMessage: error.message }); });
   }
 
-  onCountriesSuccess = (covidData, responseJson) => {
-    const processedData = dataProcessor.postProcessData(covidData, responseJson);
+  onCountriesSuccess = (covidData, responseJson, globalObj) => {
+    const { Countries, Global } = dataProcessor.postProcessData(covidData, responseJson, globalObj);
     this.setState({
-      covidPerCountryData: processedData,
+      covidPerCountryData: [...Countries],
+      globalData: { ...Global },
     });
+
+    this.requestCountryPerPeriodData();
   }
 
   onPageChangeHandler = (newPage) => {
@@ -79,6 +91,7 @@ class App extends React.Component {
   }
 
   onCurrentCountryHandler = (newCountry) => {
+    this.requestCountryPerPeriodData(newCountry);
     this.setState({
       currentCountry: newCountry,
     });
@@ -88,6 +101,22 @@ class App extends React.Component {
     this.setState({
       currentIndicator: newIndicator,
     });
+  }
+
+  onChartDataSuccess = (responseJson, dataKey, newCountry) => {
+    const { covidPerCountryData } = this.state;
+    const sortedData = (dataKey === globalChartDataKey)
+      ? sortArray(responseJson, 'TotalConfirmed', true)
+      : responseJson;
+    const countryData = covidPerCountryData.find((country) => country.Country === newCountry);
+    const postProcessedData = dataProcessor.postProcessChartCountriesData(sortedData, countryData);
+    this.setState((state) => ({
+      chartByCountriesCovidData: {
+        ...state.chartByCountriesCovidData,
+        [dataKey]: postProcessedData,
+      },
+      chartDataKey: dataKey,
+    }));
   }
 
   showKeyboard = () => {
@@ -142,6 +171,11 @@ class App extends React.Component {
     });
   }
 
+  newCountryOnRowCLickHandler = (newValue) => {
+    this.setCasesTableInputValue(newValue);
+    this.onCurrentCountryHandler(newValue);
+  }
+
   onDataGroupChangedHandler = (newGroup) => {
     this.setState({
       dataGroup: newGroup,
@@ -152,6 +186,30 @@ class App extends React.Component {
     this.setState({
       perPopulation,
     });
+  }
+
+  requestCountryPerPeriodData(newCountry) {
+    const { covidPerCountryData, lastAPIDate, chartByCountriesCovidData } = this.state;
+    let countryRow = {};
+    let currentCountrySlug;
+    if (newCountry) {
+      countryRow = covidPerCountryData.find((row) => row.Country === newCountry);
+      currentCountrySlug = countryRow ? countryRow.Slug : globalChartDataKey;
+    } else {
+      currentCountrySlug = globalChartDataKey;
+    }
+    if (chartByCountriesCovidData[currentCountrySlug]) {
+      this.setState({
+        chartDataKey: currentCountrySlug,
+      });
+      return;
+    }
+    const startDate = getStartOfYear(lastAPIDate);
+    const countryDomain = currentCountrySlug === globalChartDataKey ? currentCountrySlug : `total/country/${currentCountrySlug}`;
+    DataHelper.fetchRequestData(
+      `${covidBaseURL}${countryDomain}?from=${startDate.format()}&to=${lastAPIDate.format()}`,
+      (responseJson) => this.onChartDataSuccess(responseJson, currentCountrySlug, newCountry),
+    );
   }
 
   render() {
@@ -168,6 +226,9 @@ class App extends React.Component {
       casesTableInputValue,
       dataGroup,
       perPopulation,
+      lastAPIDate,
+      chartByCountriesCovidData,
+      chartDataKey,
     } = this.state;
     const resultGot = error ? (
       <div>
@@ -187,16 +248,13 @@ class App extends React.Component {
             onPerPopulationChangedHandler={this.onPerPopulationChangedHandler}
             dataGroup={dataGroup}
             perPopulation={perPopulation}
+            newCountryOnRowCLickHandler={this.newCountryOnRowCLickHandler}
           />
         </FullPageComponentWrapper>
       );
     return (
       <Container maxWidth="lg" className="App">
-        <CovidMap
-          countries={covidPerCountryData}
-          currentIndicator={currentIndicator}
-        />
-        <CasesTable
+        <CountriesCasesDataWrapper
           currentCountry={currentCountry}
           currentIndicator={currentIndicator}
           rows={covidPerCountryData}
@@ -206,11 +264,22 @@ class App extends React.Component {
           hideKeyboard={this.hideKeyboard}
           setCasesTableInputValue={this.setCasesTableInputValue}
           inputValue={casesTableInputValue}
+          lastAPIDate={lastAPIDate}
+          chartByCountriesCovidData={chartByCountriesCovidData}
+          chartDataKey={chartDataKey}
         />
-        {loading ? (
-          <CircularProgress />
-        )
-          : resultGot}
+        <FullPageComponentWrapper>
+          <CovidMap
+            countries={covidPerCountryData}
+            currentIndicator={currentIndicator}
+          />
+        </FullPageComponentWrapper>
+        {
+          loading ? (
+            <CircularProgress />
+          )
+            : resultGot
+        }
         <KeyboardContainer
           isHidden={keyboardHidden}
           updateCasesTableInputValue={this.updateCasesTableInputValue}

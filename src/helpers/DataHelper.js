@@ -1,5 +1,6 @@
+const requestTimeOut = 500;
+
 const DataHelper = {
-  requestTimeOut: 500,
   fetchRequestData: function fetchData(url,
     onSuccessHandler,
     needReFetchPredicate = () => false,
@@ -20,7 +21,7 @@ const DataHelper = {
             preLoadingHandler,
             onErrorHandler,
             onParseErrorHandler,
-          ), this.requestTimeOut);
+          ), requestTimeOut);
         } else {
           clearTimeout(timerId);
           onSuccessHandler(responseJson);
