@@ -269,22 +269,24 @@ class App extends React.Component {
             chartDataKey={chartDataKey}
           />
         </section>
-        <section className="section-container section-container--center">
-          <FullPageComponentWrapper>
-            <CovidMap
-              countries={covidPerCountryData}
-              currentIndicator={currentIndicator}
-            />
-          </FullPageComponentWrapper>
-        </section>
-        <section className="section-container section-container--right">
-          {
-            loading ? (
-              <CircularProgress />
-            )
-              : resultGot
-          }
-        </section>
+        <div className="right-side-wrapper">
+          <section className="section-container section-container--center">
+            <FullPageComponentWrapper>
+              <CovidMap
+                countries={covidPerCountryData}
+                currentIndicator={currentIndicator}
+              />
+            </FullPageComponentWrapper>
+          </section>
+          <section className="section-container section-container--right">
+            {
+              loading ? (
+                <CircularProgress />
+              )
+                : resultGot
+            }
+          </section>
+        </div>
         <KeyboardContainer
           isHidden={keyboardHidden}
           updateCasesTableInputValue={this.updateCasesTableInputValue}

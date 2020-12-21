@@ -27,7 +27,7 @@ const CasesTable = ({
 }) => (
   <div className="select-indicator">
     <Grid container spacing={0}>
-      <Grid item sm={6}>
+      <Grid item sm={6} xs={6}>
 
         <InputCountry
           onCurrentCountryHandler={onCurrentCountryHandler}
@@ -40,7 +40,7 @@ const CasesTable = ({
         />
 
       </Grid>
-      <Grid item sm={6}>
+      <Grid item sm={6} xs={6}>
 
         <SelectIndicator
           onCurrentIndicatorHandler={onCurrentIndicatorHandler}

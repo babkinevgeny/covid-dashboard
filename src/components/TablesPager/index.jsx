@@ -106,7 +106,7 @@ class TablesPager extends Component {
       }];
 
     return (
-      <div>
+      <div className="tables_pager_wrapper">
         <div className="tables_pager">
           <div className="radio_groups_wrapper">
             {this.getRadioGroup({
@@ -126,7 +126,7 @@ class TablesPager extends Component {
               labelValues: timeConstLabels,
             })}
           </div>
-          <div key={currentIndicator}>
+          <div className="total_cases_wrapper" key={currentIndicator}>
             <h3>{getIndicatorTitleByKey(currentIndicator)}</h3>
             <div className="global">
               <span>Global &nbsp;</span>

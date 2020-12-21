@@ -5,7 +5,7 @@
 }
 
 .App {
-  padding: 10px 0;
+  padding: 10px 5px;
   margin: 0 auto;
   display: flex;
   text-align: center;
@@ -32,7 +32,7 @@
   top: 0;
   left: 0;
   border-radius: 5px;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 80px);
   z-index: 1;
 }
 
@@ -217,8 +217,12 @@ th.row {
   }
 }
 
+.right-side-wrapper {
+  width: calc(100vw - 350px);
+  display: flex;
+}
+
 .section-container {
-  margin: 0 5px;
   height: calc(100vh - 20px);
 
   .component_wrapper {
@@ -243,7 +247,7 @@ th.row {
 
         &:nth-child(1) {
           height: 50%;
-          margin-bottom: 14px;
+          margin-bottom: 5px;
         }
 
         &:nth-child(2) {
@@ -254,13 +258,12 @@ th.row {
   }
 
   &--center {
-    padding: 40px 20px 20px;
     width: calc(100vw - 350px * 2);
-    padding: 0;
+    padding: 0 5px;
     border: 0px;
 
     .component_wrapper {
-      overflow: hidden;
+      padding: 40px 20px 20px 20px;
     }
   }
 
@@ -286,5 +289,85 @@ th.row {
 
   .chart_container {
     margin: auto;
+  }
+}
+
+
+@media (max-width: 1200px) {
+  .right-side-wrapper {
+    flex-direction: column;
+    padding-left: 5px;
+  }
+
+  .leaflet-container {
+    height: 40vh;
+
+    .legend {
+      top: 10px;
+      right: 10px;
+
+      .text {
+        right: 30px;
+        padding: 0 10px;
+      }
+
+      .box {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  .section-container {
+    &--center {
+      padding: 0;
+      width: 100%;
+      height: 50vh;
+    }
+
+    &--right {
+      max-width: inherit;
+      width: 100%;
+
+      .tables_pager_wrapper {
+        width: 100%;
+      }
+
+      .component_wrapper {
+        height: calc(50vh - 20px);
+        padding-top: 0;
+      }
+
+      .tables_pager {
+        overflow: scroll;
+        height: calc(50vh - 70px);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .App {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .section-container {
+    width: 100%;
+    max-width: 100%;
+    height: 50vh;
+
+    &--left {
+      height: calc(100vh - 60px);
+      margin-bottom: 40px;
+    }
+
+    &--right {
+      height: 50vh;
+    }
+  }
+
+  .right-side-wrapper {
+    width: 100%;
   }
 }
