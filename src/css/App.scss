@@ -5,39 +5,17 @@
 }
 
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  padding: 10px 0;
+  margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
+  text-align: center;
 }
 
 .tables_pager {
   display: flex;
-  max-height: 400px;
-  overflow: hidden;
+  flex-direction: column;
+  height: calc(100vh - 110px);
+  overflow: scroll;
 }
 
 .tables_pagination-ul {
@@ -50,9 +28,11 @@
 }
 
 .leaflet-container {
-  height: 500px;
-  max-height: 500px;
-  margin-bottom: 20px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+  height: calc(100vh - 100px);
   z-index: 1;
 }
 
@@ -131,8 +111,10 @@
 
 .select-indicator {
   display: flex;
+  flex-direction: column;
+  width: 100%;
   max-height: 400px;
-  max-width: 400px;
+  padding: 0;
   overflow: scroll;
 }
 
@@ -232,5 +214,77 @@ th.row {
     font-weight: bold;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+}
+
+.section-container {
+  margin: 0 5px;
+  height: calc(100vh - 20px);
+
+  .component_wrapper {
+    display: flex;
+    border: 2px solid lightgray;
+    border-radius: 5px;
+    padding: 40px 20px;
+  }
+
+  &--left {
+    padding: 0;
+    border: 0px;
+    max-width: 350px;
+
+    .countries_data_wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+
+      .component_wrapper {
+
+        &:nth-child(1) {
+          height: 50%;
+          margin-bottom: 14px;
+        }
+
+        &:nth-child(2) {
+          height: 30%;
+        }
+      }
+    }
+  }
+
+  &--center {
+    padding: 40px 20px 20px;
+    width: calc(100vw - 350px * 2);
+    padding: 0;
+    border: 0px;
+
+    .component_wrapper {
+      overflow: hidden;
+    }
+  }
+
+  &--right {
+    width: 350px;
+    max-width: 350px;
+
+    .component_wrapper {
+      padding-bottom: 0;
+
+      td {
+        padding: 7px;
+      }
+    }
+  }
+
+
+  .page_expand {
+    position: absolute;
+    top: -6px;
+    right: -3px;
+  }
+
+  .chart_container {
+    margin: auto;
   }
 }

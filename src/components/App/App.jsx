@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   CircularProgress,
-  Container,
 } from '@material-ui/core';
 import moment from 'moment';
 import TablesPager from '../TablesPager';
@@ -253,38 +252,44 @@ class App extends React.Component {
         </FullPageComponentWrapper>
       );
     return (
-      <Container maxWidth="lg" className="App">
-        <CountriesCasesDataWrapper
-          currentCountry={currentCountry}
-          currentIndicator={currentIndicator}
-          rows={covidPerCountryData}
-          onCurrentCountryHandler={this.onCurrentCountryHandler}
-          onCurrentIndicatorHandler={this.onCurrentIndicatorHandler}
-          showKeyboard={this.showKeyboard}
-          hideKeyboard={this.hideKeyboard}
-          setCasesTableInputValue={this.setCasesTableInputValue}
-          inputValue={casesTableInputValue}
-          lastAPIDate={lastAPIDate}
-          chartByCountriesCovidData={chartByCountriesCovidData}
-          chartDataKey={chartDataKey}
-        />
-        <FullPageComponentWrapper>
-          <CovidMap
-            countries={covidPerCountryData}
+      <main className="App">
+        <section className="section-container section-container--left">
+          <CountriesCasesDataWrapper
+            currentCountry={currentCountry}
             currentIndicator={currentIndicator}
+            rows={covidPerCountryData}
+            onCurrentCountryHandler={this.onCurrentCountryHandler}
+            onCurrentIndicatorHandler={this.onCurrentIndicatorHandler}
+            showKeyboard={this.showKeyboard}
+            hideKeyboard={this.hideKeyboard}
+            setCasesTableInputValue={this.setCasesTableInputValue}
+            inputValue={casesTableInputValue}
+            lastAPIDate={lastAPIDate}
+            chartByCountriesCovidData={chartByCountriesCovidData}
+            chartDataKey={chartDataKey}
           />
-        </FullPageComponentWrapper>
-        {
-          loading ? (
-            <CircularProgress />
-          )
-            : resultGot
-        }
+        </section>
+        <section className="section-container section-container--center">
+          <FullPageComponentWrapper>
+            <CovidMap
+              countries={covidPerCountryData}
+              currentIndicator={currentIndicator}
+            />
+          </FullPageComponentWrapper>
+        </section>
+        <section className="section-container section-container--right">
+          {
+            loading ? (
+              <CircularProgress />
+            )
+              : resultGot
+          }
+        </section>
         <KeyboardContainer
           isHidden={keyboardHidden}
           updateCasesTableInputValue={this.updateCasesTableInputValue}
         />
-      </Container>
+      </main>
     );
   }
 }

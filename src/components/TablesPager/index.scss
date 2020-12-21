@@ -3,13 +3,6 @@
   flex-direction: row;
 }
 
-.tables_pager {
-  display: flex;
-  flex-direction: column;
-  max-height: 400px;
-  overflow: hidden;
-}
-
 .radio_groups_wrapper {
   display: flex;
   flex-direction: row;
@@ -27,5 +20,5 @@
 
 .MuiTableContainer-root {
   overflow-y: scroll;
-  max-height: 300px;
+  // max-height: 300px;
 }
