@@ -367,9 +367,8 @@ export const mapCenterCoorinates = [31.505, -0.09];
 export const mapZoom = 2;
 
 export const getStartOfYear = (currentDate) => {
-  const startDate = (moment.isMoment(currentDate)
-    ? currentDate
-    : moment(currentDate)).clone().utc();
+  const currentMoment = moment.isMoment(currentDate) ? currentDate : moment(currentDate);
+  const startDate = currentMoment.clone().utc();
   startDate.startOf('year');
   return startDate;
 };

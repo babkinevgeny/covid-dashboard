@@ -1,8 +1,8 @@
 import React from 'react';
 import { IconButton, TextField } from '@material-ui/core';
-import ExposureNeg1Icon from '@material-ui/icons/ExposureNeg1';
-import ExposurePlus1Icon from '@material-ui/icons/ExposurePlus1';
+import { ExposureNeg1, ExposurePlus1 } from '@material-ui/icons';
 import PropTypes from 'prop-types';
+import './index.scss';
 
 const IntegerFieldWithIncAndDec = ({
   handleDecrementButtonClick,
@@ -10,13 +10,13 @@ const IntegerFieldWithIncAndDec = ({
   handleIncrementButtonClick,
   fieldLabel,
 }) => (
-  <div>
+  <div className="integer_field_with_buttons">
     <IconButton
       disabled={inputValue < 2}
       aria-label="decrement"
       onClick={handleDecrementButtonClick}
     >
-      <ExposureNeg1Icon />
+      <ExposureNeg1 />
     </IconButton>
     <TextField
       disabled
@@ -35,7 +35,7 @@ const IntegerFieldWithIncAndDec = ({
       aria-label="increment"
       onClick={handleIncrementButtonClick}
     >
-      <ExposurePlus1Icon />
+      <ExposurePlus1 />
     </IconButton>
   </div>
 );

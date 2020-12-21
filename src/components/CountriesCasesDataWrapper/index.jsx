@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { sortArray } from '../../helpers';
 import FullPageComponentWrapper from '../FullPageComponentWrapper';
 import CasesTable from '../CasesTable';
 import CasesChart from '../CasesChart';
+import { getPreparedRows } from '../../helpers';
 
 class CountriesCasesDataWrapper extends Component {
   constructor(props) {
@@ -12,13 +12,6 @@ class CountriesCasesDataWrapper extends Component {
 
     this.state = {
       daysBackCount: 10,
-    };
-
-    this.getPreparedRows = (rows, currentCountry, currentIndicator) => {
-      if (currentCountry) {
-        return rows.filter((row) => row.Country === currentCountry);
-      }
-      return sortArray(rows, currentIndicator);
     };
   }
 
@@ -47,7 +40,7 @@ class CountriesCasesDataWrapper extends Component {
       chartDataKey,
     } = this.props;
 
-    const preparedRows = this.getPreparedRows(rows, currentCountry, currentIndicator);
+    const preparedRows = getPreparedRows(rows, currentCountry, currentIndicator);
     const countriesList = preparedRows.map((obj) => obj.Country);
     return (
       <div className="countries_data_wrapper">
