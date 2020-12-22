@@ -171,7 +171,7 @@ class App extends React.Component {
     });
   }
 
-  newCountryOnRowCLickHandler = (newValue) => {
+  newCountryOnRowClickHandler = (newValue) => {
     this.setCasesTableInputValue(newValue);
     this.onCurrentCountryHandler(newValue);
   }
@@ -248,7 +248,7 @@ class App extends React.Component {
             onPerPopulationChangedHandler={this.onPerPopulationChangedHandler}
             dataGroup={dataGroup}
             perPopulation={perPopulation}
-            newCountryOnRowCLickHandler={this.newCountryOnRowCLickHandler}
+            newCountryOnRowClickHandler={this.newCountryOnRowClickHandler}
           />
         </FullPageComponentWrapper>
       );

@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { sortArray } from '../../helpers';
 import './index.scss';
 
-function CountriesTable({ data, field, newCountryOnRowCLickHandler }) {
+function CountriesTable({ data, field, newCountryOnRowClickHandler }) {
   const sortedData = sortArray(data, field);
 
   return (
@@ -17,7 +17,7 @@ function CountriesTable({ data, field, newCountryOnRowCLickHandler }) {
       <Table>
         <TableBody>
           {sortedData.map((row) => {
-            const onRowClickHandler = () => newCountryOnRowCLickHandler(row.Country);
+            const onRowClickHandler = () => newCountryOnRowClickHandler(row.Country);
             return (
               <TableRow key={row.Country} className="countries_table_row" onClick={onRowClickHandler}>
                 <TableCell>{row.Country}</TableCell>
@@ -34,7 +34,7 @@ function CountriesTable({ data, field, newCountryOnRowCLickHandler }) {
 CountriesTable.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   field: PropTypes.string.isRequired,
-  newCountryOnRowCLickHandler: PropTypes.func.isRequired,
+  newCountryOnRowClickHandler: PropTypes.func.isRequired,
 };
 
 export default CountriesTable;
