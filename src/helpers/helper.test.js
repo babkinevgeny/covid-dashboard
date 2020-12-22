@@ -8,12 +8,15 @@ describe('Utilities methods testing', () => {
   });
 
   it('Expect getStartOfYear to return the first year\'s date', () => {
-    const currentYear = new Date().getUTCFullYear();
-    const yearStart = new Date('2020-01-01');
-    yearStart.setUTCFullYear(currentYear, 0, 1);
-    const returned = getStartOfYear(new Date());
+    const currentDate = new Date();
 
-    expect(returned.date()).toEqual(moment.utc(yearStart).date());
+    const returned = getStartOfYear(currentDate);
+
+    const currentYear = currentDate.getUTCFullYear();
+    currentDate.setUTCFullYear(currentYear, 0, 1);
+    const checkDate = moment.utc(currentDate).startOf('day');
+
+    expect(returned).toEqual(checkDate);
   });
 
   it('Expect getMaxValue to return maximum', () => {
