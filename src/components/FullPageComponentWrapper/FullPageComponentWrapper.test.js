@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import FullPageComponentWrapper from ".";
+import FullPageComponentWrapper from "../FullPageComponentWrapper";
 
 describe('FullPageComponentWrapper class component testing', () => {
   
@@ -19,7 +19,6 @@ describe('FullPageComponentWrapper class component testing', () => {
   });
 
   it('FullPageComponentWrapper renders children', () => {
-    const divToCheck = wrapper.find('.div_to_check');
     expect(wrapper.exists('.div_to_check')).toBe(true);
   });
 

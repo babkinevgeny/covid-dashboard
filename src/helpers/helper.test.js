@@ -8,8 +8,9 @@ describe('Utilities methods testing', () => {
   });
 
   it('Expect getStartOfYear to return the first year\'s date', () => {
+    const currentYear = new Date().getUTCFullYear();
     const yearStart = new Date('2020-01-01');
-    yearStart.setUTCFullYear(2020, 0, 1);
+    yearStart.setUTCFullYear(currentYear, 0, 1);
     const returned = getStartOfYear(new Date());
 
     expect(returned.date()).toEqual(moment.utc(yearStart).date());

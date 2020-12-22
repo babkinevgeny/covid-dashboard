@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import CountriesTable from ".";
+import CountriesTable from "../CountriesTable";
 
 const MIN_PROPS = {
   data: [
@@ -13,7 +13,7 @@ const MIN_PROPS = {
     },
   ],
   field: 'TestField',
-  newCountryOnRowCLickHandler: () => {},
+  newCountryOnRowCLickHandler: jest.fn(),
 };
 
 describe('CountriesTable functional component testing', () => {
