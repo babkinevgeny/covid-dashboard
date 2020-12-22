@@ -101,7 +101,7 @@ class TablesPager extends Component {
     const amountConstLabels = [
       { label: 'Total', value: 'total' },
       {
-        label: `Per ${populationBase.toLocaleString()} Population`,
+        label: `Per ${populationBase.toLocaleString()}`,
         value: keyConstants.perPopulationKey,
       }];
 

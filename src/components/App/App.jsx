@@ -281,7 +281,7 @@ class App extends React.Component {
           <section className="section-container section-container--right">
             {
               loading ? (
-                <CircularProgress />
+                <CircularProgress className="progress_circle" />
               )
                 : resultGot
             }
