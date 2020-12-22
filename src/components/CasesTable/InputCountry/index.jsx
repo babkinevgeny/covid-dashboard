@@ -10,31 +10,38 @@ const InputCountry = ({
   hideKeyboard,
   setCasesTableInputValue,
   inputValue,
-}) => (
-  <Autocomplete
-    id="combo-box-demo"
-    options={countriesList}
-    autoComplete
-    getOptionLabel={(option) => option}
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    renderInput={(params) => <TextField {...params} label="Country" variant="outlined" />}
-    onChange={(_event, value) => {
-      onCurrentCountryHandler(value);
-    }}
-    inputValue={inputValue}
-    onOpen={showKeyboard}
-    onBlur={hideKeyboard}
-    onInputChange={(_event, value, reason) => {
-      setCasesTableInputValue(value);
+}) => {
+  const onChangeHandler = (_event, value) => {
+    onCurrentCountryHandler(value);
+  };
 
-      if (reason === 'clear') {
-        showKeyboard();
-      }
-    }}
-    className="select"
-    blurOnSelect
-  />
-);
+  const onInputChangeHandler = (_event, value, reason) => {
+    setCasesTableInputValue(value);
+
+    if (reason === 'clear') {
+      showKeyboard();
+    }
+  };
+
+  return (
+    <Autocomplete
+      id="combo-box-demo"
+      options={countriesList}
+      autoComplete
+      getOptionLabel={(option) => option}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      renderInput={(params) => <TextField {...params} label="Country" variant="outlined" />}
+      onChange={onChangeHandler}
+      value={inputValue || null}
+      inputValue={inputValue}
+      onOpen={showKeyboard}
+      onBlur={hideKeyboard}
+      onInputChange={onInputChangeHandler}
+      className="select"
+      blurOnSelect
+    />
+  );
+};
 
 InputCountry.propTypes = {
   countriesList: PropTypes.arrayOf(PropTypes.string).isRequired,
