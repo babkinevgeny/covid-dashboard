@@ -14,7 +14,7 @@
 .tables_pager {
   height: calc(100vh - 110px);
 
-  .wrapper_fullscreen &{
+  .wrapper_fullscreen & {
     width: 50vw;
   }
 }
@@ -383,10 +383,10 @@ th.row {
     width: 100%;
     max-width: 100%;
     height: 50vh;
+    margin-bottom: 5px;
 
     &--left {
       height: calc(100vh - 60px);
-      margin-bottom: 40px;
     }
 
     &--right {
@@ -395,11 +395,13 @@ th.row {
   }
 
   .right-side-wrapper {
+    padding: 0;
+    margin: 0;
     width: 100%;
   }
 
   .wrapper_fullscreen {
-    height: calc(100vh - 60px);
+    height: calc(100vh - 80px);
 
     .leaflet-container {
       max-width: 100vw;

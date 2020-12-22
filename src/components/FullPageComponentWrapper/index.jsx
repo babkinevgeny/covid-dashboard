@@ -14,6 +14,14 @@ class FullPageComponentWrapper extends Component {
   }
 
   onExpandButtonClick = () => {
+    const { fullScreen } = this.state;
+
+    if (fullScreen) {
+      document.body.style.overflow = 'unset';
+    } else {
+      document.body.style.overflow = 'hidden';
+    }
+
     this.setState((state) => ({
       fullScreen: !state.fullScreen,
     }));
