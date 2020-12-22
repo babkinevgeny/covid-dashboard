@@ -9,6 +9,7 @@ import CovidMap from '../CovidMap';
 import KeyboardContainer from '../KeyboardContainer';
 import FullPageComponentWrapper from '../FullPageComponentWrapper';
 import CountriesCasesDataWrapper from '../CountriesCasesDataWrapper';
+import Footer from '../Footer';
 import {
   apiConstants,
   DataHelper,
@@ -280,6 +281,7 @@ class App extends React.Component {
           )
             : resultGot
         }
+        <Footer />
         <KeyboardContainer
           isHidden={keyboardHidden}
           updateCasesTableInputValue={this.updateCasesTableInputValue}
