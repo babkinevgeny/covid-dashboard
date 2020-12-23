@@ -239,6 +239,7 @@ class App extends React.Component {
       : (
         <FullPageComponentWrapper>
           <TablesPager
+            currentCountry={currentCountry}
             tablesData={covidPerCountryData}
             global={globalData}
             dataFields={apiConstants.dataFields}
