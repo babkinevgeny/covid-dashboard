@@ -1,4 +1,4 @@
-const requestTimeOut = 500;
+const requestTimeOut = 3000;
 
 const DataHelper = {
   fetchRequestData: function fetchData(url,
