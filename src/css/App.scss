@@ -9,7 +9,7 @@
   margin: 0 auto;
   display: flex;
   text-align: center;
-  height: 96vh;
+  height: calc(96vh - 2px);
 }
 
 .tables_pager {
@@ -505,7 +505,7 @@ th.row {
   }
 
   .footer {
-    padding: 0px 20px 10px;
+    padding: 0px 20px 5px;
   }
 }
 
