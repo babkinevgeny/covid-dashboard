@@ -371,6 +371,7 @@ th.row {
     &--right {
       text-align: right;
       flex-direction: row-reverse;
+      padding-top: 5px;
 
       h6 {
         padding-top: 3px;
@@ -386,6 +387,7 @@ th.row {
         width: 30px;
         height: 15px;
         margin-left: 10px;
+        padding-top: 1px;
       }
     }
 
