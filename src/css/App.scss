@@ -470,6 +470,7 @@ th.row {
     flex-direction: column;
     padding: 20px;
     padding-bottom: 0;
+    height: 100%;
   }
 
   .section-container {
@@ -499,6 +500,10 @@ th.row {
     .leaflet-container {
       max-width: 100vw;
     }
+  }
+
+  .footer {
+    padding: 0px 20px 10px;
   }
 }
 
