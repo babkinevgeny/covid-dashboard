@@ -233,7 +233,6 @@ th.row {
 }
 
 .section-container {
-  // height: calc(100vh - 20px);
 
   .component_wrapper {
     display: flex;
@@ -321,12 +320,7 @@ th.row {
     .section-container {
 
       &--center {
-        // height: auto;
         margin-bottom: 0;
-      }
-
-      &--right {
-        // height: 100%;
       }
     }
   }
@@ -357,14 +351,12 @@ th.row {
     &--center {
       padding: 0;
       width: 100%;
-      // height: 50%;
       margin-bottom: 11px;
     }
 
     &--right {
       max-width: inherit;
       width: 100%;
-      // height: 50%;
 
       .component_wrapper:not(.wrapper_fullscreen) {
         height: calc(50vh - 20px);
