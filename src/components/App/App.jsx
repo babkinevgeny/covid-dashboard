@@ -252,7 +252,7 @@ class App extends React.Component {
         </FullPageComponentWrapper>
       );
     return (
-      <main className="App">
+      <main className="app">
         <section className="section-container section-container--left">
           <CountriesCasesDataWrapper
             currentCountry={currentCountry}
