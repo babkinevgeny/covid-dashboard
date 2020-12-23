@@ -5,10 +5,11 @@
 }
 
 .app {
-  padding: 10px 5px;
+  padding: 5px 5px 0px;
   margin: 0 auto;
   display: flex;
   text-align: center;
+  height: 96vh;
 }
 
 .tables_pager {
@@ -227,7 +228,7 @@ th.row {
 }
 
 .right-side-wrapper {
-  height: calc(100vh - 20px);
+  height: calc(98vh - 16px);
   width: calc(100vw - 350px);
   display: flex;
 }
@@ -245,7 +246,7 @@ th.row {
     padding: 0;
     border: 0px;
     max-width: 350px;
-    height: calc(100vh - 20px);
+    height: calc(98vh - 20px);
 
     .countries_data_wrapper {
       display: flex;
@@ -271,18 +272,21 @@ th.row {
     width: calc(100vw - 350px * 2);
     padding: 0 5px;
     border: 0px;
+    height: calc(98vh - 20px);
 
     .component_wrapper {
-      padding: 40px 20px 20px;
+      padding: 30px 20px 10px;
     }
   }
 
   &--right {
     width: 100%;
     max-width: 350px;
+    height: calc(98vh - 20px);
 
     .component_wrapper:not(.wrapper_fullscreen) {
       padding-bottom: 0;
+      padding-top: 22px;
 
       td {
         padding: 7px;
@@ -313,7 +317,7 @@ th.row {
 .footer {
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
+  padding: 0 10px 5px;
 
   ul {
     margin: 0;
@@ -327,11 +331,31 @@ th.row {
 
   &__column {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    width: 50%;
 
     &--left {
       text-align: left;
+      display: flex;
+      align-items: center;
+
+      h6 {
+        display: inline-block;
+        margin-right: 10px;
+        padding-top: 3px;
+      }
+
+      ul {
+        display: flex;
+        max-width: 160px;
+
+        li {
+          margin: 0 5px;
+          
+          a {
+            line-height: 10px;
+          }
+        }
+      }
 
       a {
         font-size: 10px;
@@ -346,6 +370,11 @@ th.row {
 
     &--right {
       text-align: right;
+      flex-direction: row-reverse;
+
+      h6 {
+        padding-top: 3px;
+      }
 
       a {
         opacity: 0.6;
@@ -354,8 +383,9 @@ th.row {
         }
       }
       img {
-        width: 50px;
-        height: 30px;
+        width: 30px;
+        height: 15px;
+        margin-left: 10px;
       }
     }
 
@@ -439,6 +469,7 @@ th.row {
   .app {
     flex-direction: column;
     padding: 20px;
+    padding-bottom: 0;
   }
 
   .section-container {

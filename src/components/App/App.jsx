@@ -254,48 +254,50 @@ class App extends React.Component {
         </FullPageComponentWrapper>
       );
     return (
-      <main className="app">
-        <section className="section-container section-container--left">
-          <CountriesCasesDataWrapper
-            currentCountry={currentCountry}
-            currentIndicator={currentIndicator}
-            rows={covidPerCountryData}
-            onCurrentCountryHandler={this.onCurrentCountryHandler}
-            onCurrentIndicatorHandler={this.onCurrentIndicatorHandler}
-            showKeyboard={this.showKeyboard}
-            hideKeyboard={this.hideKeyboard}
-            setCasesTableInputValue={this.setCasesTableInputValue}
-            inputValue={casesTableInputValue}
-            lastAPIDate={lastAPIDate}
-            chartByCountriesCovidData={chartByCountriesCovidData}
-            chartDataKey={chartDataKey}
+      <>
+        <main className="app">
+          <section className="section-container section-container--left">
+            <CountriesCasesDataWrapper
+              currentCountry={currentCountry}
+              currentIndicator={currentIndicator}
+              rows={covidPerCountryData}
+              onCurrentCountryHandler={this.onCurrentCountryHandler}
+              onCurrentIndicatorHandler={this.onCurrentIndicatorHandler}
+              showKeyboard={this.showKeyboard}
+              hideKeyboard={this.hideKeyboard}
+              setCasesTableInputValue={this.setCasesTableInputValue}
+              inputValue={casesTableInputValue}
+              lastAPIDate={lastAPIDate}
+              chartByCountriesCovidData={chartByCountriesCovidData}
+              chartDataKey={chartDataKey}
+            />
+          </section>
+          <div className="right-side-wrapper">
+            <section className="section-container section-container--center">
+              <FullPageComponentWrapper>
+                <CovidMap
+                  countries={covidPerCountryData}
+                  currentIndicator={currentIndicator}
+                  markerClickHandler={this.newCountryOnRowClickHandler}
+                />
+              </FullPageComponentWrapper>
+            </section>
+            <section className="section-container section-container--right">
+              {
+                loading ? (
+                  <CircularProgress className="progress_circle" />
+                )
+                  : resultGot
+              }
+            </section>
+          </div>
+          <KeyboardContainer
+            isHidden={keyboardHidden}
+            updateCasesTableInputValue={this.updateCasesTableInputValue}
           />
-        </section>
-        <div className="right-side-wrapper">
-          <section className="section-container section-container--center">
-            <FullPageComponentWrapper>
-              <CovidMap
-                countries={covidPerCountryData}
-                currentIndicator={currentIndicator}
-                markerClickHandler={this.newCountryOnRowClickHandler}
-              />
-            </FullPageComponentWrapper>
-          </section>
-          <section className="section-container section-container--right">
-            {
-              loading ? (
-                <CircularProgress className="progress_circle" />
-              )
-                : resultGot
-            }
-          </section>
-        </div>
+        </main>
         <Footer />
-        <KeyboardContainer
-          isHidden={keyboardHidden}
-          updateCasesTableInputValue={this.updateCasesTableInputValue}
-        />
-      </main>
+      </>
     );
   }
 }
