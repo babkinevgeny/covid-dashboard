@@ -9,7 +9,8 @@
   margin: 0 auto;
   display: flex;
   text-align: center;
-  height: calc(96vh - 4px);
+  height: 96vh;
+  box-sizing: border-box;
 }
 
 .tables_pager {
