@@ -273,6 +273,7 @@ class App extends React.Component {
           <CovidMap
             countries={covidPerCountryData}
             currentIndicator={currentIndicator}
+            markerClickHandler={this.newCountryOnRowClickHandler}
           />
         </FullPageComponentWrapper>
         {
