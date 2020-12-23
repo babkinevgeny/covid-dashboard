@@ -238,6 +238,7 @@ class App extends React.Component {
       : (
         <FullPageComponentWrapper>
           <TablesPager
+            currentCountry={currentCountry}
             tablesData={covidPerCountryData}
             global={globalData}
             dataFields={apiConstants.dataFields}
@@ -275,6 +276,7 @@ class App extends React.Component {
               <CovidMap
                 countries={covidPerCountryData}
                 currentIndicator={currentIndicator}
+                markerClickHandler={this.newCountryOnRowClickHandler}
               />
             </FullPageComponentWrapper>
           </section>

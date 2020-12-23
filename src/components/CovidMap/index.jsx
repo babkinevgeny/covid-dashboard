@@ -25,6 +25,7 @@ import mapAccessObj from './access';
 const CovidMap = ({
   countries,
   currentIndicator,
+  markerClickHandler,
 }) => {
   const eventHandlers = {
     mouseover(event) {
@@ -32,6 +33,10 @@ const CovidMap = ({
     },
     mouseout(event) {
       event.target.closePopup();
+    },
+    click(event) {
+      const { country } = event.target.options;
+      markerClickHandler(country);
     },
   };
 
@@ -65,6 +70,7 @@ const CovidMap = ({
         fillColor={markerBackgroundColor}
         fillOpacity={opacity}
         color="transparent"
+        country={Country}
       >
         <Popup className="marker-popup">
           <h4 className="map-popup-title">{Country}</h4>
@@ -89,6 +95,7 @@ const CovidMap = ({
 CovidMap.propTypes = {
   countries: PropTypes.arrayOf(PropTypes.object).isRequired,
   currentIndicator: PropTypes.string.isRequired,
+  markerClickHandler: PropTypes.func.isRequired,
 };
 
 export default CovidMap;

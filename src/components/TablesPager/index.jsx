@@ -82,6 +82,7 @@ class TablesPager extends Component {
 
   render() {
     const {
+      currentCountry,
       tablesData,
       global,
       dataFields,
@@ -104,6 +105,13 @@ class TablesPager extends Component {
         label: `Per ${populationBase.toLocaleString()}`,
         value: keyConstants.perPopulationKey,
       }];
+
+    const countryRow = currentCountry
+      ? tablesData.find((row) => row.Country === currentCountry)
+      : {};
+    const tableHeaderData = currentCountry && countryRow
+      ? countryRow[currentIndicator]
+      : global[currentIndicator];
 
     return (
       <div className="tables_pager_wrapper">
@@ -129,8 +137,11 @@ class TablesPager extends Component {
           <div className="total_cases_wrapper" key={currentIndicator}>
             <h3>{getIndicatorTitleByKey(currentIndicator)}</h3>
             <div className="global">
-              <span>Global &nbsp;</span>
-              <span>{global[currentIndicator]}</span>
+              <span>
+                {currentCountry || 'Global'}
+                &nbsp;
+              </span>
+              <span>{tableHeaderData}</span>
             </div>
             <CountriesTable
               data={tablesData}
@@ -182,6 +193,7 @@ const globalShape = {
 };
 
 TablesPager.propTypes = {
+  currentCountry: PropTypes.string,
   tablesData: PropTypes.arrayOf(PropTypes.object).isRequired,
   global: PropTypes.shape(globalShape).isRequired,
   dataFields: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -192,6 +204,10 @@ TablesPager.propTypes = {
   dataGroup: PropTypes.string.isRequired,
   perPopulation: PropTypes.string.isRequired,
   newCountryOnRowClickHandler: PropTypes.func.isRequired,
+};
+
+TablesPager.defaultProps = {
+  currentCountry: '',
 };
 
 export default TablesPager;
