@@ -1,5 +1,7 @@
 .component_wrapper {
   position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .wrapper_fullscreen {

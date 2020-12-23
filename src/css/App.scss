@@ -113,7 +113,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: 400px;
   margin: 0 auto;
   padding: 0;
 
@@ -257,12 +256,12 @@ th.row {
       .component_wrapper:not(.wrapper_fullscreen) {
 
         &:nth-child(1) {
-          height: 50%;
+          height: 60%;
           margin-bottom: 5px;
         }
 
         &:nth-child(2) {
-          height: 30%;
+          height: 40%;
         }
       }
     }
@@ -316,6 +315,17 @@ th.row {
   .right-side-wrapper {
     flex-direction: column;
     padding-left: 5px;
+
+    .section-container {
+
+      &--center {
+        height:auto;
+      }
+
+      &--right {
+        height: 100%;
+      }
+    }
   }
 
   .component_wrapper:not(.wrapper_fullscreen) {
@@ -362,7 +372,6 @@ th.row {
         }
 
         .tables_pager {
-          overflow: scroll;
           height: calc(50vh - 70px);
         }
       }
