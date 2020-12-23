@@ -1,19 +1,32 @@
-.data_group_radio,
-.per_population_radio {
-  flex-direction: row;
+.tables_pager_wrapper {
+  margin: 0 auto;
 }
 
 .tables_pager {
   display: flex;
   flex-direction: column;
-  max-height: 400px;
   overflow: hidden;
 }
 
 .radio_groups_wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+
+  .data_group_radio,
+  .per_population_radio {
+    flex-direction: row;
+  }
+}
+
+.total_cases_wrapper {
+  overflow: hidden;
+
+  .MuiTableContainer-root {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 100%;
+}
 }
 
 .tables_pagination-ul {
@@ -26,6 +39,5 @@
 }
 
 .MuiTableContainer-root {
-  overflow-y: scroll;
-  max-height: 300px;
+  overflow-y: hidden;
 }
