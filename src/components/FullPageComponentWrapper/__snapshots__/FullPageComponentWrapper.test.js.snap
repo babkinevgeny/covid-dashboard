@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FullPageComponentWrapper class component testing FullPageComponentWrapper must have a correct snapshot 1`] = `
+"<div className=\\"component_wrapper\\">
+  <WithStyles(ForwardRef(IconButton)) className=\\"page_expand\\" onClick={[Function (anonymous)]} id=\\"fullScreen\\">
+    <Memo([object Object]) />
+  </WithStyles(ForwardRef(IconButton))>
+  <div className=\\"div_to_check\\">
+    <h3>
+      Hello, World!
+    </h3>
+  </div>
+</div>"
+`;
