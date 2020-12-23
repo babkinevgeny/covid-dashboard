@@ -112,7 +112,7 @@
 .select-indicator {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 306px;
   margin: 0 auto;
   padding: 0;
 
@@ -233,7 +233,7 @@ th.row {
 }
 
 .section-container {
-  height: calc(100vh - 20px);
+  // height: calc(100vh - 20px);
 
   .component_wrapper {
     display: flex;
@@ -246,6 +246,7 @@ th.row {
     padding: 0;
     border: 0px;
     max-width: 350px;
+    height: calc(100vh - 20px);
 
     .countries_data_wrapper {
       display: flex;
@@ -314,16 +315,18 @@ th.row {
 @media (max-width: 1200px) {
   .right-side-wrapper {
     flex-direction: column;
+    justify-content: space-between;
     padding-left: 5px;
 
     .section-container {
 
       &--center {
-        height:auto;
+        // height: auto;
+        margin-bottom: 0;
       }
 
       &--right {
-        height: 100%;
+        // height: 100%;
       }
     }
   }
@@ -354,14 +357,14 @@ th.row {
     &--center {
       padding: 0;
       width: 100%;
-      height: 50%;
+      // height: 50%;
       margin-bottom: 11px;
     }
 
     &--right {
       max-width: inherit;
       width: 100%;
-      height: 50%;
+      // height: 50%;
 
       .component_wrapper:not(.wrapper_fullscreen) {
         height: calc(50vh - 20px);
@@ -400,7 +403,6 @@ th.row {
 
     &--left {
       height: calc(100vh - 60px);
-      margin-bottom: 40px;
     }
 
     &--right {
@@ -415,7 +417,7 @@ th.row {
   }
 
   .wrapper_fullscreen {
-    height: calc(100vh - 80px);
+    height: 100vh;
 
     .leaflet-container {
       max-width: 100vw;
