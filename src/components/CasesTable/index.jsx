@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Box,
   Table,
   TableHead,
   TableContainer,
@@ -10,7 +9,6 @@ import {
   TableBody,
   Paper,
   Grid,
-  Container,
 } from '@material-ui/core';
 import SelectIndicator from './SelectIndicator';
 import InputCountry from './InputCountry';
@@ -28,59 +26,57 @@ const CasesTable = ({
   countriesList,
   currentCountry,
 }) => (
-  <Container className="select-indicator">
-    <Box component="section">
-      <Grid container spacing={0}>
-        <Grid item sm={6}>
+  <div className="select-indicator">
+    <Grid container spacing={0}>
+      <Grid item sm={6} xs={6}>
 
-          <InputCountry
-            onCurrentCountryHandler={onCurrentCountryHandler}
-            countriesList={countriesList}
-            showKeyboard={showKeyboard}
-            hideKeyboard={hideKeyboard}
-            setCasesTableInputValue={setCasesTableInputValue}
-            inputValue={inputValue}
-            currentCountry={currentCountry}
-            show
-          />
+        <InputCountry
+          onCurrentCountryHandler={onCurrentCountryHandler}
+          countriesList={countriesList}
+          showKeyboard={showKeyboard}
+          hideKeyboard={hideKeyboard}
+          setCasesTableInputValue={setCasesTableInputValue}
+          inputValue={inputValue}
+          currentCountry={currentCountry}
+          show
+        />
 
-        </Grid>
-        <Grid item sm={6}>
-
-          <SelectIndicator
-            onCurrentIndicatorHandler={onCurrentIndicatorHandler}
-            currentIndicator={currentIndicator}
-          />
-
-        </Grid>
       </Grid>
-      <TableContainer component={Paper}>
-        <Table className="cases" size="small" aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Country</TableCell>
-              <TableCell align="left">Indicator</TableCell>
+      <Grid item sm={6} xs={6}>
+
+        <SelectIndicator
+          onCurrentIndicatorHandler={onCurrentIndicatorHandler}
+          currentIndicator={currentIndicator}
+        />
+
+      </Grid>
+    </Grid>
+    <TableContainer component={Paper}>
+      <Table className="cases" size="small" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Country</TableCell>
+            <TableCell align="left">Indicator</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow key={row.Country}>
+              <TableCell className="row" component="th" scope="row">
+                <img
+                  className="flag"
+                  src={getFlagUrl(row.CountryCode)}
+                  alt={`Flag of ${row.Country}`}
+                />
+                <span>{row.Country}</span>
+              </TableCell>
+              <TableCell align="right">{row[currentIndicator]}</TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.Country}>
-                <TableCell className="row" component="th" scope="row">
-                  <img
-                    className="flag"
-                    src={getFlagUrl(row.CountryCode)}
-                    alt={`Flag of ${row.Country}`}
-                  />
-                  <span>{row.Country}</span>
-                </TableCell>
-                <TableCell align="right">{row[currentIndicator]}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Box>
-  </Container>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  </div>
 );
 
 CasesTable.propTypes = {

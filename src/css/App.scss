@@ -4,40 +4,19 @@
   height: 100%;
 }
 
-.App {
+.app {
+  padding: 10px 5px;
+  margin: 0 auto;
+  display: flex;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
 .tables_pager {
-  display: flex;
-  max-height: 400px;
-  overflow: hidden;
+  height: calc(100vh - 110px);
+
+  .wrapper_fullscreen & {
+    width: 50vw;
+  }
 }
 
 .tables_pagination-ul {
@@ -50,9 +29,11 @@
 }
 
 .leaflet-container {
-  height: 500px;
-  max-height: 500px;
-  margin-bottom: 20px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+  height: calc(100vh - 80px);
   z-index: 1;
 }
 
@@ -75,7 +56,6 @@
       display: block;
     }
   }
-
 }
 
 .icon-marker-tooltip {
@@ -131,9 +111,20 @@
 
 .select-indicator {
   display: flex;
-  max-height: 400px;
-  max-width: 400px;
-  overflow: scroll;
+  flex-direction: column;
+  width: 306px;
+  margin: 0 auto;
+  padding: 0;
+
+  .wrapper_fullscreen & {
+    width: 50vw;
+    max-height: 100vh;
+  }
+
+  .MuiTableContainer-root {
+    height: 100%;
+    overflow-y: auto;
+  }
 }
 
 th.row {
@@ -233,4 +224,207 @@ th.row {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+
+.right-side-wrapper {
+  height: calc(100vh - 20px);
+  width: calc(100vw - 350px);
+  display: flex;
+}
+
+.section-container {
+
+  .component_wrapper {
+    display: flex;
+    border: 2px solid lightgray;
+    border-radius: 5px;
+    padding: 40px 20px;
+  }
+
+  &--left {
+    padding: 0;
+    border: 0px;
+    max-width: 350px;
+    height: calc(100vh - 20px);
+
+    .countries_data_wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+
+      .component_wrapper:not(.wrapper_fullscreen) {
+
+        &:nth-child(1) {
+          height: 60%;
+          margin-bottom: 5px;
+        }
+
+        &:nth-child(2) {
+          height: 40%;
+        }
+      }
+    }
+  }
+
+  &--center {
+    width: calc(100vw - 350px * 2);
+    padding: 0 5px;
+    border: 0px;
+
+    .component_wrapper {
+      padding: 40px 20px 20px;
+    }
+  }
+
+  &--right {
+    width: 100%;
+    max-width: 350px;
+
+    .component_wrapper:not(.wrapper_fullscreen) {
+      padding-bottom: 0;
+
+      td {
+        padding: 7px;
+      }
+    }
+  }
+
+
+  .page_expand {
+    position: absolute;
+    top: -6px;
+    right: -3px;
+  }
+
+  .chart_container {
+    margin: auto;
+  }
+}
+
+.wrapper_fullscreen {
+  .leaflet-container {
+    margin: 0 auto;
+    max-width: 59vw;
+    height: 90vh;
+  }
+}
+
+
+@media (max-width: 1200px) {
+  .right-side-wrapper {
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 5px;
+
+    .section-container {
+
+      &--center {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .component_wrapper:not(.wrapper_fullscreen) {
+
+    .leaflet-container {
+      height: 40vh;
+
+      .legend {
+        top: 10px;
+        right: 10px;
+
+        .text {
+          right: 30px;
+          padding: 0 10px;
+        }
+
+        .box {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+
+  .section-container {
+    &--center {
+      padding: 0;
+      width: 100%;
+      margin-bottom: 11px;
+    }
+
+    &--right {
+      max-width: inherit;
+      width: 100%;
+
+      .component_wrapper:not(.wrapper_fullscreen) {
+        height: calc(50vh - 20px);
+        padding-top: 0;
+
+        .tables_pager_wrapper {
+          width: 100%;
+        }
+
+        .tables_pager {
+          height: calc(50vh - 70px);
+        }
+      }
+    }
+  }
+
+  .wrapper_fullscreen {
+    .leaflet-container {
+      margin: auto;
+      max-height: 60vh;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .app {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .section-container {
+    width: 100%;
+    max-width: 100%;
+    height: 50vh;
+    margin-bottom: 5px;
+
+    &--left {
+      height: calc(100vh - 60px);
+    }
+
+    &--right {
+      height: 50vh;
+    }
+  }
+
+  .right-side-wrapper {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+
+  .wrapper_fullscreen {
+    height: 100vh;
+
+    .leaflet-container {
+      max-width: 100vw;
+    }
+  }
+}
+
+.progress_circle {
+  margin-top: 50%;
+}
+
+.wrapper_fullscreen .chart_container {
+  width: 50vw;
+}
+
+.wrapper_fullscreen .tables_pager_wrapper {
+  height: 100%;
 }
