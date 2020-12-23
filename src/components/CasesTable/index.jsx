@@ -26,6 +26,7 @@ const CasesTable = ({
   inputValue,
   rows,
   countriesList,
+  currentCountry,
 }) => (
   <Container className="select-indicator">
     <Box component="section">
@@ -39,6 +40,7 @@ const CasesTable = ({
             hideKeyboard={hideKeyboard}
             setCasesTableInputValue={setCasesTableInputValue}
             inputValue={inputValue}
+            currentCountry={currentCountry}
             show
           />
 
@@ -82,6 +84,7 @@ const CasesTable = ({
 );
 
 CasesTable.propTypes = {
+  currentCountry: PropTypes.string,
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
   onCurrentCountryHandler: PropTypes.func.isRequired,
   currentIndicator: PropTypes.string.isRequired,
@@ -91,6 +94,10 @@ CasesTable.propTypes = {
   setCasesTableInputValue: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   countriesList: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+CasesTable.defaultProps = {
+  currentCountry: '',
 };
 
 export default CasesTable;

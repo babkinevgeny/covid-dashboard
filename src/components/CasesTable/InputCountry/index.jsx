@@ -10,6 +10,7 @@ const InputCountry = ({
   hideKeyboard,
   setCasesTableInputValue,
   inputValue,
+  currentCountry,
 }) => {
   const onChangeHandler = (_event, value) => {
     onCurrentCountryHandler(value);
@@ -32,7 +33,7 @@ const InputCountry = ({
       // eslint-disable-next-line react/jsx-props-no-spreading
       renderInput={(params) => <TextField {...params} label="Country" variant="outlined" />}
       onChange={onChangeHandler}
-      value={inputValue || null}
+      value={currentCountry || null}
       inputValue={inputValue}
       onOpen={showKeyboard}
       onBlur={hideKeyboard}
@@ -50,6 +51,11 @@ InputCountry.propTypes = {
   hideKeyboard: PropTypes.func.isRequired,
   setCasesTableInputValue: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
+  currentCountry: PropTypes.string,
+};
+
+InputCountry.defaultProps = {
+  currentCountry: '',
 };
 
 export default InputCountry;
