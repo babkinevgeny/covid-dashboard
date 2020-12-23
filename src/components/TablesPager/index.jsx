@@ -88,7 +88,7 @@ class TablesPager extends Component {
       tablePage,
       dataGroup,
       perPopulation,
-      newCountryOnRowCLickHandler,
+      newCountryOnRowClickHandler,
     } = this.props;
     const currentIndicator = this.getCurrentFieldName({
       dataGroup,
@@ -135,7 +135,7 @@ class TablesPager extends Component {
             <CountriesTable
               data={tablesData}
               field={currentIndicator}
-              newCountryOnRowCLickHandler={newCountryOnRowCLickHandler}
+              newCountryOnRowClickHandler={newCountryOnRowClickHandler}
             />
           </div>
         </div>
@@ -191,7 +191,7 @@ TablesPager.propTypes = {
   onPerPopulationChangedHandler: PropTypes.func.isRequired,
   dataGroup: PropTypes.string.isRequired,
   perPopulation: PropTypes.string.isRequired,
-  newCountryOnRowCLickHandler: PropTypes.func.isRequired,
+  newCountryOnRowClickHandler: PropTypes.func.isRequired,
 };
 
 export default TablesPager;
