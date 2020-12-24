@@ -66,7 +66,7 @@ class App extends React.Component {
       lastAPIDate: moment.utc(lastDate),
     });
 
-    DataHelper.fetchRequestData('https://restcountries.eu/rest/v2/?fields=name;population;latlng',
+    DataHelper.fetchRequestData('https://restcountries.eu/rest/v2/?fields=name;alpha2Code;population;latlng',
       (respJson) => this.onCountriesSuccess([...Countries], respJson, { ...Global }),
       () => false,
       () => { },

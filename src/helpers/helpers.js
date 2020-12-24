@@ -40,10 +40,12 @@ export const dataProcessor = {
     const perPopulationData = apiConstants.dataFields.reduce((acc, field) => {
       Object.values(dataPrefixMap).forEach((prefix) => {
         const dataField = data[`${prefix}${field}`];
-        const dataPerPopulation = (dataField / population) * populationBase;
-        const dataPerPopulationRounded = Math.round(dataPerPopulation * 1000) / 1000;
-        const fieldName = `${prefix}${field}${dataPostfixMap.perPopulation}`;
-        acc[fieldName] = dataPerPopulationRounded;
+
+        const {
+          dataPerPopFieldName,
+          dataPerPopulationRounded,
+        } = this.getPerPopulationDataRounded(dataField, population, field, prefix);
+        acc[dataPerPopFieldName] = dataPerPopulationRounded;
       });
       return acc;
     }, {});
@@ -57,7 +59,10 @@ export const dataProcessor = {
 
   getPerPopulationDataRounded(dataField, population, field, prefix) {
     const dataPerPopulation = (dataField / population) * populationBase;
-    const dataPerPopulationRounded = Math.round(dataPerPopulation * 1000) / 1000;
+    const hasDataPerPopulation = !!(population && dataPerPopulation);
+    const dataPerPopulationRounded = hasDataPerPopulation
+      ? Math.round(dataPerPopulation * 1000) / 1000
+      : 0;
     const dataPerPopFieldName = `${prefix}${field}${dataPostfixMap.perPopulation}`;
     return { dataPerPopFieldName, dataPerPopulationRounded };
   },
@@ -95,7 +100,7 @@ export const dataProcessor = {
 
   postProcessData(covidPerCountryData, countriesData, globalObj) {
     const mappedData = covidPerCountryData.map((data) => {
-      const countryData = countriesData.find((country) => country.name === data.Country);
+      const countryData = countriesData.find((country) => country.alpha2Code === data.CountryCode);
       if (countryData) {
         const { population, latlng } = countryData;
         this.globalPopulation += population;
@@ -139,7 +144,7 @@ export const indicators = [
     color: colors.red,
   },
   {
-    title: 'Total Cases Per 100.000 Population',
+    title: 'Total Cases Per 100.000',
     key: 'TotalConfirmedPer100000Population',
     color: colors.yellow,
   },
@@ -149,7 +154,7 @@ export const indicators = [
     color: colors.purple,
   },
   {
-    title: 'New Cases Per 100.000 Population',
+    title: 'New Cases Per 100.000',
     key: 'NewConfirmedPer100000Population',
     color: colors.lightBlue,
   },
@@ -159,7 +164,7 @@ export const indicators = [
     color: colors.darkGray,
   },
   {
-    title: 'Total Deaths Per 100.000 Population',
+    title: 'Total Deaths Per 100.000',
     key: 'TotalDeathsPer100000Population',
     color: colors.darkBlue,
   },
@@ -169,7 +174,7 @@ export const indicators = [
     color: colors.lightGray,
   },
   {
-    title: 'New Deaths Per 100.000 Population',
+    title: 'New Deaths Per 100.000',
     key: 'NewDeathsPer100000Population',
     color: colors.blue,
   },
@@ -179,7 +184,7 @@ export const indicators = [
     color: colors.green,
   },
   {
-    title: 'Total Recovered Per 100.000 Population',
+    title: 'Total Recovered Per 100.000',
     key: 'TotalRecoveredPer100000Population',
     color: colors.lightGreen,
   },
@@ -189,7 +194,7 @@ export const indicators = [
     color: colors.darkAquagreen,
   },
   {
-    title: 'New Recovered Per 100.000 Population',
+    title: 'New Recovered Per 100.000',
     key: 'NewRecoveredPer100000Population',
     color: colors.aquagreen,
   },
