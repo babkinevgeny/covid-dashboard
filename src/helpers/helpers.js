@@ -59,10 +59,10 @@ export const dataProcessor = {
 
   getPerPopulationDataRounded(dataField, population, field, prefix) {
     const dataPerPopulation = (dataField / population) * populationBase;
-    let dataPerPopulationRounded = Math.round(dataPerPopulation * 1000) / 1000;
-    if (Number.isNaN(dataPerPopulationRounded) || !population) {
-      dataPerPopulationRounded = 0;
-    }
+    const hasDataPerPopulation = !!(population && dataPerPopulation);
+    const dataPerPopulationRounded = hasDataPerPopulation
+      ? Math.round(dataPerPopulation * 1000) / 1000
+      : 0;
     const dataPerPopFieldName = `${prefix}${field}${dataPostfixMap.perPopulation}`;
     return { dataPerPopFieldName, dataPerPopulationRounded };
   },
